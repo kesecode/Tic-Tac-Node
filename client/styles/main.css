@@ -25,6 +25,21 @@ button {
   outline: none;
 }
 
+button.download {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  padding: 3px 15px;
+  color: white;
+  line-height: 25px;
+  background-color: red;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+  transition: all 150ms ease-in;
+  outline: none;
+}
+
 button:hover {
     background-color: #79d7e4;
 }
@@ -49,6 +64,8 @@ button.turn:hover {
   flex-direction: column;
   border: 1px solid lightgrey;
 }
+
+h1 {text-align: center}
 
 #events {
   flex-grow: 1;

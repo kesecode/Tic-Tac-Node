@@ -20,7 +20,11 @@ const io = socketio(server);
 //socketio connection success logging
 io.on('connection', (sock) => {
   console.log("Someone connected.");
-  sock.emit('message', 'Hi, you are connectet');
+  sock.emit('message', 'Hi, you are connected');
+
+  sock.on('message', (text) => {
+    io.emit('message', text);
+  });
 });
 
 //error logging
