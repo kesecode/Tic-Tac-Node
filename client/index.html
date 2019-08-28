@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html lang="de" dir="ltr">
+<html lang="en">
   <head>
-    <meta charset="utf-8">
-    <title>Schulprojekt</title>
+    <title>TicTacToe - Homm - 12ITO</title>
+    <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <h1>TIC TAC TOE</h1>
+    <h1>TIC TAC TOE!</h1>
+    <div class="ttt-wrapper">
+      <ul id="events"></ul>
 
-    <button type="button" name="button">DOWNLOAD</button>
+      <div class="controls">
+        <div class="chat-wrapper">
+          <form id="chat-form">
+            <input id="chat" autocomplete="off" title="chat"/>
+            <button id="say">Say</button>
+          </form>
+        </div>
+
+        <div class="button-wrapper">
+          <button id="download" class="turn">Download</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="src/client.js"></script>
   </body>
 </html>

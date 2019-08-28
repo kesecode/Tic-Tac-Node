@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js",
+    "app": "node server.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -16,10 +16,10 @@
   "author": "Juriy Bura <juriy.bura@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.2",
-    "socket.io": "^2.0.3"
+    "express": "^4.17.1",
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.19.1"
   }
 }
