@@ -8,20 +8,30 @@
     <h1>TIC TAC TOE!</h1>
     <div class="ttt-wrapper">
       <ul id="events"></ul>
-
       <div class="controls">
         <div class="chat-wrapper">
           <form id="chat-form">
-            <input id="chat" autocomplete="off" title="chat"/>
+            <input id="chat" autocomplete="off" placeholder="Chat with your opponent..." title="chat"/>
             <button id="say">Say</button>
           </form>
         </div>
 
         <div class="button-wrapper">
           <button id="download" class="download">Download C-hashtag Application</button>
+          <button id="turnTest" class="turn">Turn Testbutton</button>
         </div>
       </div>
     </div>
+
+    <div class="name-wrapper">
+      <div class="nameForm-wrapper">
+        <form id="name-form">
+          <input id="name" autocomplete="off" placeholder="Please type in your name..." title="Choose Name"/>
+          <button id="playerName">Save</button>
+        </form>
+      </div>
+    </div>
+
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="src/client.js"></script>

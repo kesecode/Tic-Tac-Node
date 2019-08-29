@@ -65,6 +65,17 @@ button.turn:hover {
   border: 1px solid lightgrey;
 }
 
+.name-wrapper {
+  background-color: rgb(255, 255, 255);
+  width: 400px;
+  height: 55px;
+  max-height: 300px;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid lightgrey;
+}
+
 h1 {text-align: center}
 
 #events {
@@ -84,7 +95,15 @@ h1 {text-align: center}
   padding: 10px;
 }
 
+.nameForm-wrapper {
+  padding: 10px;
+}
+
 .chat-wrapper form {
+  display: flex;
+}
+
+.nameForm-wrapper form {
   display: flex;
 }
 
@@ -95,7 +114,18 @@ h1 {text-align: center}
   flex-grow: 1;
 }
 
+.nameForm-wrapper form input {
+  font-size: 1.0rem;
+  margin: 0 10px 0 0;
+  padding: 0 5px;
+  flex-grow: 1;
+}
+
 .chat-wrapper form button {
+  width: 80px;
+}
+
+.nameForm-wrapper form button {
   width: 80px;
 }
 

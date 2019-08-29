@@ -9,6 +9,15 @@ const writeEvent = (text) => {
   parent.appendChild(el);
 };
 
+const addTurnListeners = () => {
+  ['turnTest'].forEach((id) => {
+    const field = document.getElementById(id);
+    field.addEventListener('click', () => {
+      sock.emit('turn', id);
+    });
+  });
+};
+
 const onFormSubmitted = (e) => {
   e.preventDefault();
 
@@ -19,9 +28,28 @@ const onFormSubmitted = (e) => {
   sock.emit('message', text);
 };
 
+const onChooseName = (e) => {
+  e.preventDefault();
+
+  const input = document.querySelector('#playerName');
+  const name = input.value;
+  input.value = '';
+
+  sock.emit('playerName', (name) => {
+    
+  });
+};
+
 const sock = io();
 sock.on('message', writeEvent);
+sock.on('playerName', name)
 
 document
   .querySelector('#chat-form')
   .addEventListener('submit', onFormSubmitted);
+
+document
+  .querySelector('#name-form')
+  .addEventListener('submit', onFormSubmitted);
+
+addTurnListeners();

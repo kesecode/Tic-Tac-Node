@@ -2,12 +2,14 @@
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const player = require('./player');
+const matchController = require('./matchController');
 
 //creating an instance of express
 const app = express();
 
 //declaring file path to client
-const clientPath = `${__dirname}/../client`;
+const clientPath = `${__dirname}/../../client`;
 console.log(`Serving static from ${clientPath}`);
 
 //giving the client path to the express instance
@@ -17,10 +19,19 @@ app.use(express.static(clientPath));
 const server = http.createServer(app);
 const io = socketio(server);
 
-//socketio connection success logging
+let waitingPlayer = null;
+
+//matchmaking
 io.on('connection', (sock) => {
-  console.log("Someone connected.");
-  sock.emit('message', 'Hi, you are connected');
+  if (waitingPlayer) {
+    // start a Game
+    opponentPlayer = new player('Opponent', sock);
+    new matchController(waitingPlayer, opponentPlayer);
+    waitingPlayer = null;
+  } else {
+    waitingPlayer = new player('Waiting', sock);
+    waitingPlayer._sock.emit('message', 'Waiting for an opponent');
+  }
 
   sock.on('message', (text) => {
     io.emit('message', text);
