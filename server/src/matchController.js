@@ -1,4 +1,4 @@
-class matchController {
+class MatchController {
   constructor(p1, p2) {
     this._players = [p1, p2];
     this._turns = [null, null];
@@ -29,4 +29,4 @@ class matchController {
   }
 }
 
-module.exports = matchController;
+module.exports = MatchController;

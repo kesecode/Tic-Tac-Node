@@ -31,18 +31,16 @@ const onFormSubmitted = (e) => {
 const onChooseName = (e) => {
   e.preventDefault();
 
-  const input = document.querySelector('#playerName');
+  const input = document.querySelector('#name');
   const name = input.value;
   input.value = '';
 
-  sock.emit('playerName', (name) => {
-    
-  });
+  sock.emit('startMatchmaking', name);
 };
 
 const sock = io();
 sock.on('message', writeEvent);
-sock.on('playerName', name)
+//sock.on('playerName', name)
 
 document
   .querySelector('#chat-form')
@@ -50,6 +48,6 @@ document
 
 document
   .querySelector('#name-form')
-  .addEventListener('submit', onFormSubmitted);
+  .addEventListener('submit', onChooseName);
 
 addTurnListeners();

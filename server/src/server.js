@@ -1,49 +1,53 @@
 //loading node.js modules
-const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
 const player = require('./player');
-const matchController = require('./matchController');
+const playerController = require('./playerController')
+const matchController = require('./MatchController');
 
-//creating an instance of express
+//App setup
 const app = express();
+const server = app.listen(4000, () => {
+  console.log('listening to requests on port 4000');
+});
 
 //declaring file path to client
 const clientPath = `${__dirname}/../../client`;
-console.log(`Serving static from ${clientPath}`);
 
-//giving the client path to the express instance
+//Static files
 app.use(express.static(clientPath));
 
-//creating instances of server and socketio
-const server = http.createServer(app);
+//Socket setup
 const io = socketio(server);
+
+
 
 let waitingPlayer = null;
 
-//matchmaking
+//connection
 io.on('connection', (sock) => {
+  console.log('on connection function called');
+
   if (waitingPlayer) {
     // start a Game
-    opponentPlayer = new player('Opponent', sock);
+    opponentPlayer = new player('opponent', sock);
     new matchController(waitingPlayer, opponentPlayer);
     waitingPlayer = null;
   } else {
-    waitingPlayer = new player('Waiting', sock);
+    waitingPlayer = new player('waiting', sock);
     waitingPlayer._sock.emit('message', 'Waiting for an opponent');
   }
 
   sock.on('message', (text) => {
-    io.emit('message', text);
+    io.emit('message', 'Connection successfull!');
   });
 });
+
+
+
+
 
 //error logging
 server.on('error', (err) => {
   console.error('Server error: ', err);
-});
-
-//start logging
-server.listen(8080, () => {
-  console.log('Server started on 8080');
 });
