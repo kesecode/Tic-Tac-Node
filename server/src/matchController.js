@@ -4,21 +4,28 @@ class MatchController {
     this._turns = [null, null];
     this._court = [2][2];
 
+    this._sendMatchParameters();
     this._sendToPlayers('Match starts!');
     this._players.forEach((player, idx) => {
-      player._sock.on('turn', (turn) => {
+      player.on('turn', (turn) => {
         this._onTurn(idx, turn);
       });
     });
   }
 
   _sendToPlayer(playerIndex, msg) {
-    this._players[playerIndex]._sock.emit('message', msg);
+    this._players[playerIndex].emit('message', msg);
   }
 
   _sendToPlayers(msg) {
     this._players.forEach((player) => {
-      player._sock.emit('message', msg);
+      player.emit('message', msg);
+    });
+  }
+
+  _sendMatchParameters() {
+    this._players.forEach((player) => {
+      player.emit('matchparameter', this._players[0].id);
     });
   }
 

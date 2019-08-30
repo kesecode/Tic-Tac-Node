@@ -55,12 +55,12 @@ button.turn:hover {
 }
 
 .ttt-wrapper {
+  display: none;
   background-color: rgb(255, 255, 255);
   width: 400px;
   height: 300px;
   max-height: 300px;
   margin: 20px auto;
-  display: flex;
   flex-direction: column;
   border: 1px solid lightgrey;
 }

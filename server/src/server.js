@@ -1,53 +1,89 @@
 //loading node.js modules
-const express = require('express');
-const socketio = require('socket.io');
-const player = require('./player');
-const playerController = require('./playerController')
-const matchController = require('./MatchController');
+var express = require('express');
+var socketio = require('socket.io');
+var matchController = require('./MatchController');
+
+var online = 0;
+let waiting = null;
 
 //App setup
-const app = express();
-const server = app.listen(4000, () => {
-  console.log('listening to requests on port 4000');
+var app = express();
+var server = app.listen(4000, () => {
+  console.log('******* SERVER: listening to requests on port 4000 *******');
 });
 
-//declaring file path to client
 const clientPath = `${__dirname}/../../client`;
 
 //Static files
 app.use(express.static(clientPath));
 
 //Socket setup
-const io = socketio(server);
+var io = socketio(server);
 
 
+//___________________________________________________________
 
-let waitingPlayer = null;
+
 
 //connection
-io.on('connection', (sock) => {
-  console.log('on connection function called');
+io.on('connection', (socket) => {
+  online++;
+  socket.ready = false;
+  console.log('\x1b[42m', '******* SERVER:     USER CONNECTED       ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m', 'Online Users: ', online);
+  socket.join('entrance');
 
-  if (waitingPlayer) {
-    // start a Game
-    opponentPlayer = new player('opponent', sock);
-    new matchController(waitingPlayer, opponentPlayer);
-    waitingPlayer = null;
-  } else {
-    waitingPlayer = new player('waiting', sock);
-    waitingPlayer._sock.emit('message', 'Waiting for an opponent');
-  }
+  io.in('lobby').clients((err , clients) => {
+    //client is array of ids
+  });
 
-  sock.on('message', (text) => {
-    io.emit('message', 'Connection successfull!');
+  socket.on('ready', (name) => {
+    if (socket.ready == false) {
+      socket.name = name;
+      socket.leave('entrance');
+      socket.join('lobby');
+      socket.ready = true;
+      console.log(socket.name, 'chose name and joined the lobby');
+    } else {
+      console.log(socket.name, 'is ready and already in the lobby');
+    }
+  })
+
+  socket.on('message', (text, roomId, name) => {
+   io.in(roomId).emit('message', name + ' says: ' + text);
+  });
+
+  socket.on('matchmaking', () => {
+    console.log(socket.name + ' started matchmaking');
+    socket.leave('lobby');
+    socket.join('matchmaking');
+
+    io.in('matchmaking').clients((err , clients) => {
+      if (waiting == null) {
+        waiting = socket;
+        waiting.emit('message', 'Waiting on an opponent...');
+        console.log(socket.name + ' is waiting...');
+      } else {
+        waiting.emit('message', 'Opponent found! -  You\'re playing against ' + socket.name);
+        socket.emit('message', 'Opponent found! -  You\'re playing against ' + waiting.name);
+        waiting.leave('matchmaking');
+        socket.leave('matchmaking');
+        waiting.join(waiting.id);
+        socket.join(waiting.id);
+        new matchController(waiting, socket);
+        waiting = null;
+        console.log('waiting is nulled');
+      }
+    });
+  })
+
+  socket.on('disconnect', () => {
+    online--;
+    if (socket.ready == true) {console.log(socket.name, 'left the game');}
+    console.log('\x1b[43m', '******* SERVER:     USER DISCONNECTED    ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m','Online Users: ', online);
   });
 });
 
-
-
-
-
 //error logging
 server.on('error', (err) => {
-  console.error('Server error: ', err);
+  console.error('\x1b[41m', '******* SERVER - ERROR: ', err, '\x1b[0m');
 });
