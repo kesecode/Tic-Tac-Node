@@ -3,38 +3,126 @@
   <head>
     <title>TicTacToe - Homm - 12ITO</title>
     <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   </head>
   <body>
-    <h1>TIC TAC TOE!</h1>
-    <div id="ttt-wrapper" class="ttt-wrapper">
-      <ul id="events"></ul>
-      <div class="controls">
-        <div class="chat-wrapper">
-          <form id="chat-form">
-            <input id="chat" autocomplete="off" placeholder="Chat with your opponents..." title="chat"/>
-            <button id="say">Say</button>
-          </form>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+      <a class="navbar-brand" href="/">
+        <img src="imgs/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+          Tic Tac Toe!
+      </a>
+      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mr-2" id="matchmaking" role="group" aria-label="Game Controls">
+          <button type="button" class="btn btn-primary">Matchmaking</button>
         </div>
-
-        <div class="button-wrapper">
-          <button id="download" class="download">Download C-hashtag Application</button>
-          <button id="turnTest" class="turn">Turn Testbutton</button>
-          <button id="matchmaking" class="turn">Matchmaking</button>
+        <div class="btn-group mr-2" id="endGame" role="group" aria-label="Game Controls">
+          <button type="button" class="btn btn-primary">End Game</button>
+        </div>
+        <div class="btn-group mr-2" role="group" aria-label="Downloads">
+          <button id="download" class="btn btn-secondary">Download C-hashtag Application</button>
         </div>
       </div>
-    </div>
+    </nav>
 
-    <div id="name-wrapper" class="name-wrapper">
-      <div class="nameForm-wrapper">
-        <form id="name-form">
-          <input id="name" autocomplete="off" placeholder="Please type in your name..." title="Choose Name"/>
-          <button id="playerName">Save</button>
-        </form>
+
+    <main role="main" class="center">
+
+      <div class="jumbotron" id="name-wrapper">
+        <div class="row">
+          <div class="col-sm">
+            <form class="form-signin" id="name-form">
+            <div class="text-center mb-4">
+              <h1 class="h3 mb-3 font-weight-normal">Tic Tac Toe</h1>
+              <p>Tic Tac Toe Multiplayer Game build for School.</p>
+              <p>Based on Socket.IO, Express and Bootstrap. Written in JavaScript.</p>
+            </div>
+
+            <div class="form-label-group">
+              <input type="name" id="name" class="form-control" placeholder="Name" required autofocus>
+              <label for="name">Type in your name</label>
+            </div>
+
+            <button class="btn btn-lg btn-primary btn-block" id="playerName">Let's Go!</button>
+            <p class="mt-5 mb-3 text-muted text-center">&#xA9; David Weppler, Jakub Langier and Phillip Thieme 2019</p>
+            </form>
+          </div>
+        </div>
       </div>
-    </div>
 
 
+      <div class="container">
+        <div class="row">
+
+          <div class="col-sm">
+            <div id="chat-wrapper" class="chat-wrapper jumbotron">
+              <ul id="events">
+                <div class="container">
+                  <div class="row">
+                    <div id="output" class="col">
+                      <div id="winAlert" class="alert alert-dismissible alert-success">
+                        <button type="button" class="close">Revanche</button>
+                            Well done... You won the game!
+                      </div>
+                      <div id="loseAlert" class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close">Revanche</button>
+                            Sad... You lost!
+                      </div>
+                      <div id="turnAlert" class="alert alert alert-info">
+                            Your turn!
+                      </div>
+                      <div class="card text-white bg-info mb-3" style="max-width: 20rem;">
+                        <div class="card-header">Challenge income</div>
+                        <div class="card-body">
+                          <h4 class="card-title">Revanche</h4>
+                          <p class="card-text">"PlayerX" wants a revanche... Take it or leave it.</p>
+                          <button type="button" class="btn btn-success">I Take it!</button>
+                          <button type="button" class="btn btn-warning">No thanks.</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ul>
+              <div class="controls">
+                <div class="chatInput-wrapper">
+                  <form id="chat-form" class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2">
+                      <input type="text" style="width: 300px" class="form-control" id="chat" aria-describedby="chatInfo" placeholder="Chat with your opponents...">
+                    </div>
+                    <div class="form-group mb-2">
+                      <button type="button" id="say" class="btn btn-secondary">Say!</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm">
+            <div class="game-board" id="gameboard">
+              <button class="box" id="button0" value="0"></button>
+              <button class="box" id="button1" value="1"></button>
+              <button class="box" id="button2" value="2"></button>
+              <button class="box" id="button3" value="3"></button>
+              <button class="box" id="button4" value="4"></button>
+              <button class="box" id="button5" value="5"></button>
+              <button class="box" id="button6" value="6"></button>
+              <button class="box" id="button7" value="7"></button>
+              <button class="box" id="button8" value="8"></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
     <script src="/socket.io/socket.io.js"></script>
     <script src="src/client.js"></script>
+    <script src="src/print.js"></script>
+    <script src="src/listeners.js"></script>
+    <script src="src/animations.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </body>
 </html>

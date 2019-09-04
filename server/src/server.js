@@ -29,12 +29,10 @@ var io = socketio(server);
 io.on('connection', (socket) => {
   online++;
   socket.ready = false;
+  socket.gameroom = null;
   console.log('\x1b[42m', '******* SERVER:     USER CONNECTED       ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m', 'Online Users: ', online);
   socket.join('entrance');
 
-  io.in('lobby').clients((err , clients) => {
-    //client is array of ids
-  });
 
   socket.on('ready', (name) => {
     if (socket.ready == false) {
@@ -42,7 +40,7 @@ io.on('connection', (socket) => {
       socket.leave('entrance');
       socket.join('lobby');
       socket.ready = true;
-      console.log(socket.name, 'chose name and joined the lobby');
+      console.log(socket.name, 'chose a name and joined the lobby');
     } else {
       console.log(socket.name, 'is ready and already in the lobby');
     }
@@ -60,7 +58,7 @@ io.on('connection', (socket) => {
     io.in('matchmaking').clients((err , clients) => {
       if (waiting == null) {
         waiting = socket;
-        waiting.emit('message', 'Waiting on an opponent...');
+        waiting.emit('waiting');
         console.log(socket.name + ' is waiting...');
       } else {
         waiting.emit('message', 'Opponent found! -  You\'re playing against ' + socket.name);
@@ -69,12 +67,19 @@ io.on('connection', (socket) => {
         socket.leave('matchmaking');
         waiting.join(waiting.id);
         socket.join(waiting.id);
+        socket.gameroom = waiting.id;
+        waiting.gameroom = waiting.id;
         new matchController(waiting, socket);
+        console.log(waiting.name + ' and ' + socket.name + ' started to play against each other');
         waiting = null;
-        console.log('waiting is nulled');
       }
     });
   })
+
+  socket.on('endsession', () => {
+    console.log(socket.name + ' left gameroom ' + socket.gameroom);
+    socket.leave(socket.gameroom);
+  });
 
   socket.on('disconnect', () => {
     online--;
@@ -82,6 +87,15 @@ io.on('connection', (socket) => {
     console.log('\x1b[43m', '******* SERVER:     USER DISCONNECTED    ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m','Online Users: ', online);
   });
 });
+
+
+
+
+//___________________________________________________________
+
+
+
+
 
 //error logging
 server.on('error', (err) => {
