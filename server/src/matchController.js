@@ -1,15 +1,17 @@
 class MatchController {
   constructor(p1, p2) {
     this._players = [p1, p2];
-    this._court = [8];
+    this._court = [];
     this.playerOnTurn = 0;
     this.round = 0;
+    this.score = [0, 0];
 
+    this.gameRuns = true;
     this.animation = null;
     this._sendMatchParameters();
-    this._sendToPlayers('Match starts!');
+    this._sendToPlayers('Match begins!');
     this._players[0].emit('setOnTurn', true);
-    this._players[0].emit('message', 'You start!');
+    this._players[0].emit('message', 'You start!', 'warning');
     this._players.forEach((player) => {
       player.emit('gameBegins');
     });
@@ -18,34 +20,73 @@ class MatchController {
         this._onTurn(idx, turn);
       });
     });
-    this._players.forEach((player) => {
-      player.on('endGame', (turn) => {
-        console.log('Player: ' + player.name + ' - wants to Quit!');
-        this._players.forEach((player) => {
-          this._endGame(false);
+    this._players.forEach((player, idx) => {
+      if(!player.quitListenerAdded) {
+        player.on('quit', (type) => {
+          this._endGame(false, idx, player.name, type);
+          player.quitListenerAdded = true;
         });
-      });
+      }
     });
+    console.log('constructor ' + this.round + ' ' + this.gameRuns + ' ' + this._court[6] + ' ' + this.playerOnTurn);
   }
 
 
   _sendToPlayer(playerIndex, msg) {
-    this._players[playerIndex].emit('message', msg);
+    this._players[playerIndex].emit('message', msg, 'info');
   }
 
   _sendToPlayers(msg) {
     this._players.forEach((player) => {
-      player.emit('message', msg);
+      player.emit('message', msg, 'info');
     });
   }
 
-  _endGame(winnerExists) {
-    this._sendToPlayers('Game Over!');
+  _broadcastScore() {
+    this._players.forEach((player) => {
+      player.emit('message', 'SCORE - ' + this._players[0].name + ' ' + this.score[0] + ':' + this.score[1] + ' ' + this._players[1].name, 'warning');
+    });
+  }
+
+  _endGame(winnerExists, idx, playerName, type) {
     if(!winnerExists) {
       this._players.forEach((player) => {
           player.emit('gameover');
       });
+
+      switch (type) {
+      case "quit" :
+        if(idx == 0) {
+          this._sendToPlayer(1, playerName + ' quitted the game!');
+          this._sendToPlayer(0, 'You quitted the game!');
+        } else {
+          this._sendToPlayer(0, playerName + ' quitted the game!');
+          this._sendToPlayer(1, 'You quitted the game!');
+        } break;
+
+      case "canceled" :
+        if(idx == 0) {
+          this._sendToPlayer(1, playerName + ' canceled the revanche invitation!');
+          this._sendToPlayer(0, 'You canceled the revanche invitation!');
+        } else {
+          this._sendToPlayer(0, playerName + ' canceled the revanche invitation!');
+          this._sendToPlayer(1, 'You canceled the revanche invitation!');
+        } break;
+
+      case "declined" :
+        if(idx == 0) {
+          this._sendToPlayer(1, playerName + ' declined the revanche invitation!');
+          this._sendToPlayer(0, 'You declined the revanche invitation!');
+        } else {
+          this._sendToPlayer(0, playerName + ' declined the revanche invitation!');
+          this._sendToPlayer(1, 'You declined the revanche invitation!');
+        } break;
+      }
     }
+    this.gameRuns = false;
+    this._court = [];
+    this.playerOnTurn = null;
+    this.score = null;
   }
 
   _broadcastTurn(buttonValue, char) {
@@ -55,47 +96,62 @@ class MatchController {
   }
 
   _broadcastWinner(winner) {
-      this._players[winner].emit('broadcastWinner', true, this.animation);
-      if (winner == 0) this._players[1].emit('broadcastWinner', false, this.animation);
-      else this._players[0].emit('broadcastWinner', false, this.animation);
+      if (winner == 0) {
+        this._players[winner].emit('broadcastWinner', true, this.animation);
+        this._players[1].emit('broadcastWinner', false, this.animation);
+      }
+      else {
+        this._players[winner].emit('broadcastWinner', true, this.animation);
+        this._players[0].emit('broadcastWinner', false, this.animation);
+      }
+      this._broadcastScore();
   }
 
   _sendMatchParameters() {
-    this._players.forEach((player) => {
-      player.emit('matchparameter', this._players[0].id);
+    this._players.forEach((player, idx) => {
+      if (idx = 0) {
+        player.emit('matchparameter', this._players[0].id);
+      } else {
+        player.emit('matchparameter', this._players[0].id);
+      }
     });
   }
 
   _toggleTurn() {
-    if (this.playerOnTurn == 0) {
-      this._players[0].emit('setOnTurn', false);
-      this._players[1].emit('setOnTurn', true);
-      this._sendToPlayer(1, 'Your turn!');
-      this.playerOnTurn = 1;
-    }
-    else {
-      this._players[1].emit('setOnTurn', false);
-      this._players[0].emit('setOnTurn', true);
-      this._sendToPlayer(0, 'Your turn!');
-      this.playerOnTurn = 0;
+    if (this.gameRuns) {
+      if (this.playerOnTurn == 0) {
+        this._players[0].emit('setOnTurn', false);
+        this._players[1].emit('setOnTurn', true);
+        this._sendToPlayer(1, 'Your turn!');
+        this.playerOnTurn = 1;
+      }
+      else {
+        this._players[1].emit('setOnTurn', false);
+        this._players[0].emit('setOnTurn', true);
+        this._sendToPlayer(0, 'Your turn!');
+        this.playerOnTurn = 0;
+      }
     }
   }
 
   //turn would be the coordinates of the selected fields passed as array
   _onTurn(playerIndex, buttonValue) {
-    let char;
-    if (playerIndex == 0) char = 'X';
-    else char = 'O';
-    this._court[buttonValue] = playerIndex;
-    this._broadcastTurn(buttonValue, char);
-    if (this.round > 3) {
-      if(this._check(playerIndex) === true) {
-        this._broadcastWinner(this.playerOnTurn);
-        this._endGame(true);
+    if(playerIndex == this.playerOnTurn) {
+      let char;
+      if (playerIndex == 0) char = 'X';
+      else char = 'O';
+      this._court[buttonValue] = playerIndex;
+      this._broadcastTurn(buttonValue, char);
+      if (this.round > 3) {
+        if(this._check(playerIndex) === true) {
+          this.score[this.playerOnTurn]++;
+          this._broadcastWinner(this.playerOnTurn);
+          this._endGame(true);
+        }
       }
     }
-    this._toggleTurn();
     this.round++;
+    this._toggleTurn();
   }
 
   _check(playerIndex) {

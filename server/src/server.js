@@ -32,6 +32,7 @@ io.on('connection', (socket) => {
   socket.gameroom = null;
   console.log('\x1b[42m', '******* SERVER:     USER CONNECTED       ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m', 'Online Users: ', online);
   socket.join('entrance');
+  socket.emit('id', socket.id);
 
 
   socket.on('ready', (name) => {
@@ -47,7 +48,11 @@ io.on('connection', (socket) => {
   })
 
   socket.on('message', (text, roomId, name) => {
-   io.in(roomId).emit('message', name + ' says: ' + text);
+   io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
+  });
+
+  socket.on('revancheRequest', (roomId, name, id) => {
+   io.to(roomId).emit('revancheRequest', name, id);
   });
 
   socket.on('matchmaking', () => {
@@ -61,8 +66,8 @@ io.on('connection', (socket) => {
         waiting.emit('waiting');
         console.log(socket.name + ' is waiting...');
       } else {
-        waiting.emit('message', 'Opponent found! -  You\'re playing against ' + socket.name);
-        socket.emit('message', 'Opponent found! -  You\'re playing against ' + waiting.name);
+        waiting.emit('message', 'Opponent found! -  You\'re playing against ' + socket.name, 'warning');
+        socket.emit('message', 'Opponent found! -  You\'re playing against ' + waiting.name, 'warning');
         waiting.leave('matchmaking');
         socket.leave('matchmaking');
         waiting.join(waiting.id);
@@ -79,10 +84,17 @@ io.on('connection', (socket) => {
   socket.on('endsession', () => {
     console.log(socket.name + ' left gameroom ' + socket.gameroom);
     socket.leave(socket.gameroom);
+    socket.join('lobby');
+    if(waiting != null) {
+      if(waiting.id == socket.id) waiting = null;
+    }
   });
 
   socket.on('disconnect', () => {
     online--;
+    if(waiting != null) {
+      if(waiting.id == socket.id) waiting = null;
+    }
     if (socket.ready == true) {console.log(socket.name, 'left the game');}
     console.log('\x1b[43m', '******* SERVER:     USER DISCONNECTED    ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m','Online Users: ', online);
   });

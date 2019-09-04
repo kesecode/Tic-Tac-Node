@@ -12,19 +12,37 @@ socket.on('broadcastTurn', (turn, char) => {
   writeOnGameBoard(turn, char);
 });
 
+socket.on('id', (socketid) => {
+  this.id = socketid;
+});
+
 socket.on('gameover', () => {
+  clearNotifications();
   resetGameBoard();
   socket.emit('endsession');
+  document.getElementById('matchmaking').style.display = 'block';
+  document.getElementById('quit').style.display = 'none';
+  document.getElementById('gameboard').style.display = 'none';
+});
+
+socket.on('revancheRequest', (playerName, idSender) => {
+  printRevancheInvitation(playerName, idSender);
 });
 
 socket.on('gameBegins', () => {
   resetGameBoard();
+  if(!this.turnListenersAdded) {
+    addTurnListeners();
+    this.turnListenersAdded = true;
+  }
   document.getElementById('gameboard').style.display = 'grid';
+  if(document.getElementById('waitingInfo') != null) {
+    document.getElementById('waitingInfo').style.display = 'none';
+  }
 });
 
-socket.on('broadcastWinner', (result, animation) => {
-  if (result == true) writeEvent('you won!');
-  else writeEvent('you lost!');
+socket.on('broadcastWinner', (result, animation, winnerscore, loserscore) => {
+  printResult(result, winnerscore, loserscore);
   animate(animation);
 });
 
@@ -58,7 +76,5 @@ document
   .addEventListener('click', onMatchmaking);
 
 document
-  .querySelector('#endGame')
-  .addEventListener('click', onEndGame);
-
-addTurnListeners();
+  .querySelector('#quit')
+  .addEventListener('click', onQuit);
