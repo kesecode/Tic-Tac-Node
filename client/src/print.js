@@ -147,7 +147,7 @@ const updateRevancheInvitation = () => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = "You Accepted! " + _opponentsName + " begins...";
+    title.innerHTML = "You accepted! " + _opponentsName + " begins...";
 
 
     divCon.appendChild(divHead);
@@ -248,7 +248,7 @@ const printRevancheAccepted = (playerName) => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = playerName + " wants to kick your as again! You start off...";
+    title.innerHTML = playerName + " wants to kick your ass again! You start off...";
 
     lBreak.innerHTML = ' ';
 
@@ -292,7 +292,7 @@ const resetGameBoard = () => {
 };
 
 const updateOnlineBatch = (online) => {
-  document.getElementById('onlineBatch').innerHTML = 'Players Online: ' + online;
+  document.getElementById('onlineBatch').innerHTML = 'Players online: ' + online;
 };
 
 const scrollToBottom = () => {

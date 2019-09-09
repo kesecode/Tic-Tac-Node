@@ -20,12 +20,18 @@ socket.on('id', (socketid) => {
 socket.on('gameover', () => {
   clearNotifications();
   resetGameBoard();
+  _gameActive = false;
   this._roomId = 'lobby';
   socket.emit('endsession');
   document.getElementById('onlineBatch').style.display = 'inline';
+  document.getElementById('turnBatch').style.display = 'none'
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('quit').style.display = 'none';
   document.getElementById('gameboard').style.display = 'none';
+});
+
+socket.on('chatroomChange', (chatroom) => {
+  document.getElementById('chatroomBatch').innerHTML = 'Chatroom: ' + chatroom;
 });
 
 socket.on('revancheRequest', (playerName, idSender) => {
@@ -43,6 +49,8 @@ socket.on('playersOnline', (online) => {
 
 socket.on('gameBegins', () => {
   resetGameBoard();
+  updateTurnBatch();
+  _gameActive = true;
   if(!this.turnListenersAdded) {
     addTurnListeners();
     this.turnListenersAdded = true;
@@ -57,10 +65,12 @@ socket.on('gameBegins', () => {
 socket.on('broadcastWinner', (result, animation, winnerscore, loserscore) => {
   printResult(result, winnerscore, loserscore);
   animate(animation);
+  document.getElementById('turnBatch').style.display = 'none'
 });
 
 socket.on('setOnTurn', (onTurn) => {
   this._onTurn = onTurn;
+  updateTurnBatch();
 })
 
 const addTurnListeners = () => {
@@ -75,6 +85,13 @@ const addTurnListeners = () => {
     });
   });
 };
+
+const updateTurnBatch = () => {
+  turnBatch = document.getElementById('turnBatch');
+  turnBatch.style.display = 'inline'
+  if(this._onTurn) turnBatch.innerHTML = 'Your turn';
+  else turnBatch.innerHTML = _opponentsName + 's turn'
+}
 
 document
   .querySelector('#chat-form')

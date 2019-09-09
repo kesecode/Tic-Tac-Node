@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
       socket.name = name;
       socket.leave('entrance');
       socket.join('lobby');
+      socket.emit('chatroomChange', 'Lobby')
       io.in('lobby').emit('playersOnline', online)
       socket.ready = true;
       console.log(socket.name, 'chose a name and joined the lobby');
@@ -60,6 +61,8 @@ io.on('connection', (socket) => {
     console.log(socket.name + ' started matchmaking');
     socket.leave('lobby');
     socket.join('matchmaking');
+    socket.emit('chatroomChange', ' -')
+
 
     io.in('matchmaking').clients((err , clients) => {
       if (waiting == null) {
@@ -73,6 +76,8 @@ io.on('connection', (socket) => {
         socket.leave('matchmaking');
         waiting.join(waiting.id);
         socket.join(waiting.id);
+        socket.emit('chatroomChange', 'Game');
+        waiting.emit('chatroomChange', 'Game');
         socket.gameroom = waiting.id;
         waiting.gameroom = waiting.id;
         new matchController(waiting, socket);
@@ -83,11 +88,9 @@ io.on('connection', (socket) => {
   })
 
   socket.on('endsession', () => {
-    console.log(socket.name + ' left gameroom ' + socket.gameroom);
     socket.leave(socket.gameroom);
     socket.join('lobby');
-    console.log(io.sockets.adapter.rooms['lobby'].sockets);
-    console.log(socket.name + ' joined lobby' + socket.id);
+    socket.emit('chatroomChange', 'Lobby');
     if(waiting != null) {
       if(waiting.id == socket.id) waiting = null;
     }

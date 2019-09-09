@@ -7,10 +7,12 @@ const cancelListenersAdded = false;
 var _name = null;
 var _onTurn = false;
 var _opponentsName = null;
+var _gameActive = false;
 
 const onMatchmaking = (e) => {
   e.preventDefault();
   socket.emit('matchmaking');
+  _roomId = 'matchmaking';
   document.getElementById('matchmaking').style.display = 'none';
   document.getElementById('quit').style.display = 'block';
 };
@@ -39,7 +41,7 @@ const onFormSubmitted = (e) => {
   const input = document.querySelector('#chat');
   const text = input.value;
   input.value = '';
-  socket.emit('message', text, this._roomId, this._name);
+  if(this._roomId != 'matchmaking') socket.emit('message', text, this._roomId, this._name);
 };
 
 const onChooseName = (e) => {
@@ -52,6 +54,7 @@ const onChooseName = (e) => {
   socket.emit('ready', this._name);
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('onlineBatch').style.display = 'inline';
+  document.getElementById('chatroomBatch').style.display = 'inline';
   document.getElementById('name-wrapper').style.display = 'none';
   document.getElementById('chat-wrapper').style.display = 'flex';
   writeEvent('Hello ' + this._name + '!', 'info')

@@ -27,6 +27,13 @@ button {
   display: none;
 }
 
+#turnBatch {
+  display: none;
+}
+
+#chatroomBatch {
+  display: none;
+}
 
 button.box {
   border: 6px solid #2c3e50;
