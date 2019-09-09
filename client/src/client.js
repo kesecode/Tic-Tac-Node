@@ -2,9 +2,11 @@ const socket = io();
 var _roomId = 'lobby';
 const id = null;
 const turnListenersAdded = false;
+const acceptDeclineListenersAdded = false;
+const cancelListenersAdded = false;
 var _name = null;
 var _onTurn = false;
-var _opponent = null;
+var _opponentsName = null;
 
 const onMatchmaking = (e) => {
   e.preventDefault();
@@ -26,7 +28,9 @@ const onRevancheDecline = (e) => {
 };
 
 const onRevancheAck = (e) => {
-  
+  resetGameBoard();
+  updateRevancheInvitation();
+  socket.emit('accept');
 };
 
 const onFormSubmitted = (e) => {
@@ -47,6 +51,7 @@ const onChooseName = (e) => {
 
   socket.emit('ready', this._name);
   document.getElementById('matchmaking').style.display = 'block';
+  document.getElementById('onlineBatch').style.display = 'inline';
   document.getElementById('name-wrapper').style.display = 'none';
   document.getElementById('chat-wrapper').style.display = 'flex';
   writeEvent('Hello ' + this._name + '!', 'info')

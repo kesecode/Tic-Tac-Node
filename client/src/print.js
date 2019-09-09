@@ -28,6 +28,7 @@ const waitingAnimation = () => {
 };
 
 const printResult = (result, winnerscore, loserscore) => {
+  clearNotifications();
   const parent = document.querySelector('#output');
 
   const div = document.createElement('div');
@@ -71,6 +72,8 @@ const printRevancheInvitation = (playerName, idSender) => {
 
     //divCon
     divCon.className = "card text-white bg-info mb-3";
+    divCon.id = 'revancheInv';
+
 
     //divHead
     divHead.className = "card-header";
@@ -81,7 +84,7 @@ const printRevancheInvitation = (playerName, idSender) => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = "Revanche!";
+    title.innerHTML = "Revanche?";
 
     //text
     text.className = "card-text";
@@ -108,17 +111,55 @@ const printRevancheInvitation = (playerName, idSender) => {
     divBod.appendChild(buttonAcc);
     divBod.appendChild(buttonDeni);
     parent.appendChild(divCon);
-    document
-      .querySelector('#revancheAcc')
-      .addEventListener('click', onRevancheAck);
-    document
-      .querySelector('#revancheDeni')
-      .addEventListener('click', onRevancheDecline);
+
+      document
+        .querySelector('#revancheAcc')
+        .addEventListener('click', onRevancheAck);
+      document
+        .querySelector('#revancheDeni')
+        .addEventListener('click', onRevancheDecline);
+        this.acceptDeclineListenersAdded = true;
+
     scrollToBottom();
   } else printWaitingForRevAck(playerName)
 };
 
-const printWaitingForRevAck = (playerName) => {
+const updateRevancheInvitation = () => {
+  document.getElementById('revancheInv').remove();
+  const parent = document.querySelector('#output');
+
+  const divCon = document.createElement('div');
+  const divHead = document.createElement('div');
+  const divBod = document.createElement('div');
+  const title = document.createElement('h4');
+
+
+    //divCon
+    divCon.className = "card text-white bg-info mb-3";
+    divCon.id = 'revancheInvTrue';
+
+    //divHead
+    divHead.className = "card-header";
+    divHead.innerHTML = "Rematch invitation";
+
+    //divBod
+    divBod.className = "card-body";
+
+    //title
+    title.className = "card-title";
+    title.innerHTML = "You Accepted! " + _opponentsName + " begins...";
+
+
+    divCon.appendChild(divHead);
+    divCon.appendChild(divBod);
+    divBod.appendChild(title);
+    parent.appendChild(divCon);
+
+    scrollToBottom();
+  };
+
+
+const printWaitingForRevAck = () => {
     const parent = document.querySelector('#output');
 
     const progressbar = document.createElement('div');
@@ -147,6 +188,7 @@ const printWaitingForRevAck = (playerName) => {
 
     //divCon
     divCon.className = "card text-white bg-info mb-3";
+    divCon.id = "waitingCard"
 
     //divHead
     divHead.className = "card-header";
@@ -157,7 +199,7 @@ const printWaitingForRevAck = (playerName) => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = "Waiting for " + '[playerName]' +'s okay...';
+    title.innerHTML = "Waiting for " + _opponentsName +'s okay...';
 
     //buttonDeni
     buttonCancel.type = "button";
@@ -175,6 +217,47 @@ const printWaitingForRevAck = (playerName) => {
     divBod.appendChild(progressbar);
     divBod.appendChild(lBreak);
     divBod.appendChild(buttonCancel);
+    parent.appendChild(divCon);
+    document
+      .querySelector('#revancheCancel')
+      .addEventListener('click', onRevancheCancel);
+
+    scrollToBottom();
+};
+
+const printRevancheAccepted = (playerName) => {
+    document.getElementById('waitingCard').remove();
+    const parent = document.querySelector('#output');
+
+    const divCon = document.createElement('div');
+    const divHead = document.createElement('div');
+    const divBod = document.createElement('div');
+    const lBreak = document.createElement('p')
+    const title = document.createElement('h4');
+
+
+    //divCon
+    divCon.className = "card text-white bg-success mb-3";
+
+    //divHead
+    divHead.className = "card-header";
+    divHead.innerHTML = "Revanche invitation accepted";
+
+    //divBod
+    divBod.className = "card-body";
+
+    //title
+    title.className = "card-title";
+    title.innerHTML = playerName + " wants to kick your as again! You start off...";
+
+    lBreak.innerHTML = ' ';
+
+
+
+    divCon.appendChild(divHead);
+    divCon.appendChild(divBod);
+    divBod.appendChild(title);
+    divBod.appendChild(lBreak);
     parent.appendChild(divCon);
     document
       .querySelector('#revancheCancel')
@@ -208,14 +291,18 @@ const resetGameBoard = () => {
   }
 };
 
+const updateOnlineBatch = (online) => {
+  document.getElementById('onlineBatch').innerHTML = 'Players Online: ' + online;
+};
+
 const scrollToBottom = () => {
   const messages = document.getElementById('events')
   messages.scrollTop = messages.scrollHeight;
-}
+};
 
 const clearNotifications = () => {
   const parent = document.getElementById("output");
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
-}
+};

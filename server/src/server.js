@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
       socket.name = name;
       socket.leave('entrance');
       socket.join('lobby');
+      io.in('lobby').emit('playersOnline', online)
       socket.ready = true;
       console.log(socket.name, 'chose a name and joined the lobby');
     } else {
@@ -85,13 +86,19 @@ io.on('connection', (socket) => {
     console.log(socket.name + ' left gameroom ' + socket.gameroom);
     socket.leave(socket.gameroom);
     socket.join('lobby');
+    console.log(io.sockets.adapter.rooms['lobby'].sockets);
+    console.log(socket.name + ' joined lobby' + socket.id);
     if(waiting != null) {
       if(waiting.id == socket.id) waiting = null;
     }
   });
 
   socket.on('disconnect', () => {
+    io.to(socket.gameroom).emit('gameover');
+    io.to(socket.gameroom).emit('message', socket.name + ' disconnected from game!', 'info');
+
     online--;
+    io.in('lobby').emit('playersOnline', online)
     if(waiting != null) {
       if(waiting.id == socket.id) waiting = null;
     }

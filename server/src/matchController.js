@@ -1,10 +1,13 @@
 class MatchController {
   constructor(p1, p2) {
+    console.log('CONSTRUCTOR CALLED');
     this._players = [p1, p2];
     this._court = [];
     this.playerOnTurn = 0;
+    this.lastWinner = null;
     this.round = 0;
-    this.score = [0, 0];
+    this.scoreP0 = 0;
+    this.scoreP1 = 0;
 
     this.gameRuns = true;
     this.animation = null;
@@ -27,8 +30,35 @@ class MatchController {
           player.quitListenerAdded = true;
         });
       }
+      if(!player.revancheListenerAdded) {
+        player.on('accept', () => {
+          player.revancheListenerAdded = true;
+          if(idx == 0) {
+            this._players[1].emit('accepted', this._players[idx].name);
+          } else {
+            this._players[0].emit('accepted', this._players[idx].name);
+          }
+          this._resetGameForRevanche();
+        });
+      }
     });
     console.log('constructor ' + this.round + ' ' + this.gameRuns + ' ' + this._court[6] + ' ' + this.playerOnTurn);
+  }
+
+  _resetGameForRevanche() {
+    this.gameRuns = true;
+    this._court = [];
+    if(this.lastWinner == 0) {
+      this.playerOnTurn = 1;
+      this._players[1].emit('setOnTurn', true);
+      this._players[0].emit('setOnTurn', false);
+    }
+    else {
+      this.playerOnTurn = 0;
+      this._players[0].emit('setOnTurn', true);
+      this._players[1].emit('setOnTurn', false);
+    }
+    this.animation = null;
   }
 
 
@@ -44,7 +74,7 @@ class MatchController {
 
   _broadcastScore() {
     this._players.forEach((player) => {
-      player.emit('message', 'SCORE - ' + this._players[0].name + ' ' + this.score[0] + ':' + this.score[1] + ' ' + this._players[1].name, 'warning');
+      player.emit('message', 'SCORE - ' + this._players[0].name + ' ' + this.scoreP0 + ':' + this.scoreP1 + ' ' + this._players[1].name, 'warning');
     });
   }
 
@@ -52,6 +82,7 @@ class MatchController {
     if(!winnerExists) {
       this._players.forEach((player) => {
           player.emit('gameover');
+          player.emit('setOnTurn', false);
       });
 
       switch (type) {
@@ -85,8 +116,7 @@ class MatchController {
     }
     this.gameRuns = false;
     this._court = [];
-    this.playerOnTurn = null;
-    this.score = null;
+    this.animation = null;
   }
 
   _broadcastTurn(buttonValue, char) {
@@ -108,13 +138,8 @@ class MatchController {
   }
 
   _sendMatchParameters() {
-    this._players.forEach((player, idx) => {
-      if (idx = 0) {
-        player.emit('matchparameter', this._players[0].id);
-      } else {
-        player.emit('matchparameter', this._players[0].id);
-      }
-    });
+    this._players[0].emit('matchparameter', this._players[0].id, this._players[1].name);
+    this._players[1].emit('matchparameter', this._players[0].id, this._players[0].name);
   }
 
   _toggleTurn() {
@@ -144,7 +169,9 @@ class MatchController {
       this._broadcastTurn(buttonValue, char);
       if (this.round > 3) {
         if(this._check(playerIndex) === true) {
-          this.score[this.playerOnTurn]++;
+          if(playerIndex == 0) this.scoreP0 ++;
+          if(playerIndex == 1) this.scoreP1 ++;
+          this.lastWinner = this.playerOnTurn;
           this._broadcastWinner(this.playerOnTurn);
           this._endGame(true);
         }
