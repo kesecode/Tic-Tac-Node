@@ -1,34 +1,36 @@
-const writeEvent = (text) => {
-  // <ul> element
-  const parent = document.querySelector('#events');
-
-  // <li> element
-  const el = document.createElement('li');
-  el.innerHTML = text;
-
-  parent.appendChild(el);
-};
-
-const sock = io();
+const socket = io();
 var _roomId = 'lobby';
+const id = null;
+const turnListenersAdded = false;
+const acceptDeclineListenersAdded = false;
+const cancelListenersAdded = false;
 var _name = null;
-sock.on('message', writeEvent);
-sock.on('matchparameter', (roomId) => {
-   this._roomId = roomId;
- });
-
-const addTurnListeners = () => {
-  ['turnTest'].forEach((id) => {
-    const field = document.getElementById(id);
-    field.addEventListener('click', () => {
-      sock.emit('turn', id);
-    });
-  });
-};
+var _onTurn = false;
+var _opponentsName = null;
 
 const onMatchmaking = (e) => {
   e.preventDefault();
-  sock.emit('matchmaking');
+  socket.emit('matchmaking');
+  document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('quit').style.display = 'block';
+};
+
+const onQuit = (e) => {
+  socket.emit('quit', 'quit');
+};
+
+const onRevancheCancel = (e) => {
+  socket.emit('quit', 'canceled');
+};
+
+const onRevancheDecline = (e) => {
+  socket.emit('quit', 'declined');
+};
+
+const onRevancheAck = (e) => {
+  resetGameBoard();
+  updateRevancheInvitation();
+  socket.emit('accept');
 };
 
 const onFormSubmitted = (e) => {
@@ -37,7 +39,7 @@ const onFormSubmitted = (e) => {
   const input = document.querySelector('#chat');
   const text = input.value;
   input.value = '';
-  sock.emit('message', text, this._roomId, this._name);
+  socket.emit('message', text, this._roomId, this._name);
 };
 
 const onChooseName = (e) => {
@@ -47,23 +49,14 @@ const onChooseName = (e) => {
   this._name = input.value;
   input.value = '';
 
-  sock.emit('ready', this._name);
+  socket.emit('ready', this._name);
+  document.getElementById('matchmaking').style.display = 'block';
+  document.getElementById('onlineBatch').style.display = 'inline';
   document.getElementById('name-wrapper').style.display = 'none';
-  document.getElementById('ttt-wrapper').style.display = 'flex';
-  writeEvent('Hello ' + this._name + '!')
+  document.getElementById('chat-wrapper').style.display = 'flex';
+  writeEvent('Hello ' + this._name + '!', 'info')
 };
-//sock.on('playerName', name)
 
-document
-  .querySelector('#chat-form')
-  .addEventListener('submit', onFormSubmitted);
-
-document
-  .querySelector('#name-form')
-  .addEventListener('submit', onChooseName);
-
-document
-  .querySelector('#matchmaking')
-  .addEventListener('click', onMatchmaking)
-
-addTurnListeners();
+const onRevancheRequest = () => {
+  socket.emit('revancheRequest', this._roomId, this._name, this.id);
+}
