@@ -43,7 +43,6 @@ io.on('connection', (socket) => {
       socket.emit('chatroomChange', 'Lobby')
       io.in('lobby').emit('playersOnline', online)
       socket.ready = true;
-      console.log(socket.name, 'chose a name and joined the lobby');
     } else {
       console.log(socket.name, 'is ready and already in the lobby');
     }
@@ -55,6 +54,10 @@ io.on('connection', (socket) => {
 
   socket.on('revancheRequest', (roomId, name, id) => {
    io.to(roomId).emit('revancheRequest', name, id);
+  });
+
+  socket.on('playAgainRequest', (roomId, name, id) => {
+   io.to(roomId).emit('playAgainRequest', name, id);
   });
 
   socket.on('matchmaking', () => {
@@ -70,8 +73,8 @@ io.on('connection', (socket) => {
         waiting.emit('waiting');
         console.log(socket.name + ' is waiting...');
       } else {
-        waiting.emit('message', 'Opponent found! -  You\'re playing against ' + socket.name, 'warning');
-        socket.emit('message', 'Opponent found! -  You\'re playing against ' + waiting.name, 'warning');
+        socket.emit('opponentFound', waiting.name);
+        waiting.emit('opponentFound', socket.name);
         waiting.leave('matchmaking');
         socket.leave('matchmaking');
         waiting.join(waiting.id);

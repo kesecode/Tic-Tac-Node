@@ -4,6 +4,7 @@ const id = null;
 const turnListenersAdded = false;
 const acceptDeclineListenersAdded = false;
 const cancelListenersAdded = false;
+var scoreAsMessage = true;
 var _name = null;
 var _onTurn = false;
 var _opponentsName = null;
@@ -20,6 +21,11 @@ const onMatchmaking = (e) => {
 const onQuit = (e) => {
   socket.emit('quit', 'quit');
 };
+
+const onPlayAgain = (e) => {
+  // TODO:
+  socket.emit('playAgainRequest', 'GEHT NICH', this._roomId, this._name);
+}
 
 const onRevancheCancel = (e) => {
   socket.emit('quit', 'canceled');
@@ -62,4 +68,12 @@ const onChooseName = (e) => {
 
 const onRevancheRequest = () => {
   socket.emit('revancheRequest', this._roomId, this._name, this.id);
+}
+
+const onPlayAgainRequest = () => {
+timeoutID = window.setTimeout(playAgain, Math.floor(Math.random() * 150));
+}
+
+function playAgain() {
+  socket.emit('playAgainRequest', this._roomId, this._name, this.id);
 }

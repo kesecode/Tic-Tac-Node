@@ -30,6 +30,7 @@
 
       <div class="bs-component" style="margin-bottom: 20px; margin-left: 15px;">
         <span class="badge badge-info" id="chatroomBatch">Chatroom: Lobby</span>
+        <span class="badge badge-primary" id="scoreBatch">Score: </span>
         <span class="badge badge-warning" id="turnBatch">Your Turn!</span>
         <span class="badge badge-success" id="onlineBatch"></span>
       </div>
@@ -50,7 +51,7 @@
             </div>
 
             <button class="btn btn-lg btn-primary btn-block" id="playerName">Let's Go!</button>
-            <p class="mt-5 mb-3 text-muted text-center">&#xA9; David Weppler, Jakub Langier and Philipp Thieme 2019</p>
+            <p class="mt-5 mb-3 text-muted text-center">&#xA9; David Weppler, Jakub Langier, Kevin Beckenbach and Philipp Thieme 2019</p>
             </form>
           </div>
         </div>
@@ -75,7 +76,7 @@
                 <div class="chatInput-wrapper">
                   <form id="chat-form" class="form-inline">
                     <div class="form-group mx-sm-3 mb-2">
-                      <input type="text" style="width: 300px" class="form-control" id="chat" aria-describedby="chatInfo" placeholder="Chat with your opponents...">
+                      <input type="text" style="width: 300px" class="form-control" id="chat" aria-describedby="chatInfo" placeholder="Chat with your opponents..." required autofocus>
                     </div>
                     <div class="form-group mb-2">
                       <button type="button" id="say" class="btn btn-secondary">Say!</button>
@@ -108,6 +109,7 @@
     <script src="src/print.js"></script>
     <script src="src/listeners.js"></script>
     <script src="src/animations.js"></script>
+    <script src="src/helpers.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
