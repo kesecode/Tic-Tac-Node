@@ -49,6 +49,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('message', (text, roomId, name) => {
+    console.log('MESSAGE');
    io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
   });
 
@@ -64,7 +65,7 @@ io.on('connection', (socket) => {
     console.log(socket.name + ' started matchmaking');
     socket.leave('lobby');
     socket.join('matchmaking');
-    socket.emit('chatroomChange', ' -')
+    socket.emit('chatroomChange', ' -');
 
 
     io.in('matchmaking').clients((err , clients) => {

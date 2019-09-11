@@ -2,8 +2,6 @@ const socket = io();
 let _roomId = 'lobby';
 let id = null;
 let turnListenersAdded = false;
-let acceptDeclineListenersAdded = false;
-let cancelListenersAdded = false;
 let scoreAsMessage = true;
 let _name = null;
 let _onTurn = false;
@@ -21,11 +19,6 @@ const onMatchmaking = (e) => {
 const onQuit = (e) => {
   socket.emit('quit', 'quit');
 };
-
-const onPlayAgain = (e) => {
-  // TODO:
-  socket.emit('playAgainRequest', 'GEHT NICH', this._roomId, this._name);
-}
 
 const onRevancheCancel = (e) => {
   socket.emit('quit', 'canceled');

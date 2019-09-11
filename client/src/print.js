@@ -297,7 +297,6 @@ const printRevancheAccepted = (playerName) => {
 };
 
 const writeEvent = (text, type) => {
-  // <ul> element
   const parent = document.querySelector('#output');
 
   const div = document.createElement('div');
