@@ -13,7 +13,7 @@
     "Game",
     "Socket.IO"
   ],
-  "author": "Juriy Bura <juriy.bura@gmail.com>",
+  "author": "David Weppler <david.weppler@outlook.com>",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",

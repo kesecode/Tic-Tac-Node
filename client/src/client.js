@@ -1,14 +1,14 @@
 const socket = io();
-var _roomId = 'lobby';
-const id = null;
-const turnListenersAdded = false;
-const acceptDeclineListenersAdded = false;
-const cancelListenersAdded = false;
-var scoreAsMessage = true;
-var _name = null;
-var _onTurn = false;
-var _opponentsName = null;
-var _gameActive = false;
+let _roomId = 'lobby';
+let id = null;
+let turnListenersAdded = false;
+let acceptDeclineListenersAdded = false;
+let cancelListenersAdded = false;
+let scoreAsMessage = true;
+let _name = null;
+let _onTurn = false;
+let _opponentsName = null;
+let _gameActive = false;
 
 const onMatchmaking = (e) => {
   e.preventDefault();
@@ -71,7 +71,7 @@ const onRevancheRequest = () => {
 }
 
 const onPlayAgainRequest = () => {
-timeoutID = window.setTimeout(playAgain, Math.floor(Math.random() * 150));
+  window.setTimeout(playAgain, Math.floor(Math.random() * 150));
 }
 
 function playAgain() {
