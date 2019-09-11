@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
 
   socket.on('message', (text, roomId, name) => {
     console.log('MESSAGE');
-   io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
+    io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
   });
 
   socket.on('revancheRequest', (roomId, name, id) => {

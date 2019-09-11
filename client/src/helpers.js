@@ -4,7 +4,7 @@ const addTurnListeners = () => {
    'button6', 'button7', 'button8'].forEach((id) => {
     const field = document.getElementById(id);
     field.addEventListener('click', () => {
-      if(this._onTurn === true && document.getElementById(id).innerHTML === ''), {
+      if(this._onTurn === true && document.getElementById(id).innerHTML === '') {
         socket.emit('turn', document.getElementById(id).value);
       }
     });
