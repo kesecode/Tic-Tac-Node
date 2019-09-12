@@ -1,15 +1,18 @@
 //loading node.js modules
-var express = require('express');
-var socketio = require('socket.io');
-var matchController = require('./MatchController');
+const express = require('express');
+const socketio = require('socket.io');
+const matchController = require('./MatchController');
+const Logger = require('./logger.js');
+const port = 4000;
 
-var online = 0;
+
 let waiting = null;
+logger = new Logger();
 
 //App setup
-var app = express();
-var server = app.listen(4000, () => {
-  console.log('******* SERVER: listening to requests on port 4000 *******');
+const app = express();
+const server = app.listen(port, () => {
+  logger.serverStarted(port);
 });
 
 const clientPath = `${__dirname}/../../client`;
@@ -18,38 +21,39 @@ const clientPath = `${__dirname}/../../client`;
 app.use(express.static(clientPath));
 
 //Socket setup
-var io = socketio(server);
+const io = socketio(server);
 
 
 //___________________________________________________________
 
 
 
+
+
+
+
 //connection
 io.on('connection', (socket) => {
-  online++;
-  socket.ready = false;
-  socket.gameroom = null;
-  console.log('\x1b[42m', '******* SERVER:     USER CONNECTED       ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m', 'Online Users: ', online);
+  socket.hasChosenName = false;
+  socket.isInGame = false;
+  socket.roomId = null;
+  logger.userConnected(socket);
   socket.join('entrance');
   socket.emit('id', socket.id);
 
 
   socket.on('ready', (name) => {
-    if (socket.ready == false) {
+    if (socket.hasChosenName == false) {
       socket.name = name;
-      socket.leave('entrance');
-      socket.join('lobby');
-      socket.emit('chatroomChange', 'Lobby')
-      io.in('lobby').emit('playersOnline', online)
-      socket.ready = true;
-    } else {
-      console.log(socket.name, 'is ready and already in the lobby');
+      switchRoom(socket, 'lobby', 'Lobby');
+      io.in('lobby').emit('playersOnline', logger.playersOnline);
+      socket.hasChosenName = true;
     }
   })
 
   socket.on('message', (text, roomId, name) => {
-    console.log('MESSAGE');
+    console.log('ASDsdcascs');
+    
     io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
   });
 
@@ -62,57 +66,47 @@ io.on('connection', (socket) => {
   });
 
   socket.on('matchmaking', () => {
-    console.log(socket.name + ' started matchmaking');
-    socket.leave('lobby');
-    socket.join('matchmaking');
-    socket.emit('chatroomChange', ' -');
+    switchRoom(socket, 'matchmaking', ' -');
 
 
     io.in('matchmaking').clients((err , clients) => {
       if (waiting == null) {
         waiting = socket;
         waiting.emit('waiting');
-        console.log(socket.name + ' is waiting...');
       } else {
         socket.emit('opponentFound', waiting.name);
         waiting.emit('opponentFound', socket.name);
-        waiting.leave('matchmaking');
-        socket.leave('matchmaking');
-        waiting.join(waiting.id);
-        socket.join(waiting.id);
-        socket.emit('chatroomChange', 'Game');
-        waiting.emit('chatroomChange', 'Game');
-        socket.gameroom = waiting.id;
-        waiting.gameroom = waiting.id;
+        switchRoom(waiting, waiting.id, 'Game');
+        switchRoom(socket, waiting.id, 'Game');
         new matchController(waiting, socket);
-        console.log(waiting.name + ' and ' + socket.name + ' started to play against each other');
         waiting = null;
       }
     });
   })
 
   socket.on('endsession', () => {
-    socket.leave(socket.gameroom);
-    socket.join('lobby');
-    socket.emit('chatroomChange', 'Lobby');
+    switchRoom(socket, 'lobby', 'Lobby');
     if(waiting != null) {
       if(waiting.id == socket.id) waiting = null;
     }
   });
 
   socket.on('disconnect', () => {
-    io.to(socket.gameroom).emit('gameover');
-    io.to(socket.gameroom).emit('message', socket.name + ' disconnected from game!', 'info');
-
-    online--;
-    io.in('lobby').emit('playersOnline', online)
+    io.to(socket.roomId).emit('gameover');
+    //io.to(socket.roomId).emit('message', socket.name + ' disconnected from game!', 'info');
+    logger.userDisconnected(socket);
+    io.in('lobby').emit('playersOnline', logger.playersOnline);
     if(waiting != null) {
       if(waiting.id == socket.id) waiting = null;
     }
-    if (socket.ready == true) {console.log(socket.name, 'left the game');}
-    console.log('\x1b[43m', '******* SERVER:     USER DISCONNECTED    ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m','Online Users: ', online);
   });
 });
+
+
+
+
+
+
 
 
 
@@ -120,10 +114,15 @@ io.on('connection', (socket) => {
 //___________________________________________________________
 
 
-
+function switchRoom (socket, roomId, roomName) {
+  if (socket.roomId !== null) socket.leave(socket.roomId);
+  socket.join(roomId);
+  socket.roomId = roomId
+  socket.emit('roomSwitched', roomId, roomName);
+}
 
 
 //error logging
 server.on('error', (err) => {
-  console.error('\x1b[41m', '******* SERVER - ERROR: ', err, '\x1b[0m');
+  logger.serverError(err);
 });

@@ -1,11 +1,13 @@
+const Logger = require('./logger.js');
 class MatchController {
   constructor(p1, p2) {
-    console.log('CONSTRUCTOR CALLED');
-
+    logger = new Logger();
+    logger.matchInitialized(p1, p2);
     this._players = [p1, p2];
     this._court = null;
     this._court = [];
     this.playerOnTurn = Math.floor((Math.random() * 1) +0.5);
+
 
     this.lastWinner = null;
     this.round = 0;
@@ -38,7 +40,6 @@ class MatchController {
         this._resetGameForRevanche();
       });
     });
-    console.log('constructor ' + this.round + ' ' + this.gameRuns + ' ' + this._court[6] + ' ' + this.playerOnTurn);
   }
 
   _resetGameForRevanche() {
