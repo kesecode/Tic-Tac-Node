@@ -18,7 +18,6 @@ socket.on('id', (socketid) => {
 socket.on('gameover', () => {
   clearNotifications();
   resetGameBoard();
-  this._roomId = 'lobby';
   socket.emit('endsession');
   document.getElementById('onlineBatch').style.display = 'inline';
   document.getElementById('matchmaking').style.display = 'block';
@@ -26,8 +25,9 @@ socket.on('gameover', () => {
   document.getElementById('gameboard').style.display = 'none';
 });
 
-socket.on('chatroomChange', (chatroom) => {
-  document.getElementById('chatroomBatch').innerHTML = 'Chatroom: ' + chatroom;
+socket.on('roomChange', (roomId, roomName) => {
+  document.getElementById('chatroomBatch').innerHTML = 'Chatroom: ' + roomName;
+  roomId = room;
 });
 
 socket.on('revancheRequest', (playerName, idSender) => {
