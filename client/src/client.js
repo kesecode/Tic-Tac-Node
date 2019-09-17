@@ -1,40 +1,44 @@
-const socket = io();
-let roomId = null;
-let id = null;
 let turnListenersAdded = false;
 let scoreAsMessage = true;
-let _name = null;
-let _onTurn = false;
-let _opponentsName = null;
-let _gameActive = false;
 
 let client = {
-
+  socket: io(),
+  socketId: null,
+  roomId: null,
+  username: null,
 };
+
+let matchParameters = {
+  isOnTurn: false,
+  opponentsName: null,
+  isInGame: false
+};
+
 
 const onMatchmaking = (e) => {
   e.preventDefault();
-  socket.emit('matchmaking');
+  client.socket.emit('matchmaking');
   document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('onlineBatch').style.display = 'none';
   document.getElementById('quit').style.display = 'block';
 };
 
 const onQuit = (e) => {
-  socket.emit('quit', 'quit');
+  client.socket.emit('quit', 'quit');
 };
 
-const onRevancheCancel = (e) => {
-  socket.emit('quit', 'canceled');
+const onRevancheCancel = () => {
+  client.socket.emit('quit', 'canceled');
 };
 
-const onRevancheDecline = (e) => {
-  socket.emit('quit', 'declined');
+const onRevancheDecline = () => {
+  client.socket.emit('quit', 'declined');
 };
 
-const onRevancheAck = (e) => {
+const onRevancheAck = () => {
   resetGameBoard();
   updateRevancheInvitation();
-  socket.emit('accept');
+  client.socket.emit('accept');
 };
 
 const onFormSubmitted = (e) => {
@@ -43,33 +47,33 @@ const onFormSubmitted = (e) => {
   const input = document.querySelector('#chat');
   const text = input.value;
   input.value = '';
-  socket.emit('message', text, roomId, this._name);
+  client.socket.emit('message', text, client.roomId, client.username);
 };
 
-const onChooseName = (e) => {
+const onChoseName = (e) => {
   e.preventDefault();
 
   const input = document.querySelector('#name');
-  this._name = input.value;
+  client.username = input.value;
   input.value = '';
 
-  socket.emit('ready', this._name);
+  client.socket.emit('userChoseName', client.username);
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('onlineBatch').style.display = 'inline';
   document.getElementById('chatroomBatch').style.display = 'inline';
   document.getElementById('name-wrapper').style.display = 'none';
   document.getElementById('chat-wrapper').style.display = 'flex';
-  writeEvent('Hello ' + this._name + '!', 'info')
+  writeEvent('Hello ' + client.username + '!', 'info')
 };
 
 const onRevancheRequest = () => {
-  socket.emit('revancheRequest', this._roomId, this._name, this.id);
-}
+  client.socket.emit('revancheRequest', client.roomId, client.username, client.socketId);
+};
 
 const onPlayAgainRequest = () => {
   window.setTimeout(playAgain, Math.floor(Math.random() * 150));
-}
+};
 
 function playAgain() {
-  socket.emit('playAgainRequest', this._roomId, this._name, this.id);
-}
+  client.socket.emit('playAgainRequest', client.roomId, client.username, client.socketId);
+};
