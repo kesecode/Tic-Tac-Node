@@ -1,54 +1,27 @@
-const waitingAnimation = () => {
+const initializeGameUI = () => {
+  document.getElementById('onlineBatch').style.display = 'none';
+  document.getElementById('turnBatch').style.display = 'inline';
+  document.getElementById('gameboard').style.display = 'grid';
+  if(document.getElementById('waitingCard') != null) {
+    let elem = document.getElementById('waitingCard');
+    elem.parentNode.removeChild(elem);
+  }
+  updateTurnBatch();
+}
+
+
+const printWaitingCard = () => {
   clearNotifications();
   const parent = document.querySelector('#output');
-
-  const div = document.createElement('div');
-  const divComp = document.createElement('div');
-  const divProg = document.createElement('div');
-  const divBar = document.createElement('div');
-
-  div.className = "alert alert-info";
-  div.innerHTML = "Waiting for an Opponent...";
-  div.id = "waitingInfo"
-  divComp.className = "bs-component"
-  divProg.className = "progress"
-  divBar.className = "progress-bar progress-bar-striped progress-bar-animated";
-  divBar.role = "progressbar";
-  divBar.setAttribute('aria-valuenow', "100");
-  divBar.setAttribute('aria-valuemin', "0");
-  divBar.setAttribute('aria-valuemax', "100");
-  divBar.style.width = "100%";
-
-  divProg.appendChild(divBar);
-  divComp.appendChild(divProg);
-  div.appendChild(divComp);
-  parent.appendChild(div);
+  parent.appendChild(produceWaitingCard());
   const messages = document.getElementById('output')
   scrollToBottom();
 };
 
-const printResult = (result, winnerscore, loserscore) => {
+const printResultCard = (result) => {
   clearNotifications();
   const parent = document.querySelector('#output');
-
-  const div = document.createElement('div');
-  const button = document.createElement('button');
-
-  if(result) {
-    div.className = "alert alert-dismissible alert-success";
-    div.id = "winAlert";
-    div.innerHTML = "Well done... You won the game!";
-  } else {
-    div.className = "alert alert-dismissible alert-danger";
-    div.id = "loseAlert";
-    div.innerHTML = "Sad... You lost!";
-    button.id = "revanche";
-    button.className = "close";
-    button.innerHTML = "Revanche";
-    div.appendChild(button);
-  }
-
-  parent.appendChild(div);
+  parent.appendChild(produceResultCard(result));
   if (!result) {
     document
       .querySelector('#revanche')
@@ -84,7 +57,7 @@ const printDrawMessage = () => {
 }
 
 const printRevancheInvitation = (playerName, idSender) => {
-  if(this.id != idSender) {
+  if(client.socketId != idSender) {
     const parent = document.querySelector('#output');
 
     const divCon = document.createElement('div');
@@ -144,7 +117,6 @@ const printRevancheInvitation = (playerName, idSender) => {
       document
         .querySelector('#revancheDeni')
         .addEventListener('click', onRevancheDecline);
-        this.acceptDeclineListenersAdded = true;
 
     scrollToBottom();
   } else printWaitingForRevAck(playerName)
@@ -175,7 +147,7 @@ const updateRevancheInvitation = () => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = "You accepted! " + _opponentsName + " begins...";
+    title.innerHTML = "You accepted! " + matchParameters.opponentsName + " begins...";
 
 
     divCon.appendChild(divHead);
@@ -227,7 +199,7 @@ const printWaitingForRevAck = () => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = "Waiting for " + _opponentsName +'s okay...';
+    title.innerHTML = "Waiting for " + matchParameters.opponentsName +'s okay...';
 
     //buttonDeni
     buttonCancel.type = "button";
@@ -289,9 +261,7 @@ const printRevancheAccepted = (playerName) => {
     divBod.appendChild(title);
     divBod.appendChild(lBreak);
     parent.appendChild(divCon);
-    document
-      .querySelector('#revancheCancel')
-      .addEventListener('click', onRevancheCancel);
+
 
     scrollToBottom();
 };
@@ -309,7 +279,7 @@ const writeEvent = (text, type) => {
 
 const writeOnGameBoard = (buttonValue, char) => {
   let box = document.getElementById('button' + buttonValue);
-  box.innerHTML = char;
+    box.innerHTML = char;
 };
 
 const resetGameBoard = () => {
@@ -326,7 +296,7 @@ const updateOnlineBatch = (online) => {
 
 
 const printPlayAgainInvitation = (playerName, idSender) => {
-  if(this.id != idSender) {
+  if(client.socketId != idSender) {
     const parent = document.querySelector('#output');
 
     const divCon = document.createElement('div');
@@ -432,7 +402,7 @@ const printWaitingForPAAck = () => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = "Waiting for " + _opponentsName +'s okay...';
+    title.innerHTML = "Waiting for " + matchParameters.opponentsName +'s okay...';
 
     //buttonDeni
     buttonCancel.type = "button";

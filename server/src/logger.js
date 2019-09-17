@@ -1,20 +1,10 @@
 class Logger {
-    constructor () {
-        this.online = 0;
-    }
-
-    get playersOnline() {
-        return this.online;
-    } 
-
-    userConnected(socket) {
-        this.online++;
-        console.log('\x1b[42m', '******* SERVER:        USER CONNECTED       ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m', 'Online Users: ', this.online);
-    }
-
-    userDisconnected(socket) {
-        this.online--;
-        console.log('\x1b[43m', '******* SERVER:        USER DISCONNECTED    ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m','Online Users: ', this.online);
+    userConnection(socket, isConnected, usersOnline) {
+        if(isConnected) {
+            console.log('\x1b[42m', '******* SERVER:        USER CONNECTED       ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m', 'Online Users: ', usersOnline);
+        } else {
+            console.log('\x1b[43m', '******* SERVER:        USER DISCONNECTED    ******* SOCKET-ID:  [', socket.id, ']', '\x1b[0m','Online Users: ', usersOnline);
+        }
     }
 
     matchInitialized(p0, p1) {

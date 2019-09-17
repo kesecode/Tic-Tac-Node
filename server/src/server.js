@@ -6,7 +6,8 @@ const Logger = require('./logger.js');
 const port = 4000;
 
 
-let waiting = null;
+let waitingUser = null;
+let usersOnline = 0;
 logger = new Logger();
 
 //App setup
@@ -21,39 +22,34 @@ const clientPath = `${__dirname}/../../client`;
 app.use(express.static(clientPath));
 
 //Socket setup
-const io = socketio(server);
+const io = socketio(server, { pingTimeout: 120000 });
 
 
 //___________________________________________________________
 
 
 
-
-
-
-
 //connection
-io.on('connection', (socket) => {
+io.on('connection', (socket) => {  
+  usersOnline++;
   socket.hasChosenName = false;
   socket.isInGame = false;
   socket.roomId = null;
-  logger.userConnected(socket);
+  io.emit('updateOnlineUsers', usersOnline);
+  logger.userConnection(socket, true, usersOnline);
   socket.join('entrance');
-  socket.emit('id', socket.id);
+  socket.emit('commitId', socket.id);
 
 
-  socket.on('ready', (name) => {
+  socket.on('userChoseName', (name) => {
     if (socket.hasChosenName == false) {
       socket.name = name;
       switchRoom(socket, 'lobby', 'Lobby');
-      io.in('lobby').emit('playersOnline', logger.playersOnline);
       socket.hasChosenName = true;
     }
   })
 
-  socket.on('message', (text, roomId, name) => {
-    console.log('ASDsdcascs');
-    
+  socket.on('message', (text, roomId, name) => {        
     io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
   });
 
@@ -70,34 +66,37 @@ io.on('connection', (socket) => {
 
 
     io.in('matchmaking').clients((err , clients) => {
-      if (waiting == null) {
-        waiting = socket;
-        waiting.emit('waiting');
+      if (waitingUser === null) {
+        waitingUser = socket;
+        waitingUser.emit('isWaiting');
       } else {
-        socket.emit('opponentFound', waiting.name);
-        waiting.emit('opponentFound', socket.name);
-        switchRoom(waiting, waiting.id, 'Game');
-        switchRoom(socket, waiting.id, 'Game');
-        new matchController(waiting, socket);
-        waiting = null;
+        socket.emit('opponentFound', waitingUser.name);
+        waitingUser.emit('opponentFound', socket.name);
+        switchRoom(waitingUser, waitingUser.id, 'Game');
+        switchRoom(socket, waitingUser.id, 'Game');
+        new matchController(waitingUser, socket);
+        socket.isInGame = true;
+        waitingUser.isInGame = true;
+        waitingUser = null;
       }
     });
   })
 
   socket.on('endsession', () => {
     switchRoom(socket, 'lobby', 'Lobby');
-    if(waiting != null) {
-      if(waiting.id == socket.id) waiting = null;
+    if(waitingUser !== null) {
+      if(waitingUser.id === socket.id) waiting = null;
     }
   });
 
   socket.on('disconnect', () => {
-    io.to(socket.roomId).emit('gameover');
+    usersOnline--;
+    if(socket.isInGame) io.to(socket.roomId).emit('gameover');
     //io.to(socket.roomId).emit('message', socket.name + ' disconnected from game!', 'info');
-    logger.userDisconnected(socket);
-    io.in('lobby').emit('playersOnline', logger.playersOnline);
-    if(waiting != null) {
-      if(waiting.id == socket.id) waiting = null;
+    logger.userConnection(socket, false, usersOnline);
+    io.in('lobby').emit('updateOnlineUsers', usersOnline);
+    if(waitingUser !== null) {
+      if(waitingUser.id === socket.id) waiting = null;
     }
   });
 });

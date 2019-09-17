@@ -1,4 +1,5 @@
 const Logger = require('./logger.js');
+
 class MatchController {
   constructor(p1, p2) {
     logger = new Logger();
@@ -10,6 +11,7 @@ class MatchController {
 
 
     this.lastWinner = null;
+    this.turnSet = 0;
     this.round = 0;
     this.scoreP0 = 0;
     this.scoreP1 = 0;
@@ -45,7 +47,8 @@ class MatchController {
   _resetGameForRevanche() {
     this.gameRuns = true;
     this._court = [];
-    this.round = 0;
+    this.turnSet = 0;
+    this.round ++;
     if(this.lastWinner == 0) {
       this.playerOnTurn = 1;
       this._players[1].emit('setOnTurn', true);
@@ -72,8 +75,8 @@ class MatchController {
 
   _broadcastScore() {
     this._players.forEach((player, idx) => {
-      if(idx == 0) player.emit('score', this.scoreP0, this.scoreP1);
-      else player.emit('score', this.scoreP1, this.scoreP0);
+      if(idx == 0) player.emit('scoreBroadcast', this.scoreP0, this.scoreP1, this.round);
+      else player.emit('scoreBroadcast', this.scoreP1, this.scoreP0, this.round);
     });
   }
 
@@ -116,12 +119,12 @@ class MatchController {
     this.gameRuns = false;
     this._court = [];
     this.animation = null;
-    this.round = 0;
+    this.turnSet = 0;
   }
 
   _broadcastTurn(buttonValue, char) {
     this._players.forEach((player) => {
-      player.emit('broadcastTurn', buttonValue, char);
+      player.emit('turnBroadcast', buttonValue, char);
     });
   }
 
@@ -176,7 +179,7 @@ class MatchController {
       else char = 'O';
       this._court[buttonValue] = playerIndex;
       this._broadcastTurn(buttonValue, char);
-      if (this.round > 3) {
+      if (this.turnSet > 3) {
         if(this._check(playerIndex) === true) {
           if(playerIndex == 0) this.scoreP0 ++;
           if(playerIndex == 1) this.scoreP1 ++;
@@ -185,13 +188,13 @@ class MatchController {
           this._endGame(true);
         }
       }
-      if (this.round >= 8) {
+      if (this.turnSet >= 8) {
         // TODO: approve
-        console.log('DRAW ' + this.round);
+        console.log('DRAW ' + this.turnSet);
         if (this._check(0) === false && this._check(1) === false) this._broadcastWinner(2);
       }
     }
-    this.round++;
+    this.turnSet++;
     this._toggleTurn();
   }
 

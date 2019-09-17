@@ -4,8 +4,8 @@ const addTurnListeners = () => {
    'button6', 'button7', 'button8'].forEach((id) => {
     const field = document.getElementById(id);
     field.addEventListener('click', () => {
-      if(this._onTurn === true && document.getElementById(id).innerHTML === '') {
-        socket.emit('turn', document.getElementById(id).value);
+      if(matchParameters.isOnTurn && document.getElementById(id).innerHTML === '') {
+        client.socket.emit('turn', document.getElementById(id).value);
       }
     });
   });
@@ -13,9 +13,8 @@ const addTurnListeners = () => {
 
 const updateTurnBatch = () => {
   turnBatch = document.getElementById('turnBatch');
-  turnBatch.style.display = 'inline'
-  if(this._onTurn) turnBatch.innerHTML = 'Your turn';
-  else turnBatch.innerHTML = _opponentsName + 's turn'
+  if(matchParameters.isOnTurn) turnBatch.innerHTML = 'Your turn';
+  else turnBatch.innerHTML = matchParameters.opponentsName + 's turn'
 }
 
 const scrollToBottom = () => {
