@@ -43,3 +43,287 @@ const produceResultCard = (result) => {
 
     return div;
 }
+
+const produceInvitationCard = (revanche) => {
+    const cardElem = document.createElement('div');
+    if(revanche) {
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const title = document.createElement('h4');
+        const text = document.createElement('p');
+        const buttonAcc = document.createElement('button');
+        const buttonDeni = document.createElement('button');
+
+
+        //divCon
+        cardElem.className = "card text-white bg-info mb-3";
+        cardElem.id = 'revancheInv';
+
+
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Rematch invitation";
+
+        //divBod
+        divBod.className = "card-body";
+
+        //title
+        title.className = "card-title";
+        title.innerHTML = "Revanche?";
+
+        //text
+        text.className = "card-text";
+        text.innerHTML = matchParameters.opponentsName + " wants a revanche... Take it or leave it.";
+
+        //buttonAcc
+        buttonAcc.type = "button";
+        buttonAcc.className = "btn btn-success";
+        buttonAcc.innerHTML = "I take it!";
+        buttonAcc.id = "revancheAcc"
+
+        //buttonDeni
+        buttonDeni.type = "button";
+        buttonDeni.className = "btn btn-warning";
+        buttonDeni.innerHTML = "No thanks!";
+        buttonDeni.id = "revancheDeni"
+
+
+
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+        divBod.appendChild(text);
+        divBod.appendChild(buttonAcc);
+        divBod.appendChild(buttonDeni);
+    } else {
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const title = document.createElement('h4');
+        const text = document.createElement('p');
+        const buttonAcc = document.createElement('button');
+        const buttonDeni = document.createElement('button');
+
+
+        //divCon
+        cardElem.className = "card text-white bg-secondary mb-3";
+        cardElem.id = 'revancheInv';
+
+
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Rematch invitation";
+
+        //divBod
+        divBod.className = "card-body";
+
+        //title
+        title.className = "card-title";
+        title.innerHTML = "Play Again?";
+
+        //text
+        text.className = "card-text";
+        text.innerHTML = matchParameters.opponentsName + " wants to play again...";
+
+        //buttonAcc
+        buttonAcc.type = "button";
+        buttonAcc.className = "btn btn-success";
+        buttonAcc.innerHTML = "#metoo";
+        buttonAcc.id = "revancheAcc"
+
+        //buttonDeni
+        buttonDeni.type = "button";
+        buttonDeni.className = "btn btn-warning";
+        buttonDeni.innerHTML = "Noooo!";
+        buttonDeni.id = "revancheDeni"
+
+
+
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+        divBod.appendChild(text);
+        divBod.appendChild(buttonAcc);
+        divBod.appendChild(buttonDeni);
+    }
+    return cardElem;
+}
+
+const produceAwaitAcceptanceCard = (revanche) => {
+    const cardElem = document.createElement('div');
+    if(revanche) { 
+        const progressbar = document.createElement('div');
+        const divProg = document.createElement('div');
+        const divBar = document.createElement('div');
+
+        progressbar.className = "bs-component"
+        divProg.className = "progress"
+        divBar.className = "progress-bar progress-bar-striped progress-bar-animated";
+        divBar.role = "progressbar";
+        divBar.setAttribute('aria-valuenow', "100");
+        divBar.setAttribute('aria-valuemin', "0");
+        divBar.setAttribute('aria-valuemax', "100");
+        divBar.style.width = "100%";
+
+        divProg.appendChild(divBar);
+        progressbar.appendChild(divProg);
+
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const lBreak = document.createElement('p')
+        const title = document.createElement('h4');
+        const buttonCancel = document.createElement('button');
+
+
+        //divCon
+        cardElem.className = "card text-white bg-info mb-3";
+        cardElem.id = "waitingCard"
+
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Revanche invitation send";
+
+        //divBod
+        divBod.className = "card-body";
+
+        //title
+        title.className = "card-title";
+        title.innerHTML = "Waiting for " + matchParameters.opponentsName +'s okay...';
+
+        //buttonDeni
+        buttonCancel.type = "button";
+        buttonCancel.className = "btn btn-warning";
+        buttonCancel.innerHTML = "Cancel";
+        buttonCancel.id = "revancheCancel"
+
+        lBreak.innerHTML = ' ';
+
+
+
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+        divBod.appendChild(progressbar);
+        divBod.appendChild(lBreak);
+        divBod.appendChild(buttonCancel);
+    } else {
+        const progressbar = document.createElement('div');
+        const divProg = document.createElement('div');
+        const divBar = document.createElement('div');
+
+        progressbar.className = "bs-component"
+        divProg.className = "progress"
+        divBar.className = "progress-bar progress-bar-striped progress-bar-animated";
+        divBar.role = "progressbar";
+        divBar.setAttribute('aria-valuenow', "100");
+        divBar.setAttribute('aria-valuemin', "0");
+        divBar.setAttribute('aria-valuemax', "100");
+        divBar.style.width = "100%";
+
+        divProg.appendChild(divBar);
+        progressbar.appendChild(divProg);
+
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const lBreak = document.createElement('p')
+        const title = document.createElement('h4');
+        const buttonCancel = document.createElement('button');
+
+
+        //divCon
+        cardElem.className = "card text-white bg-secondary mb-3";
+        cardElem.id = "waitingCard"
+
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Invitation send";
+
+        //divBod
+        divBod.className = "card-body";
+
+        //title
+        title.className = "card-title";
+        title.innerHTML = "Waiting for " + matchParameters.opponentsName +'s okay...';
+
+        //buttonDeni
+        buttonCancel.type = "button";
+        buttonCancel.className = "btn btn-warning";
+        buttonCancel.innerHTML = "Cancel";
+        buttonCancel.id = "playAgainCancel"
+
+        lBreak.innerHTML = ' ';
+
+
+
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+        divBod.appendChild(progressbar);
+        divBod.appendChild(lBreak);
+        divBod.appendChild(buttonCancel);
+    }
+    return cardElem;
+}
+
+const produceAcceptedCard = (revanche) => {
+    const cardElem = document.createElement('div');
+    if(revanche) {
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const lBreak = document.createElement('p')
+        const title = document.createElement('h4');
+    
+    
+        //divCon
+        cardElem.className = "card text-white bg-success mb-3";
+    
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Revanche invitation accepted";
+    
+        //divBod
+        divBod.className = "card-body";
+    
+        //title
+        title.className = "card-title";
+        title.innerHTML = matchParameters.opponentsName + " wants to kick your ass again! You start off...";
+    
+        lBreak.innerHTML = ' ';
+    
+    
+    
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+        divBod.appendChild(lBreak);
+    } else {
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const lBreak = document.createElement('p')
+        const title = document.createElement('h4');
+
+
+        //divCon
+        cardElem.className = "card text-white bg-success mb-3";
+
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Revanche invitation accepted";
+
+        //divBod
+        divBod.className = "card-body";
+
+        //title
+        title.className = "card-title";
+        title.innerHTML = matchParameters.opponentsName + " really really wants you!";
+
+        lBreak.innerHTML = ' ';
+
+
+
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+        divBod.appendChild(lBreak);
+    }
+    return cardElem;
+}

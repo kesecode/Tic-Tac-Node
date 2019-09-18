@@ -33,11 +33,19 @@ class MatchController {
         this._endGame(false, idx, player.name, type);
       });
 
-      player.on('accept', () => {
+      player.on('revancheAccept', () => {
         if(idx == 0) {
-          this._players[1].emit('accepted', this._players[idx].name);
+          this._players[1].emit('revancheAccepted', this._players[idx].name);
         } else {
-          this._players[0].emit('accepted', this._players[idx].name);
+          this._players[0].emit('revancheAccepted', this._players[idx].name);
+        }
+        this._resetGameForRevanche();
+      });
+      player.on('playAgainAccept', () => {
+        if(idx == 0) {
+          this._players[1].emit('playAgainAccepted', this._players[idx].name);
+        } else {
+          this._players[0].emit('playAgainAccepted', this._players[idx].name);
         }
         this._resetGameForRevanche();
       });
@@ -99,20 +107,20 @@ class MatchController {
 
       case "canceled" :
         if(idx == 0) {
-          this._sendToPlayer(1, playerName + ' canceled the revanche invitation!');
-          this._sendToPlayer(0, 'You canceled the revanche invitation!');
+          this._sendToPlayer(1, playerName + ' canceled the invitation!');
+          this._sendToPlayer(0, 'You canceled the invitation!');
         } else {
-          this._sendToPlayer(0, playerName + ' canceled the revanche invitation!');
-          this._sendToPlayer(1, 'You canceled the revanche invitation!');
+          this._sendToPlayer(0, playerName + ' canceled the invitation!');
+          this._sendToPlayer(1, 'You canceled the invitation!');
         } break;
 
       case "declined" :
         if(idx == 0) {
-          this._sendToPlayer(1, playerName + ' declined the revanche invitation!');
-          this._sendToPlayer(0, 'You declined the revanche invitation!');
+          this._sendToPlayer(1, playerName + ' declined the invitation!');
+          this._sendToPlayer(0, 'You declined the invitation!');
         } else {
-          this._sendToPlayer(0, playerName + ' declined the revanche invitation!');
-          this._sendToPlayer(1, 'You declined the revanche invitation!');
+          this._sendToPlayer(0, playerName + ' declined the invitation!');
+          this._sendToPlayer(1, 'You declined the invitation!');
         } break;
       }
     }
@@ -139,7 +147,7 @@ class MatchController {
       }
       else if (winner == 2) {
         this._players.forEach((player) => {
-          player.emit('draw');
+          player.emit('broadcastDraw');
         })
       }
       this._broadcastScore();
@@ -147,12 +155,12 @@ class MatchController {
 
   _sendMatchParameters() {
     if (this.playerOnTurn == 0) {
-      this._players[0].emit('matchparameter', this._players[0].id, this._players[1].name, true);
-      this._players[1].emit('matchparameter', this._players[0].id, this._players[0].name, false);
+      this._players[0].emit('matchparameter', this._players[0].id, this._players[1].name, this._players[1].id, true);
+      this._players[1].emit('matchparameter', this._players[0].id, this._players[0].name, this._players[0].id, false);
     }
     else {
-      this._players[0].emit('matchparameter', this._players[0].id, this._players[1].name, false);
-      this._players[1].emit('matchparameter', this._players[0].id, this._players[0].name, true);
+      this._players[0].emit('matchparameter', this._players[0].id, this._players[1].name, this._players[1].id, false);
+      this._players[1].emit('matchparameter', this._players[0].id, this._players[0].name, this._players[0].id, true);
     }
   }
 
@@ -189,8 +197,6 @@ class MatchController {
         }
       }
       if (this.turnSet >= 8) {
-        // TODO: approve
-        console.log('DRAW ' + this.turnSet);
         if (this._check(0) === false && this._check(1) === false) this._broadcastWinner(2);
       }
     }

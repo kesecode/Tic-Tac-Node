@@ -15,9 +15,10 @@ client.socket.on('opponentFound', (opponentsName) => {
   writeEvent('Opponent found! -  You\'re playing against ' + opponentsName, 'info');
 });
 
-client.socket.on('matchparameter', (roomId, opponentsName) => {
+client.socket.on('matchparameter', (roomId, opponentsName, opponentsId) => {
   client.roomId = roomId;
   matchParameters.opponentsName = opponentsName;
+  matchParameters.opponentsId = opponentsId;
 });
 
 client.socket.on('scoreBroadcast', (clientScore, opponentScore) => {
@@ -50,13 +51,22 @@ client.socket.on('roomSwitched', (roomId, roomName) => {
   client.roomId = roomId;
 });
 
-client.socket.on('revancheRequest', (playerName, idSender) => {
-  printRevancheInvitation(playerName, idSender);
+client.socket.on('revancheRequest', (idSender) => {
+  printInvitation(idSender, true);
 });
 
-client.socket.on('accepted', (playerName) => {
+client.socket.on('playAgainRequest', (idSender) => {
+  printInvitation(idSender, false);
+});
+
+client.socket.on('revancheAccepted', () => {
   resetGameBoard();
-  printRevancheAccepted(playerName);
+  printAcceptedCard(true);
+});
+
+client.socket.on('playAgainAccepted', () => {
+  resetGameBoard();
+  printAcceptedCard(false);
 });
 
 client.socket.on('updateOnlineUsers', (online) => {
@@ -66,6 +76,10 @@ client.socket.on('updateOnlineUsers', (online) => {
 client.socket.on('broadcastWinner', (result, animation) => {
   printResultCard(result);
   animate(animation);
+});
+
+client.socket.on('broadcastDraw', () => {
+  printDrawCard();
 });
 
 client.socket.on('setOnTurn', (isOnTurn) => {

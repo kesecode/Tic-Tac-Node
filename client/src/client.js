@@ -5,11 +5,13 @@ let client = {
   socketId: null,
   roomId: null,
   username: null,
+  recievedInvitation: null
 };
 
 let matchParameters = {
   isOnTurn: false,
   opponentsName: null,
+  opponentsId: null,
   isInGame: false
 };
 
@@ -22,22 +24,28 @@ const onMatchmaking = (e) => {
   document.getElementById('quit').style.display = 'block';
 };
 
-const onQuit = (e) => {
+const onQuit = () => {
   client.socket.emit('quit', 'quit');
 };
 
-const onRevancheCancel = () => {
+const onCancelInvitation = () => {
   client.socket.emit('quit', 'canceled');
 };
 
-const onRevancheDecline = () => {
+const onDeclineInvitation = () => {
   client.socket.emit('quit', 'declined');
 };
 
-const onRevancheAck = () => {
+const onRevancheAccept = () => {
   resetGameBoard();
-  updateRevancheInvitation();
-  client.socket.emit('accept');
+  updateInvitation();
+  client.socket.emit('revancheAccept');
+};
+
+const onPlayAgainAccept = () => {
+  resetGameBoard();
+  updateInvitation();
+  client.socket.emit('playAgainAccept');
 };
 
 const onFormSubmitted = (e) => {
@@ -66,7 +74,7 @@ const onChoseName = (e) => {
 };
 
 const onRevancheRequest = () => {
-  client.socket.emit('revancheRequest', client.roomId, client.username, client.socketId);
+  client.socket.emit('revancheRequest', client.roomId, client.socketId);
 };
 
 const onPlayAgainRequest = () => {
@@ -74,5 +82,5 @@ const onPlayAgainRequest = () => {
 };
 
 function playAgain() {
-  client.socket.emit('playAgainRequest', client.roomId, client.username, client.socketId);
+  client.socket.emit('playAgainRequest', client.roomId, client.socketId);
 };

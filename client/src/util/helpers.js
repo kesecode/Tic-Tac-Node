@@ -18,8 +18,7 @@ const updateTurnBatch = () => {
 }
 
 const updateScoreBatch = (clientScore, opponentScore) => {
-  document.getElementById('scoreBatch').innerHTML = 'You ' + clientScore + ' : ' + opponentScore + ' ' + matchParameters.opponentsName;
-
+  document.getElementById('scoreBatch').innerHTML = 'You   ' + clientScore + ' : ' + opponentScore + '   ' + matchParameters.opponentsName;
 }
 
 const scrollToBottom = () => {

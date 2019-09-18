@@ -53,13 +53,21 @@ io.on('connection', (socket) => {
     io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
   });
 
-  socket.on('revancheRequest', (roomId, name, id) => {
-   io.to(roomId).emit('revancheRequest', name, id);
+  socket.on('revancheRequest', (roomId, socketId) => {
+   io.to(roomId).emit('revancheRequest', socketId);
   });
 
-  socket.on('playAgainRequest', (roomId, name, id) => {
-   io.to(roomId).emit('playAgainRequest', name, id);
+  socket.on('playAgainRequest', (roomId, socketId) => {
+   io.to(roomId).emit('playAgainRequest', socketId);
   });
+
+  socket.on('revancheAccept', (id) => {
+    io.to(id).emit('revancheAccept');
+   });
+ 
+   socket.on('playAgainAccept', (id) => {
+    io.to(id).emit('playAgainAccept');
+   });
 
   socket.on('matchmaking', () => {
     switchRoom(socket, 'matchmaking', ' -');
