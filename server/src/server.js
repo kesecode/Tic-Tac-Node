@@ -82,7 +82,7 @@ io.on('connection', (socket) => {
     });
   })
 
-  socket.on('endsession', () => {
+  socket.on('endsession', () => {    
     switchRoom(socket, 'lobby', 'Lobby');
     if(waitingUser !== null) {
       if(waitingUser.id === socket.id) waiting = null;

@@ -17,6 +17,11 @@ const updateTurnBatch = () => {
   else turnBatch.innerHTML = matchParameters.opponentsName + 's turn'
 }
 
+const updateScoreBatch = (clientScore, opponentScore) => {
+  document.getElementById('scoreBatch').innerHTML = 'You ' + clientScore + ' : ' + opponentScore + ' ' + matchParameters.opponentsName;
+
+}
+
 const scrollToBottom = () => {
   const messages = document.getElementById('events')
   messages.scrollTop = messages.scrollHeight;

@@ -1,5 +1,4 @@
 let turnListenersAdded = false;
-let scoreAsMessage = true;
 
 let client = {
   socket: io(),

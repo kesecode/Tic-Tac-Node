@@ -20,10 +20,8 @@ client.socket.on('matchparameter', (roomId, opponentsName) => {
   matchParameters.opponentsName = opponentsName;
 });
 
-client.socket.on('scoreBroadcast', (clientScore, opponentScore, round) => {
-  document.getElementById('scoreBatch').style.display = 'inline';
-  document.getElementById('scoreBatch').innerHTML = clientScore + ' : ' + opponentScore;
-  if(round === 0) writeEvent('Score: ' + client.username + ' ' + clientScore + ' : ' + opponentScore + ' ' + matchParameters.opponentsName, 'info');
+client.socket.on('scoreBroadcast', (clientScore, opponentScore) => {
+  updateScoreBatch(clientScore, opponentScore);
 });
 
 client.socket.on('gameBegins', () => {
@@ -65,7 +63,7 @@ client.socket.on('updateOnlineUsers', (online) => {
   updateOnlineBatch(online);
 });
 
-client.socket.on('broadcastWinner', (result, animation, winnerscore, loserscore) => {
+client.socket.on('broadcastWinner', (result, animation) => {
   printResultCard(result);
   animate(animation);
 });

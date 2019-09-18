@@ -57,6 +57,7 @@ const printDrawMessage = () => {
 }
 
 const printRevancheInvitation = (playerName, idSender) => {
+  document.getElementById('scoreBatch').style.display = 'inline';
   if(client.socketId != idSender) {
     const parent = document.querySelector('#output');
 
@@ -296,6 +297,7 @@ const updateOnlineBatch = (online) => {
 
 
 const printPlayAgainInvitation = (playerName, idSender) => {
+  document.getElementById('scoreBatch').style.display = 'inline';
   if(client.socketId != idSender) {
     const parent = document.querySelector('#output');
 
