@@ -1,8 +1,6 @@
 socket.on('message', writeEvent);
 
-socket.on('waiting', () => {
-  waitingAnimation();
-});
+socket.on('waiting', waitingAnimation);
 
 socket.on('matchparameter', (roomId, playerName) => {
   this._roomId = roomId;
@@ -26,6 +24,10 @@ socket.on('gameover', () => {
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('quit').style.display = 'none';
   document.getElementById('gameboard').style.display = 'none';
+});
+
+socket.on('chatroomChange', (chatroom) => {
+  document.getElementById('chatroomBatch').innerHTML = 'Chatroom: ' + chatroom;
 });
 
 socket.on('revancheRequest', (playerName, idSender) => {
@@ -63,18 +65,6 @@ socket.on('setOnTurn', (onTurn) => {
   this._onTurn = onTurn;
 })
 
-const addTurnListeners = () => {
-  ['button0', 'button1', 'button2',
-   'button3', 'button4', 'button5',
-   'button6', 'button7', 'button8'].forEach((id) => {
-    const field = document.getElementById(id);
-    field.addEventListener('click', () => {
-      if(this._onTurn == true && document.getElementById(id).innerHTML == '') {
-        socket.emit('turn', document.getElementById(id).value);
-      }
-    });
-  });
-};
 
 document
   .querySelector('#chat-form')

@@ -8,7 +8,7 @@ const waitingAnimation = () => {
   const divBar = document.createElement('div');
 
   div.className = "alert alert-info";
-  div.innerHTML = "Waiting on an Opponent...";
+  div.innerHTML = "Waiting for an Opponent...";
   div.id = "waitingInfo"
   divComp.className = "bs-component"
   divProg.className = "progress"
@@ -56,6 +56,32 @@ const printResult = (result, winnerscore, loserscore) => {
   }
   scrollToBottom();
 };
+
+const printDrawMessage = () => {
+  clearNotifications();
+  const parent = document.querySelector('#output');
+
+  const div = document.createElement('div');
+  const button = document.createElement('button');
+
+
+  div.className = "alert alert-dismissible alert-danger";
+  div.id = "drawAlert";
+  div.innerHTML = "You both are too dumb to win!";
+  button.id = "playagain";
+  button.className = "close";
+  button.innerHTML = "Revanche";
+  div.appendChild(button);
+
+
+  parent.appendChild(div);
+
+  document
+      .querySelector('#playagain')
+      .addEventListener('click', onPlayAgainRequest);
+
+  scrollToBottom();
+}
 
 const printRevancheInvitation = (playerName, idSender) => {
   if(this.id != idSender) {
@@ -126,6 +152,8 @@ const printRevancheInvitation = (playerName, idSender) => {
 
 const updateRevancheInvitation = () => {
   document.getElementById('revancheInv').remove();
+  clearNotifications();
+  document.getElementById('scoreBatch').style.display = 'inline';
   const parent = document.querySelector('#output');
 
   const divCon = document.createElement('div');
@@ -147,7 +175,7 @@ const updateRevancheInvitation = () => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = "You Accepted! " + _opponentsName + " begins...";
+    title.innerHTML = "You accepted! " + _opponentsName + " begins...";
 
 
     divCon.appendChild(divHead);
@@ -227,6 +255,8 @@ const printWaitingForRevAck = () => {
 
 const printRevancheAccepted = (playerName) => {
     document.getElementById('waitingCard').remove();
+    clearNotifications();
+    document.getElementById('scoreBatch').style.display = 'inline';
     const parent = document.querySelector('#output');
 
     const divCon = document.createElement('div');
@@ -248,7 +278,7 @@ const printRevancheAccepted = (playerName) => {
 
     //title
     title.className = "card-title";
-    title.innerHTML = playerName + " wants to kick your as again! You start off...";
+    title.innerHTML = playerName + " wants to kick your ass again! You start off...";
 
     lBreak.innerHTML = ' ';
 
@@ -267,7 +297,6 @@ const printRevancheAccepted = (playerName) => {
 };
 
 const writeEvent = (text, type) => {
-  // <ul> element
   const parent = document.querySelector('#output');
 
   const div = document.createElement('div');
@@ -292,17 +321,179 @@ const resetGameBoard = () => {
 };
 
 const updateOnlineBatch = (online) => {
-  document.getElementById('onlineBatch').innerHTML = 'Players Online: ' + online;
+  document.getElementById('onlineBatch').innerHTML = 'Players online: ' + online;
 };
 
-const scrollToBottom = () => {
-  const messages = document.getElementById('events')
-  messages.scrollTop = messages.scrollHeight;
+
+const printPlayAgainInvitation = (playerName, idSender) => {
+  if(this.id != idSender) {
+    const parent = document.querySelector('#output');
+
+    const divCon = document.createElement('div');
+    const divHead = document.createElement('div');
+    const divBod = document.createElement('div');
+    const title = document.createElement('h4');
+    const text = document.createElement('p');
+    const buttonAcc = document.createElement('button');
+    const buttonDeni = document.createElement('button');
+
+
+    //divCon
+    divCon.className = "card text-white bg-secondary mb-3";
+    divCon.id = 'revancheInv';
+
+
+    //divHead
+    divHead.className = "card-header";
+    divHead.innerHTML = "Rematch invitation";
+
+    //divBod
+    divBod.className = "card-body";
+
+    //title
+    title.className = "card-title";
+    title.innerHTML = "Play Again?";
+
+    //text
+    text.className = "card-text";
+    text.innerHTML = playerName + " wants to play again...";
+
+    //buttonAcc
+    buttonAcc.type = "button";
+    buttonAcc.className = "btn btn-success";
+    buttonAcc.innerHTML = "#metoo";
+    buttonAcc.id = "revancheAcc"
+
+    //buttonDeni
+    buttonDeni.type = "button";
+    buttonDeni.className = "btn btn-warning";
+    buttonDeni.innerHTML = "Noooo!";
+    buttonDeni.id = "revancheDeni"
+
+
+
+    divCon.appendChild(divHead);
+    divCon.appendChild(divBod);
+    divBod.appendChild(title);
+    divBod.appendChild(text);
+    divBod.appendChild(buttonAcc);
+    divBod.appendChild(buttonDeni);
+    parent.appendChild(divCon);
+
+    document
+      .querySelector('#revancheAcc')
+      .addEventListener('click', onRevancheAck);
+    document
+      .querySelector('#revancheDeni')
+      .addEventListener('click', onRevancheDecline);
+
+    scrollToBottom();
+  } else printWaitingForPAAck(playerName)
 };
 
-const clearNotifications = () => {
-  const parent = document.getElementById("output");
-  while (parent.firstChild) {
-    parent.removeChild(parent.firstChild);
-  }
+
+const printWaitingForPAAck = () => {
+    const parent = document.querySelector('#output');
+
+    const progressbar = document.createElement('div');
+    const divProg = document.createElement('div');
+    const divBar = document.createElement('div');
+
+    progressbar.className = "bs-component"
+    divProg.className = "progress"
+    divBar.className = "progress-bar progress-bar-striped progress-bar-animated";
+    divBar.role = "progressbar";
+    divBar.setAttribute('aria-valuenow', "100");
+    divBar.setAttribute('aria-valuemin', "0");
+    divBar.setAttribute('aria-valuemax', "100");
+    divBar.style.width = "100%";
+
+    divProg.appendChild(divBar);
+    progressbar.appendChild(divProg);
+
+    const divCon = document.createElement('div');
+    const divHead = document.createElement('div');
+    const divBod = document.createElement('div');
+    const lBreak = document.createElement('p')
+    const title = document.createElement('h4');
+    const buttonCancel = document.createElement('button');
+
+
+    //divCon
+    divCon.className = "card text-white bg-secondary mb-3";
+    divCon.id = "waitingCard"
+
+    //divHead
+    divHead.className = "card-header";
+    divHead.innerHTML = "Invitation send";
+
+    //divBod
+    divBod.className = "card-body";
+
+    //title
+    title.className = "card-title";
+    title.innerHTML = "Waiting for " + _opponentsName +'s okay...';
+
+    //buttonDeni
+    buttonCancel.type = "button";
+    buttonCancel.className = "btn btn-warning";
+    buttonCancel.innerHTML = "Cancel";
+    buttonCancel.id = "playAgainCancel"
+
+    lBreak.innerHTML = ' ';
+
+
+
+    divCon.appendChild(divHead);
+    divCon.appendChild(divBod);
+    divBod.appendChild(title);
+    divBod.appendChild(progressbar);
+    divBod.appendChild(lBreak);
+    divBod.appendChild(buttonCancel);
+    parent.appendChild(divCon);
+    document
+      .querySelector('#playAgainCancel')
+      .addEventListener('click', onRevancheCancel);
+
+    scrollToBottom();
+};
+
+const printPAAccepted = (playerName) => {
+    document.getElementById('waitingCard').remove();
+    clearNotifications();
+    document.getElementById('scoreBatch').style.display = 'inline';
+    const parent = document.querySelector('#output');
+
+    const divCon = document.createElement('div');
+    const divHead = document.createElement('div');
+    const divBod = document.createElement('div');
+    const lBreak = document.createElement('p')
+    const title = document.createElement('h4');
+
+
+    //divCon
+    divCon.className = "card text-white bg-success mb-3";
+
+    //divHead
+    divHead.className = "card-header";
+    divHead.innerHTML = "Revanche invitation accepted";
+
+    //divBod
+    divBod.className = "card-body";
+
+    //title
+    title.className = "card-title";
+    title.innerHTML = playerName + " really really wants you!";
+
+    lBreak.innerHTML = ' ';
+
+
+
+    divCon.appendChild(divHead);
+    divCon.appendChild(divBod);
+    divBod.appendChild(title);
+    divBod.appendChild(lBreak);
+    parent.appendChild(divCon);
+
+    scrollToBottom();
 };

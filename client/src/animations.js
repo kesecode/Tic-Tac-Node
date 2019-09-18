@@ -1,5 +1,4 @@
 //WIN ANIMATION
-
 const animate = (animation) => {
   var timeout = 1300;
   switch (animation) {

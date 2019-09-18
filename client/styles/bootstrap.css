@@ -7267,5 +7267,5 @@ pre {
   .close:focus:before,
   .close:active:before {
     position: absolute;
-    content: "Revanche";
+    content: "Play again";
     color: #333; }
