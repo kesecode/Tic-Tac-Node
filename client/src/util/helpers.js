@@ -41,3 +41,19 @@ const clearNotifications = () => {
     parent.removeChild(parent.firstChild);
   }
 };
+
+const onThemeChange = (theme) => {
+  let color;
+  switch(theme) {
+    case 'dark':
+      color = '#404040';
+      break;
+    case 'light':
+      color = '#f7f4f4';
+      break;
+    case 'color':
+      color = '#f95353';
+      break;
+  }
+  document.getElementById('body').style.background = color;
+}

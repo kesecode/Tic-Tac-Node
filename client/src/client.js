@@ -73,11 +73,13 @@ const onChoseName = (e) => {
 };
 
 const onRevancheRequest = () => {
+  clearNotifications();
   client.socket.emit('revancheRequest', matchParameters.opponentsId);
   printAwaitAcceptanceCard(true)
 };
 
 const onPlayAgainRequest = () => {
+  clearNotifications();
   window.setTimeout(playAgain, Math.floor(Math.random() * 150));
 };
 
@@ -85,3 +87,15 @@ function playAgain() {
   client.socket.emit('playAgainRequest', matchParameters.opponentsId);
   printAwaitAcceptanceCard(false)
 };
+
+const onDark = () => {
+  onThemeChange('dark');
+} 
+
+const onLight = () => {
+  onThemeChange('light');
+} 
+
+const onColor = () => {
+  onThemeChange('color');
+} 

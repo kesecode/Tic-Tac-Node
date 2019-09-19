@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="styles/bootstrap.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   </head>
-  <body>
+  <body id="body">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="/">
-        <img src="imgs/icon.png" width="30" height="30" class="d-inline-block align-top" alt="">
+        <img src="imgs/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
           Tic Tac Toe!
       </a>
       <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
@@ -22,9 +22,16 @@
         <div class="btn-group mr-2" role="group" aria-label="Downloads">
           <button id="download" class="btn btn-secondary">Download C-hashtag Application</button>
         </div>
+        <div class="nav-item dropdown show">
+          <button id="dropdown03" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" class="btn btn-secondary">Themes</button>
+          <div class="dropdown-menu" aria-labelledby="dropdown03">
+            <button id="darkTheme" class="dropdown-item">Dark</button>
+            <button id="lightTheme" class="dropdown-item">Light</button>
+            <button id="colorTheme" class="dropdown-item">Color</button>
+          </div>
+        </div>
       </div>
     </nav>
-
 
     <main role="main" class="center">
 
@@ -88,16 +95,16 @@
           </div>
 
           <div class="col-sm">
-            <div class="game-board" id="gameboard">
-              <button class="box" id="button0" value="0"></button>
-              <button class="box" id="button1" value="1"></button>
-              <button class="box" id="button2" value="2"></button>
-              <button class="box" id="button3" value="3"></button>
-              <button class="box" id="button4" value="4"></button>
-              <button class="box" id="button5" value="5"></button>
-              <button class="box" id="button6" value="6"></button>
-              <button class="box" id="button7" value="7"></button>
-              <button class="box" id="button8" value="8"></button>
+            <div class="game-board jumbotron" id="gameboard">
+              <button class="btn btn-outline-secondary box" id="button0" value="0"></button>
+              <button class="btn btn-outline-secondary box" id="button1" value="1"></button>
+              <button class="btn btn-outline-secondary box" id="button2" value="2"></button>
+              <button class="btn btn-outline-secondary box" id="button3" value="3"></button>
+              <button class="btn btn-outline-secondary box" id="button4" value="4"></button>
+              <button class="btn btn-outline-secondary box" id="button5" value="5"></button>
+              <button class="btn btn-outline-secondary box" id="button6" value="6"></button>
+              <button class="btn btn-outline-secondary box" id="button7" value="7"></button>
+              <button class="btn btn-outline-secondary box" id="button8" value="8"></button>
             </div>
           </div>
 

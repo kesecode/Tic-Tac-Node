@@ -33,6 +33,11 @@ client.socket.on('gameBegins', () => {
   initializeGameUI();
 });
 
+client.socket.on('firstTurn', () => {
+  clearNotifications();
+});
+
+
 client.socket.on('gameover', () => {
   clearNotifications();
   resetGameBoard();
@@ -52,10 +57,12 @@ client.socket.on('roomSwitched', (roomId, roomName) => {
 });
 
 client.socket.on('revancheRequest', () => {
+  clearNotifications();
   printInvitation(true);
 });
 
 client.socket.on('playAgainRequest', () => {
+  clearNotifications();
   printInvitation(false);
 });
 
@@ -111,3 +118,15 @@ document
 document
   .querySelector('#quit')
   .addEventListener('click', onQuit);
+
+document
+.querySelector('#darkTheme')
+.addEventListener('click', onDark);
+
+document
+.querySelector('#lightTheme')
+.addEventListener('click', onLight);
+
+document
+.querySelector('#colorTheme')
+.addEventListener('click', onColor);
