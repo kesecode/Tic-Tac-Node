@@ -139,6 +139,11 @@ class MatchController {
   }
 
   broadcastTurn(buttonValue, char) {
+    if(this.turnCount == 0)  {
+      this.players.forEach((player) => {
+      player.emit('firstTurn');
+      });
+    }
     this.players.forEach((player) => {
       player.emit('turnBroadcast', buttonValue, char);
     });

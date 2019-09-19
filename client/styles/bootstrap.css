@@ -3555,10 +3555,11 @@ input[type="button"].btn-block {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(85, 85, 85, 0.5); }
 
+  /*MODIFIED FOR TIC TAC TOE*/
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;
-  background-color: transparent;
+  background-color: #e6e6e6;
   border-radius: 555px 25px 15px 25px/25px 5px 35px 555px; }
   @media (min-width: 576px) {
     .jumbotron {
@@ -7256,7 +7257,7 @@ pre {
   border: 2px solid #333;
   border-radius: 15px 5px 5px 25px/5px 25px 25px 5px; }
 
-//MODIFIED FOR TIC TAC TOE
+/*MODIFIED FOR TIC TAC TOE*/
 .close,
 .close:hover,
 .close:focus,

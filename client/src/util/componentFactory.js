@@ -4,7 +4,7 @@ const produceWaitingCard = () => {
     const divProg = document.createElement('div');
     const divBar = document.createElement('div');
   
-    div.className = "alert alert-info";
+    div.className = "alert alert-primary";
     div.innerHTML = "Waiting for an Opponent...";
     div.id = "waitingCard";
     divComp.className = "bs-component";

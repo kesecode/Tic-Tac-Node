@@ -1,26 +1,9 @@
-input {
-  outline: none;
-  font-size: 1.0rem;
-  padding: 0 5px;
-}
-
-button {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  padding: 3px 15px;
-  color: white;
-  line-height: 25px;
-  background: #00bcd4;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
-  transition: all 150ms ease-in;
-  outline: none;
-}
-
 #revancheDeni {
   margin-left: 25px;
+}
+
+#gameboard {
+  display: none;
 }
 
 #onlineBatch {
@@ -39,36 +22,6 @@ button {
   display: none;
 }
 
-button.box {
-  border: 6px solid #2c3e50;
-  border-radius: 2px;
-  font-family: Helvetica;
-  font-weight: bold;
-  font-size: 4em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-button.download {
-  text-transform: uppercase;
-  font-size: 0.8rem;
-  padding: 3px 15px;
-  color: white;
-  line-height: 25px;
-  background-color: red;
-  border: none;
-  border-radius: 2px;
-  cursor: pointer;
-  box-shadow: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
-  transition: all 150ms ease-in;
-  outline: none;
-}
-
-button:hover {
-    background-color: #79d7e4;
-}
-
 #quit {
   display: none;
 }
@@ -77,21 +30,9 @@ button:hover {
   display: none;
 }
 
-button.endgame {
-  display: none;
-  color: rgb(255, 64, 129);
-  background-color: white;
-  box-shadow:none;
-}
-
-button.turn:hover {
-  background-color: #eaeaea;
-}
-
 .chat-wrapper {
   float: right;
   display: none;
-  background-color: rgb(255, 255, 255);
   width: 500px;
   height: 500px;
   max-height: 500px;
@@ -104,8 +45,11 @@ button.turn:hover {
   margin: 0 auto;
 }
 
+h1 {
+  text-align: center;
+}
+
 .name-wrapper {
-  background-color: rgb(255, 255, 255);
   width: 400px;
   height: 55px;
   max-height: 300px;
@@ -115,14 +59,12 @@ button.turn:hover {
   border: 1px solid lightgrey;
 }
 
-h1 {text-align: center}
-
 #events {
   flex-grow: 1;
   list-style: none;
   margin: 0;
   padding: 0;
-  border-bottom: 1px solid lightgrey;
+  border-bottom: 1px solid rgb(110, 110, 110);
   overflow-y: auto;
 }
 
@@ -134,32 +76,14 @@ h1 {text-align: center}
   padding: 30px 0px 0px 0px
 }
 
-#gameboard {
-  display: none;
-}
-
-.game-board
-{
+.game-board {
+  padding: 0px !important;
+  padding-top: 20px !important;
+  padding-left: 20px !important;
 	width: 500px;
 	height: 500px;
-	margin: 0 auto;
-  background-color: #34495e;
-  color: #fff;
-  border: 6px solid #2c3e50;
 	display: grid;
-	grid-template: repeat(3, 1fr) / repeat(3, 1fr);
-}
-
-.box
-{
-  border: 6px solid #2c3e50;
-  border-radius: 2px;
-  font-family: Helvetica;
-  font-weight: bold;
-  font-size: 4em;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
 html,
@@ -174,7 +98,10 @@ body {
   align-items: center;
   padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #f5f5f5;
+}
+
+#body {
+  background: rgb(247, 244, 244);
 }
 
 .form-signin {
@@ -263,4 +190,201 @@ body {
   .form-label-group input:-ms-input-placeholder {
     color: #777;
   }
+}
+
+
+
+
+
+
+/* BUTTONS
+---------------------------------------------------*/
+
+#button0 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button1 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button2 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button3 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button4 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button5 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button6 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button7 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+#button8 {
+  margin: 0px;
+  width: 145px;
+  height: 145px; 
+  font-weight: bold;
+  font-size: 5em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #17a2b8;
+}
+
+
+
+
+
+
+/* BUTTON ANIMATIONS
+---------------------------------------------------*/
+
+#button0:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button0:active {
+  background: #07535f;
+}
+
+#button1:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button1:active {
+  background: #07535f;
+}
+
+#button2:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button2:active {
+  background: #07535f;
+}
+
+#button3:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button3:active {
+  background: #07535f;
+}
+
+#button4:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button4:active {
+  background: #07535f;
+}
+
+#button5:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button5:active {
+  background: #07535f;
+}
+
+#button6:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button6:active {
+  background: #07535f;
+}
+
+#button7:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button7:active {
+  background: #07535f;
+}
+
+#button8:hover {
+  background: #0f7b8b;
+  border: 12px;
+}
+
+#button8:active {
+  background: #07535f;
 }
