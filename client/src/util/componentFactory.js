@@ -57,7 +57,7 @@ const produceInvitationCard = (revanche) => {
 
         //divCon
         cardElem.className = "card text-white bg-info mb-3";
-        cardElem.id = 'revancheInv';
+        cardElem.id = 'invitationCard';
 
 
         //divHead
@@ -106,7 +106,7 @@ const produceInvitationCard = (revanche) => {
 
         //divCon
         cardElem.className = "card text-white bg-secondary mb-3";
-        cardElem.id = 'revancheInv';
+        cardElem.id = 'invitationCard';
 
 
         //divHead
@@ -325,5 +325,77 @@ const produceAcceptedCard = (revanche) => {
         divBod.appendChild(title);
         divBod.appendChild(lBreak);
     }
+    return cardElem;
+}
+
+const produceAcceptedInvitationCard = (revanche) => {
+    const cardElem = document.createElement('div');
+    if(revanche) {
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const title = document.createElement('h4');
+
+
+        //divCon
+        cardElem.className = "card text-white bg-info mb-3";
+        cardElem.id = 'revancheInvTrue';
+
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Rematch invitation";
+
+        //divBod
+        divBod.className = "card-body";
+
+        //title
+        title.className = "card-title";
+        title.innerHTML = "You accepted! " + matchParameters.opponentsName + " begins...";
+
+
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+    } else {
+        const divHead = document.createElement('div');
+        const divBod = document.createElement('div');
+        const title = document.createElement('h4');
+
+
+        //divCon
+        cardElem.className = "card text-white bg-secondary mb-3";
+        cardElem.id = 'revancheInvTrue';
+
+        //divHead
+        divHead.className = "card-header";
+        divHead.innerHTML = "Rematch invitation";
+
+        //divBod
+        divBod.className = "card-body";
+
+        //title
+        title.className = "card-title";
+        title.innerHTML = "You accepted! " + matchParameters.opponentsName + " begins...";
+
+
+        cardElem.appendChild(divHead);
+        cardElem.appendChild(divBod);
+        divBod.appendChild(title);
+    }
+    return cardElem;
+} 
+
+const produceDrawCard = () => {
+    const cardElem = document.createElement('div');
+    const button = document.createElement('button');
+
+
+    cardElem.className = "alert alert-dismissible alert-warning";
+    cardElem.id = "drawAlert";
+    cardElem.innerHTML = "You both are too dumb to win!";
+    button.id = "playagain";
+    button.className = "close";
+    button.innerHTML = "Revanche";
+    cardElem.appendChild(button);
+
     return cardElem;
 }

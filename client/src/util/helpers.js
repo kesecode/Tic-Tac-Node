@@ -11,6 +11,15 @@ const addTurnListeners = () => {
   });
 };
 
+const updateInvitation = (isRevanche) => {
+  document.getElementById('invitationCard').remove();
+  clearNotifications();
+  document.getElementById('scoreBatch').style.display = 'inline';
+  const parent = document.querySelector('#output');
+  parent.appendChild(produceAcceptedInvitationCard(isRevanche));
+  scrollToBottom();
+}
+
 const updateTurnBatch = () => {
   turnBatch = document.getElementById('turnBatch');
   if(matchParameters.isOnTurn) turnBatch.innerHTML = 'Your turn';
