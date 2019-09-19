@@ -34,11 +34,12 @@ io.on('connection', (socket) => {
   usersOnline++;
   socket.hasChosenName = false;
   socket.isInGame = false;
+  socket.listenerAdded = false;
   socket.roomId = null;
   io.emit('updateOnlineUsers', usersOnline);
   logger.userConnection(socket, true, usersOnline);
   socket.join('entrance');
-  socket.emit('commitId', socket.id);
+  socket.emit('idCommit', socket.id);
 
 
   socket.on('userChoseName', (name) => {
@@ -53,21 +54,13 @@ io.on('connection', (socket) => {
     io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
   });
 
-  socket.on('revancheRequest', (roomId, socketId) => {
-   io.to(roomId).emit('revancheRequest', socketId);
+  socket.on('revancheRequest', (socketId) => {
+   io.to(socketId).emit('revancheRequest');
   });
 
-  socket.on('playAgainRequest', (roomId, socketId) => {
-   io.to(roomId).emit('playAgainRequest', socketId);
+  socket.on('playAgainRequest', (socketId) => {
+   io.to(socketId).emit('playAgainRequest');
   });
-
-  socket.on('revancheAccept', (id) => {
-    io.to(id).emit('revancheAccept');
-   });
- 
-   socket.on('playAgainAccept', (id) => {
-    io.to(id).emit('playAgainAccept');
-   });
 
   socket.on('matchmaking', () => {
     switchRoom(socket, 'matchmaking', ' -');
@@ -80,8 +73,8 @@ io.on('connection', (socket) => {
       } else {
         socket.emit('opponentFound', waitingUser.name);
         waitingUser.emit('opponentFound', socket.name);
-        switchRoom(waitingUser, waitingUser.id, 'Game');
-        switchRoom(socket, waitingUser.id, 'Game');
+        switchRoom(waitingUser, waitingUser.id + socket.id, 'Game');
+        switchRoom(socket, waitingUser.id + socket.id, 'Game');
         new matchController(waitingUser, socket);
         socket.isInGame = true;
         waitingUser.isInGame = true;
@@ -90,10 +83,10 @@ io.on('connection', (socket) => {
     });
   })
 
-  socket.on('endsession', () => {    
+  socket.on('endSession', () => {    
     switchRoom(socket, 'lobby', 'Lobby');
     if(waitingUser !== null) {
-      if(waitingUser.id === socket.id) waiting = null;
+      if(waitingUser.id === socket.id) waitingUser = null;
     }
   });
 
@@ -104,7 +97,7 @@ io.on('connection', (socket) => {
     logger.userConnection(socket, false, usersOnline);
     io.in('lobby').emit('updateOnlineUsers', usersOnline);
     if(waitingUser !== null) {
-      if(waitingUser.id === socket.id) waiting = null;
+      if(waitingUser.id === socket.id) waitingUser = null;
     }
   });
 });

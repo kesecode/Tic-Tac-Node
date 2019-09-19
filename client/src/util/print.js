@@ -1,6 +1,5 @@
 const initializeGameUI = () => {
   document.getElementById('onlineBatch').style.display = 'none';
-  document.getElementById('turnBatch').style.display = 'inline';
   document.getElementById('gameboard').style.display = 'grid';
   if(document.getElementById('waitingCard') != null) {
     let elem = document.getElementById('waitingCard');
@@ -19,35 +18,35 @@ const printWaitingCard = () => {
 };
 
 //Prints incoming invitations
-const printInvitation = (idSender, revanche) => {
+const printInvitation = (isRevanche) => {
   const parent = document.querySelector('#output');
-  if(client.socketId != idSender) {
-    if(revanche) {
-        parent.appendChild(produceInvitationCard(true));
-          document
-            .querySelector('#revancheAcc')
-            .addEventListener('click', onRevancheAccept);
-          document
-            .querySelector('#revancheDeni')
-            .addEventListener('click', onDeclineInvitation);
-    } else {
-        parent.appendChild(produceInvitationCard(false));
-          document
-            .querySelector('#revancheAcc')
-            .addEventListener('click', onRevancheAccept);
-          document
-            .querySelector('#revancheDeni')
-            .addEventListener('click', onDeclineInvitation);
-    }
-    client.recievedInvitation = true;
-  } else printAwaitAcceptanceCard(revanche);
+
+  if(isRevanche) {
+      parent.appendChild(produceInvitationCard(true));
+        document
+          .querySelector('#revancheAcc')
+          .addEventListener('click', onRevancheAccept);
+        document
+          .querySelector('#revancheDeni')
+          .addEventListener('click', onDeclineInvitation);
+  } else {
+      parent.appendChild(produceInvitationCard(false));
+        document
+          .querySelector('#revancheAcc')
+          .addEventListener('click', onRevancheAccept);
+        document
+          .querySelector('#revancheDeni')
+          .addEventListener('click', onDeclineInvitation);
+  }
+  client.recievedInvitation = true;
+
   scrollToBottom();
 };
 
 //Prints out information while waiting for the acknowledgement of the invitation
-const printAwaitAcceptanceCard = (revanche) => {
+const printAwaitAcceptanceCard = (isRevanche) => {
   const parent = document.querySelector('#output');
-  if(revanche) {
+  if(isRevanche) {
     parent.appendChild(produceAwaitAcceptanceCard(true));
     document
       .querySelector('#revancheCancel')
@@ -61,12 +60,12 @@ const printAwaitAcceptanceCard = (revanche) => {
 };
 
 //Prints information when opponent accepted the invitation
-const printAcceptedCard = (revanche) => {
+const printAcceptedCard = (isRevanche) => {
   document.getElementById('waitingCard').remove();
   clearNotifications();
   document.getElementById('scoreBatch').style.display = 'inline';
   const parent = document.querySelector('#output');
-  parent.appendChild(produceAcceptedCard(revanche));
+  parent.appendChild(produceAcceptedCard(isRevanche));
   
   scrollToBottom();
 }
@@ -89,20 +88,7 @@ const printDrawCard = () => {
   clearNotifications();
   const parent = document.querySelector('#output');
 
-  const div = document.createElement('div');
-  const button = document.createElement('button');
-
-
-  div.className = "alert alert-dismissible alert-danger";
-  div.id = "drawAlert";
-  div.innerHTML = "You both are too dumb to win!";
-  button.id = "playagain";
-  button.className = "close";
-  button.innerHTML = "Revanche";
-  div.appendChild(button);
-
-
-  parent.appendChild(div);
+  parent.appendChild(produceDrawCard());
 
   document
       .querySelector('#playagain')
@@ -110,43 +96,6 @@ const printDrawCard = () => {
 
   scrollToBottom();
 }
-
-//TODO refactor
-const updateInvitation = () => {
-  document.getElementById('revancheInv').remove();
-  clearNotifications();
-  document.getElementById('scoreBatch').style.display = 'inline';
-  const parent = document.querySelector('#output');
-
-  const divCon = document.createElement('div');
-  const divHead = document.createElement('div');
-  const divBod = document.createElement('div');
-  const title = document.createElement('h4');
-
-
-    //divCon
-    divCon.className = "card text-white bg-info mb-3";
-    divCon.id = 'revancheInvTrue';
-
-    //divHead
-    divHead.className = "card-header";
-    divHead.innerHTML = "Rematch invitation";
-
-    //divBod
-    divBod.className = "card-body";
-
-    //title
-    title.className = "card-title";
-    title.innerHTML = "You accepted! " + matchParameters.opponentsName + " begins...";
-
-
-    divCon.appendChild(divHead);
-    divCon.appendChild(divBod);
-    divBod.appendChild(title);
-    parent.appendChild(divCon);
-
-    scrollToBottom();
-  };
 
 const writeEvent = (text, type) => {
   const parent = document.querySelector('#output');

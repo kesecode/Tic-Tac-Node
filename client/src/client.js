@@ -1,5 +1,3 @@
-let turnListenersAdded = false;
-
 let client = {
   socket: io(),
   socketId: null,
@@ -12,7 +10,8 @@ let matchParameters = {
   isOnTurn: false,
   opponentsName: null,
   opponentsId: null,
-  isInGame: false
+  isInGame: false,
+  turnListenersAdded: false
 };
 
 
@@ -38,13 +37,13 @@ const onDeclineInvitation = () => {
 
 const onRevancheAccept = () => {
   resetGameBoard();
-  updateInvitation();
+  updateInvitation(true);
   client.socket.emit('revancheAccept');
 };
 
 const onPlayAgainAccept = () => {
   resetGameBoard();
-  updateInvitation();
+  updateInvitation(false);
   client.socket.emit('playAgainAccept');
 };
 
@@ -54,7 +53,7 @@ const onFormSubmitted = (e) => {
   const input = document.querySelector('#chat');
   const text = input.value;
   input.value = '';
-  client.socket.emit('message', text, client.roomId, client.username);
+  if(client.roomId !== 'matchmaking') client.socket.emit('message', text, client.roomId, client.username);
 };
 
 const onChoseName = (e) => {
@@ -74,7 +73,8 @@ const onChoseName = (e) => {
 };
 
 const onRevancheRequest = () => {
-  client.socket.emit('revancheRequest', client.roomId, client.socketId);
+  client.socket.emit('revancheRequest', matchParameters.opponentsId);
+  printAwaitAcceptanceCard(true)
 };
 
 const onPlayAgainRequest = () => {
@@ -82,5 +82,6 @@ const onPlayAgainRequest = () => {
 };
 
 function playAgain() {
-  client.socket.emit('playAgainRequest', client.roomId, client.socketId);
+  client.socket.emit('playAgainRequest', matchParameters.opponentsId);
+  printAwaitAcceptanceCard(false)
 };

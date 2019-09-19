@@ -6,7 +6,7 @@ client.socket.on('turnBroadcast', (buttonValue, char) => {
 
 client.socket.on('isWaiting', printWaitingCard);
 
-client.socket.on('commitId', (socketId) => {
+client.socket.on('idCommit', (socketId) => {
   client.socketId = socketId;
 })
 
@@ -15,8 +15,7 @@ client.socket.on('opponentFound', (opponentsName) => {
   writeEvent('Opponent found! -  You\'re playing against ' + opponentsName, 'info');
 });
 
-client.socket.on('matchparameter', (roomId, opponentsName, opponentsId) => {
-  client.roomId = roomId;
+client.socket.on('matchparameter', (opponentsName, opponentsId) => {
   matchParameters.opponentsName = opponentsName;
   matchParameters.opponentsId = opponentsId;
 });
@@ -27,9 +26,9 @@ client.socket.on('scoreBroadcast', (clientScore, opponentScore) => {
 
 client.socket.on('gameBegins', () => {
   resetGameBoard();
-  if(!turnListenersAdded) {
+  if(!client.turnListenersAdded) {
     addTurnListeners();
-    turnListenersAdded = true;
+    client.turnListenersAdded = true;
   }
   initializeGameUI();
 });
@@ -37,7 +36,8 @@ client.socket.on('gameBegins', () => {
 client.socket.on('gameover', () => {
   clearNotifications();
   resetGameBoard();
-  client.socket.emit('endsession');
+  matchParameters.isOnTurn = false;
+  client.socket.emit('endSession');
   document.getElementById('turnBatch').style.display = 'none';
   document.getElementById('onlineBatch').style.display = 'inline';
   document.getElementById('scoreBatch').style.display = 'none';
@@ -51,12 +51,12 @@ client.socket.on('roomSwitched', (roomId, roomName) => {
   client.roomId = roomId;
 });
 
-client.socket.on('revancheRequest', (idSender) => {
-  printInvitation(idSender, true);
+client.socket.on('revancheRequest', () => {
+  printInvitation(true);
 });
 
-client.socket.on('playAgainRequest', (idSender) => {
-  printInvitation(idSender, false);
+client.socket.on('playAgainRequest', () => {
+  printInvitation(false);
 });
 
 client.socket.on('revancheAccepted', () => {
@@ -73,12 +73,12 @@ client.socket.on('updateOnlineUsers', (online) => {
   updateOnlineBatch(online);
 });
 
-client.socket.on('broadcastWinner', (result, animation) => {
+client.socket.on('winnerBroadcast', (result, animation) => {
   printResultCard(result);
   animate(animation);
 });
 
-client.socket.on('broadcastDraw', () => {
+client.socket.on('drawBroadcast', () => {
   printDrawCard();
 });
 
@@ -87,6 +87,14 @@ client.socket.on('setOnTurn', (isOnTurn) => {
   updateTurnBatch();
 })
 
+client.socket.on('gameState', (isActive) => {
+  if(isActive) {
+    document.getElementById('turnBatch').style.display = 'inline';
+  } else {
+    document.getElementById('turnBatch').style.display = 'none';
+    matchParameters.isOnTurn = false;
+  }
+});
 
 document
   .querySelector('#chat-form')
