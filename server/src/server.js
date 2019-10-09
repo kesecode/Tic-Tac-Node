@@ -30,7 +30,7 @@ const io = socketio(server, { pingTimeout: 120000 });
 
 
 //connection
-io.on('connection', (socket) => {  
+io.on('connection', (socket) => {
   usersOnline++;
   socket.hasChosenName = false;
   socket.isInGame = false;
@@ -43,7 +43,7 @@ io.on('connection', (socket) => {
 
 
   socket.on('userChoseName', (name) => {
-    if (socket.hasChosenName == false) {
+    if (socket.hasChosenName === false) {
       socket.name = name;
       switchRoom(socket, 'lobby', 'Lobby');
       socket.hasChosenName = true;
@@ -51,7 +51,8 @@ io.on('connection', (socket) => {
   })
 
   socket.on('message', (text, roomId, name) => {        
-    io.in(roomId).emit('message', name + ' says: ' + text, 'secondary');
+    socket.to(roomId).emit('message', {text: name + ' says: ' + text, type: 'secondary'});
+    io.to(socket.id).emit('message', {text: 'You' + ' said: ' + text, type: 'primary'});
   });
 
   socket.on('revancheRequest', (socketId) => {
@@ -63,6 +64,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('matchmaking', () => {
+    console.log(socket.id + ' started Matchmaking!');
     switchRoom(socket, 'matchmaking', ' -');
 
 
@@ -118,7 +120,7 @@ function switchRoom (socket, roomId, roomName) {
   if (socket.roomId !== null) socket.leave(socket.roomId);
   socket.join(roomId);
   socket.roomId = roomId
-  socket.emit('roomSwitched', roomId, roomName);
+  socket.emit('roomSwitched', {roomId: roomId, roomName: roomName});
 }
 
 

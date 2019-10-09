@@ -33,7 +33,7 @@ const printInvitation = (isRevanche) => {
       parent.appendChild(produceInvitationCard(false));
         document
           .querySelector('#revancheAcc')
-          .addEventListener('click', onRevancheAccept);
+          .addEventListener('click', onPlayAgainAccept);
         document
           .querySelector('#revancheDeni')
           .addEventListener('click', onDeclineInvitation);

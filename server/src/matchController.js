@@ -74,12 +74,12 @@ class MatchController {
 
 
   sendToPlayer(playerIndex, msg) {
-    this.players[playerIndex].emit('message', msg, 'info');
+    this.players[playerIndex].emit('message', {text: msg, type: 'info'});
   }
 
   sendToPlayers(msg) {
     this.players.forEach((player) => {
-      player.emit('message', msg, 'info');
+      player.emit('message', {text: msg, type: 'info'});
     });
   }
 
@@ -92,6 +92,8 @@ class MatchController {
 
   broadcastScore() {
     this.players.forEach((player, idx) => {
+      console.log('BROADCASTSCORE');
+      
       if(idx == 0) player.emit('scoreBroadcast', this.scoreP0, this.scoreP1, this.round);
       else player.emit('scoreBroadcast', this.scoreP1, this.scoreP0, this.round);
     });
@@ -194,24 +196,27 @@ class MatchController {
 
   //turn would be the coordinates of the selected fields passed as array
   onTurn(playerIndex, buttonValue) {
-    if(playerIndex == this.playerOnTurn) {
-      let char;
-      if (playerIndex == 0) char = 'X';
-      else char = 'O';
-      this.court[buttonValue] = playerIndex;
-      this.broadcastTurn(buttonValue, char);
-      if (this.turnCount > 3) {
-        if(this.check(playerIndex) === true) {
-          if(playerIndex == 0) this.scoreP0 ++;
-          if(playerIndex == 1) this.scoreP1 ++;
-          this.lastWinner = this.playerOnTurn;
-          this.broadcastWinner(this.playerOnTurn);
-          this.endGame(true);
+    console.log('TURN');
+    if(this.gameRuns) {
+      if(playerIndex == this.playerOnTurn) {
+        let char;
+        if (playerIndex == 0) char = 'X';
+        else char = 'O';
+        this.court[buttonValue] = playerIndex;
+        this.broadcastTurn(buttonValue, char);
+        if (this.turnCount > 3) {
+          if(this.check(playerIndex) === true) {
+            if(playerIndex == 0) this.scoreP0 ++;
+            if(playerIndex == 1) this.scoreP1 ++;
+            this.lastWinner = this.playerOnTurn;
+            this.broadcastWinner(this.playerOnTurn);
+            this.endGame(true);
+          }
         }
-      }
-      if (this.turnCount >= 8) {
-        this.endGame(true);
-        if (this.check(0) === false && this.check(1) === false) this.broadcastWinner(2);
+        if (this.turnCount >= 8) {
+          this.endGame(true);
+          if (this.check(0) === false && this.check(1) === false) this.broadcastWinner(2);
+        }
       }
     }
     this.turnCount++;

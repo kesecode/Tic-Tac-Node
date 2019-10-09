@@ -1,4 +1,8 @@
-client.socket.on('message', writeEvent);
+client.socket.on('message', (data) => {
+  let text = data.text;
+  let type = data.type;
+  writeEvent(text, type);
+});
 
 client.socket.on('turnBroadcast', (buttonValue, char) => {
   writeOnGameBoard(buttonValue, char);
@@ -51,7 +55,9 @@ client.socket.on('gameover', () => {
   document.getElementById('gameboard').style.display = 'none';
 });
 
-client.socket.on('roomSwitched', (roomId, roomName) => {
+client.socket.on('roomSwitched', (data) => {
+  let roomName = data.roomName;
+  let roomId = data.roomId;
   document.getElementById('chatroomBatch').innerHTML = 'Chatroom: ' + roomName;
   client.roomId = roomId;
 });

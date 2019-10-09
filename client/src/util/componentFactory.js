@@ -62,7 +62,7 @@ const produceInvitationCard = (revanche) => {
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation";
+        divHead.innerHTML = "Revanche invitation";
 
         //divBod
         divBod.className = "card-body";
@@ -235,7 +235,7 @@ const produceAwaitAcceptanceCard = (revanche) => {
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Invitation send";
+        divHead.innerHTML = "Rematch invitation send";
 
         //divBod
         divBod.className = "card-body";
@@ -274,7 +274,7 @@ const produceAcceptedCard = (revanche) => {
     
     
         //divCon
-        cardElem.className = "card text-white bg-success mb-3";
+        cardElem.className = "card text-white bg-info mb-3";
     
         //divHead
         divHead.className = "card-header";
@@ -303,11 +303,11 @@ const produceAcceptedCard = (revanche) => {
 
 
         //divCon
-        cardElem.className = "card text-white bg-success mb-3";
+        cardElem.className = "card text-white bg-secondary mb-3";
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Revanche invitation accepted";
+        divHead.innerHTML = "Rematch invitation accepted";
 
         //divBod
         divBod.className = "card-body";
@@ -342,7 +342,7 @@ const produceAcceptedInvitationCard = (revanche) => {
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation";
+        divHead.innerHTML = "Revanche invitation";
 
         //divBod
         divBod.className = "card-body";
