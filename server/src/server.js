@@ -1,8 +1,8 @@
 //loading node.js modules
 const express = require('express');
 const socketio = require('socket.io');
-const matchController = require('./matchController.js');
-const Logger = require('./logger.js');
+const matchController = require('./MatchController.js');
+const Logger = require('./Logger.js');
 const port = 4000;
 
 

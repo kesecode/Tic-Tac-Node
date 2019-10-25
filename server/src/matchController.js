@@ -1,4 +1,4 @@
-const Logger = require('./logger.js');
+const Logger = require('./Logger.js');
 
 class MatchController {
   constructor(p1, p2) {
