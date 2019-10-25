@@ -70,6 +70,8 @@ class MatchController {
       this.players[1].emit('setOnTurn', false);
     }
     this.animation = null;
+    this.players[0].emit('cSharpSaveReset');
+    this.players[1].emit('cSharpSaveReset');
   }
 
 
@@ -92,10 +94,9 @@ class MatchController {
 
   broadcastScore() {
     this.players.forEach((player, idx) => {
-      console.log('BROADCASTSCORE');
       
-      if(idx == 0) player.emit('scoreBroadcast', this.scoreP0, this.scoreP1, this.round);
-      else player.emit('scoreBroadcast', this.scoreP1, this.scoreP0, this.round);
+      if(idx == 0) player.emit('scoreBroadcast', {clientScore: this.scoreP0, opponentsScore: this.scoreP1, round: this.round});
+      else player.emit('scoreBroadcast', {clientScore: this.scoreP1, opponentsScore: this.scoreP0, round: this.round});
     });
   }
 
@@ -147,18 +148,18 @@ class MatchController {
       });
     }
     this.players.forEach((player) => {
-      player.emit('turnBroadcast', buttonValue, char);
+      player.emit('turnBroadcast', {buttonValue: buttonValue, char: char});
     });
   }
 
   broadcastWinner(winner) {
       if (winner == 0) {
-        this.players[winner].emit('winnerBroadcast', true, this.animation);
-        this.players[1].emit('winnerBroadcast', false, this.animation);
+        this.players[winner].emit('winnerBroadcast', { isWinner: true, animation: this.animation});
+        this.players[1].emit('winnerBroadcast', { isWinner: false, animation: this.animation});
       }
       else if (winner == 1) {
-        this.players[winner].emit('winnerBroadcast', true, this.animation);
-        this.players[0].emit('winnerBroadcast', false, this.animation);
+        this.players[winner].emit('winnerBroadcast', { isWinner: true, animation: this.animation});
+        this.players[0].emit('winnerBroadcast', { isWinner: false, animation: this.animation});
       }
       else if (winner == 2) {
         this.players.forEach((player) => {
@@ -170,12 +171,24 @@ class MatchController {
 
   sendMatchParameters() {
     if (this.playerOnTurn == 0) {
-      this.players[0].emit('matchparameter', this.players[1].name, this.players[1].id, true);
-      this.players[1].emit('matchparameter', this.players[0].name, this.players[0].id, false);
+      this.players[0].emit('matchParameter', {opponentsName: this.players[1].name, opponentsId: this.players[1].id, firstTurn: true});
+      this.players[1].emit('matchParameter', {opponentsName: this.players[0].name, opponentsId: this.players[0].id, firstTurn: false});
     }
     else {
-      this.players[0].emit('matchparameter', this.players[1].name, this.players[1].id, false);
-      this.players[1].emit('matchparameter', this.players[0].name, this.players[0].id, true);
+      this.players[0].emit('matchParameter', {opponentsName: this.players[1].name, opponentsId: this.players[1].id, firstTurn: true});
+      this.players[1].emit('matchParameter', {opponentsName: this.players[0].name, opponentsId: this.players[0].id , firstTurn: false});
+    }
+  }
+
+  cheatAlert(cheaterIdx) {
+    this.clientServerBoardAdjustment();
+
+    if(cheaterIdx == 0) {
+      this.players[1].emit("message", {text: this.players[0].name + ' tried to cheat! ...It\'s your turn!', type: 'danger'});
+      this.players[0].emit("message", {text: 'Shame on you!', type: 'danger'});
+    } else {
+      this.players[0].emit("message", {text: this.players[1].name + ' tried to cheat! ...It\'s your turn!', type: 'danger'});
+      this.players[1].emit("message", {text: 'Shame on you!', type: 'danger'});
     }
   }
 
@@ -202,8 +215,14 @@ class MatchController {
         let char;
         if (playerIndex == 0) char = 'X';
         else char = 'O';
-        this.court[buttonValue] = playerIndex;
-        this.broadcastTurn(buttonValue, char);
+        if (this.court[buttonValue] == null) {
+          this.court[buttonValue] = playerIndex;
+          this.broadcastTurn(buttonValue, char);
+        }
+        else {
+          this.cheatAlert(playerIndex);
+          this.turnCount--;
+        }
         if (this.turnCount > 3) {
           if(this.check(playerIndex) === true) {
             if(playerIndex == 0) this.scoreP0 ++;
@@ -220,7 +239,18 @@ class MatchController {
       }
     }
     this.turnCount++;
+    this.clientServerBoardAdjustment();
     this.toggleTurn();
+  }
+
+  clientServerBoardAdjustment() {
+    for (let index = 0; index < this.court.length; index++) {
+      let charac;
+      if(this.court[index] == null) charac = '';
+      if(this.court[index] == 0) charac = 'X';
+      if(this.court[index] == 1) charac = 'O';
+      this.broadcastTurn(index, charac);
+    }
   }
 
   check(playerIndex) {

@@ -4,8 +4,8 @@ client.socket.on('message', (data) => {
   writeEvent(text, type);
 });
 
-client.socket.on('turnBroadcast', (buttonValue, char) => {
-  writeOnGameBoard(buttonValue, char);
+client.socket.on('turnBroadcast', (data) => {
+  writeOnGameBoard(data.buttonValue, data.char);
 });
 
 client.socket.on('isWaiting', printWaitingCard);
@@ -19,13 +19,13 @@ client.socket.on('opponentFound', (opponentsName) => {
   writeEvent('Opponent found! -  You\'re playing against ' + opponentsName, 'info');
 });
 
-client.socket.on('matchparameter', (opponentsName, opponentsId) => {
-  matchParameters.opponentsName = opponentsName;
-  matchParameters.opponentsId = opponentsId;
+client.socket.on('matchParameter', (data) => {
+  matchParameters.opponentsName = data.opponentsName;
+  matchParameters.opponentsId = data.opponentsId;
 });
 
-client.socket.on('scoreBroadcast', (clientScore, opponentScore) => {
-  updateScoreBatch(clientScore, opponentScore);
+client.socket.on('scoreBroadcast', (data) => {
+  updateScoreBatch(data.clientScore, data.opponentsScore);
 });
 
 client.socket.on('gameBegins', () => {
@@ -86,9 +86,9 @@ client.socket.on('updateOnlineUsers', (online) => {
   updateOnlineBatch(online);
 });
 
-client.socket.on('winnerBroadcast', (result, animation) => {
-  printResultCard(result);
-  animate(animation);
+client.socket.on('winnerBroadcast', (data) => {
+  printResultCard(data.isWinner);
+  animate(data.animation);
 });
 
 client.socket.on('drawBroadcast', () => {

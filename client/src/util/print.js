@@ -79,6 +79,10 @@ const printResultCard = (result) => {
     document
       .querySelector('#revanche')
       .addEventListener('click', onRevancheRequest);
+  } else {
+    document
+      .querySelector('#playagain')
+      .addEventListener('click', onPlayAgainRequest);
   }
   scrollToBottom();
 };

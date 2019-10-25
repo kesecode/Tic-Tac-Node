@@ -50,7 +50,7 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('message', (text, roomId, name) => {        
+  socket.on('message', (text, roomId, name) => {
     socket.to(roomId).emit('message', {text: name + ' says: ' + text, type: 'secondary'});
     io.to(socket.id).emit('message', {text: 'You' + ' said: ' + text, type: 'primary'});
   });
@@ -92,10 +92,14 @@ io.on('connection', (socket) => {
     }
   });
 
+  socket.on('quit', () => {
+    if(waitingUser == socket) socket.emit('gameover');
+  })
+
   socket.on('disconnect', () => {
     usersOnline--;
     if(socket.isInGame) io.to(socket.roomId).emit('gameover');
-    //io.to(socket.roomId).emit('message', socket.name + ' disconnected from game!', 'info');
+    io.to(socket.roomId).emit('message', {text: socket.name + ' disconnected from game!', type: 'info'});
     logger.userConnection(socket, false, usersOnline);
     io.in('lobby').emit('updateOnlineUsers', usersOnline);
     if(waitingUser !== null) {

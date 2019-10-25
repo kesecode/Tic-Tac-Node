@@ -31,6 +31,10 @@ const produceResultCard = (result) => {
       div.className = "alert alert-dismissible alert-success";
       div.id = "winAlert";
       div.innerHTML = "Well done... You won the game!";
+      button.id = "playagain";
+      button.className = "close";
+      button.innerHTML = "Revanche";
+      div.appendChild(button);
     } else {
       div.className = "alert alert-dismissible alert-danger";
       div.id = "loseAlert";
@@ -314,7 +318,7 @@ const produceAcceptedCard = (revanche) => {
 
         //title
         title.className = "card-title";
-        title.innerHTML = matchParameters.opponentsName + " really really wants you!";
+        title.innerHTML = matchParameters.opponentsName + " wants to play again!";
 
         lBreak.innerHTML = ' ';
 
