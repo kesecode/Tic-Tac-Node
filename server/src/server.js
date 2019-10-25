@@ -335,7 +335,7 @@ class Logger {
 //loading node.js modules
 const express = require('express');
 const socketio = require('socket.io');
-const port = 4000;
+const port = 80;
 
 
 let waitingUser = null;
@@ -396,7 +396,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('matchmaking', () => {
-    console.log(socket.id + ' started Matchmaking!');
+    console.log(socket.id + ' startedc Matchmaking!');
     switchRoom(socket, 'matchmaking', ' -');
 
 
