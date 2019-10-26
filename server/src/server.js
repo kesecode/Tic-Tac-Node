@@ -353,7 +353,7 @@ logger = new Logger();
 const app = express();
 
 const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(sslPort);
+httpsServer.listen();
 logger.serverStarted(sslPort)
 
 
