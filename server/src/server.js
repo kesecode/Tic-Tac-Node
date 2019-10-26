@@ -356,7 +356,7 @@ const app = express();
 http.createServer(function (req, res) {
   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
   res.end();
-}).listen(80);
+}).listen();
 
 const httpsServer = https.createServer(credentials, app);
 httpsServer.listen();
