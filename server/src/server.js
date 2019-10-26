@@ -335,7 +335,14 @@ class Logger {
 //loading node.js modules
 const express = require('express');
 const socketio = require('socket.io');
-const port = 80;
+const https = require('https');
+const fs = require('fs');
+const sslPort = 443;
+
+const privateKey = fs.readFileSync( './sslFiles/*.tictacnode.de_private_key.key', 'utf8');
+const certificate = fs.readFileSync( './sslFiles/tictacnode.de_ssl_certificate.cer', 'utf8');
+const credentials = {key: privateKey, cert: certificate};
+
 
 
 let waitingUser = null;
@@ -344,9 +351,11 @@ logger = new Logger();
 
 //App setup
 const app = express();
-const server = app.listen(port, () => {
-  logger.serverStarted(port);
-});
+
+const httpsServer = https.createServer(credentials, app);
+httpsServer.listen(sslPort);
+logger.serverStarted(sslPort)
+
 
 const clientPath = `${__dirname}/../../client`;
 
@@ -354,7 +363,7 @@ const clientPath = `${__dirname}/../../client`;
 app.use(express.static(clientPath));
 
 //Socket setup
-const io = socketio(server, { pingTimeout: 120000 });
+const io = socketio(httpsServer, { pingTimeout: 120000 });
 
 
 //___________________________________________________________
@@ -461,7 +470,7 @@ function switchRoom (socket, roomId, roomName) {
 
 
 //error logging
-server.on('error', (err) => {
+httpsServer.on('error', (err) => {
   logger.serverError(err);
 });
 
