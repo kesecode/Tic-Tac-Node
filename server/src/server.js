@@ -336,6 +336,7 @@ class Logger {
 const express = require('express');
 const socketio = require('socket.io');
 const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const sslPort = 443;
 
@@ -351,6 +352,11 @@ logger = new Logger();
 
 //App setup
 const app = express();
+
+http.createServer(function (req, res) {
+  res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+  res.end();
+}).listen(80);
 
 const httpsServer = https.createServer(credentials, app);
 httpsServer.listen();
