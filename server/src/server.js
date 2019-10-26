@@ -356,11 +356,10 @@ const app = express();
 http.createServer(function (req, res) {
   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
   res.end();
-}).listen(4000);
+}).listen(8080, () => logger.serverStarted(8080));
 
 const httpsServer = https.createServer(credentials, app);
-httpsServer.listen(5000);
-logger.serverStarted(sslPort)
+httpsServer.listen(3443, () => logger.serverStarted(3443));
 
 
 const clientPath = `${__dirname}/../../client`;
