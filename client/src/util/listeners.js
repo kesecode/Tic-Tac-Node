@@ -122,8 +122,8 @@ document
   .addEventListener('click', onMatchmaking);
 
 document
-.querySelector('#imprint')
-.addEventListener('click', onImprint);
+.querySelector('#legalnotice')
+.addEventListener('click', onLegalNotice);
 
 document
 .querySelector('#lobby')

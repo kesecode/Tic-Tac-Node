@@ -23,11 +23,11 @@ const onMatchmaking = (e) => {
   document.getElementById('quit').style.display = 'block';
 };
 
-const onImprint = (e) => {
+const onLegalNotice = (e) => {
   e.preventDefault();
   document.getElementById('game-controls').style.display = 'none';
   document.getElementById('main-container').style.display = 'none';
-  document.getElementById('imprint-wrapper').style.display = 'block';
+  document.getElementById('legalnotice-wrapper').style.display = 'block';
   document.getElementById('lobby').style.display = 'block';
 };
 
@@ -35,7 +35,7 @@ const onLobby = (e) => {
   e.preventDefault();
   document.getElementById('lobby').style.display = 'none';
   document.getElementById('main-container').style.display = 'block';
-  document.getElementById('imprint-wrapper').style.display = 'none';
+  document.getElementById('legalnotice-wrapper').style.display = 'none';
   document.getElementById('game-controls').style.display = 'block';
 };
 
