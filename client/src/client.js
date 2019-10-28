@@ -25,7 +25,7 @@ const onMatchmaking = (e) => {
 
 const onImprint = (e) => {
   e.preventDefault();
-  document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('game-controls').style.display = 'none';
   document.getElementById('main-container').style.display = 'none';
   document.getElementById('imprint-wrapper').style.display = 'block';
   document.getElementById('lobby').style.display = 'block';
@@ -36,7 +36,7 @@ const onLobby = (e) => {
   document.getElementById('lobby').style.display = 'none';
   document.getElementById('main-container').style.display = 'block';
   document.getElementById('imprint-wrapper').style.display = 'none';
-  if(client.username !== null) document.getElementById('matchmaking').style.display = 'block';
+  document.getElementById('game-controls').style.display = 'block';
 };
 
 const onQuit = () => {
