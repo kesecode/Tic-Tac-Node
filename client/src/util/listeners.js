@@ -122,6 +122,14 @@ document
   .addEventListener('click', onMatchmaking);
 
 document
+.querySelector('#imprint')
+.addEventListener('click', onImprint);
+
+document
+.querySelector('#lobby')
+.addEventListener('click', onLobby);
+
+document
   .querySelector('#quit')
   .addEventListener('click', onQuit);
 

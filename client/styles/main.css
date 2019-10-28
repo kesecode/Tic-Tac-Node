@@ -30,6 +30,17 @@
   display: none;
 }
 
+#lobby {
+  display: none;
+}
+
+#imprint-wrapper {
+  display: none;
+  width: 500px;
+  height: 500px;
+  max-height: 500px;
+}
+
 .chat-wrapper {
   float: right;
   display: none;

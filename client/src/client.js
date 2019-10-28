@@ -23,6 +23,22 @@ const onMatchmaking = (e) => {
   document.getElementById('quit').style.display = 'block';
 };
 
+const onImprint = (e) => {
+  e.preventDefault();
+  document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('main-container').style.display = 'none';
+  document.getElementById('imprint-wrapper').style.display = 'block';
+  document.getElementById('lobby').style.display = 'block';
+};
+
+const onLobby = (e) => {
+  e.preventDefault();
+  document.getElementById('lobby').style.display = 'none';
+  document.getElementById('main-container').style.display = 'block';
+  document.getElementById('imprint-wrapper').style.display = 'none';
+  if(client.username !== null) document.getElementById('matchmaking').style.display = 'block';
+};
+
 const onQuit = () => {
   client.socket.emit('quit', 'quit');
 };
