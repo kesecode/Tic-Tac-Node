@@ -337,17 +337,9 @@ const express = require('express');
 const socketio = require('socket.io');
 const https = require('https');
 const http = require('http');
-const path = require('path');
-const RewriteMiddleware = require('express-htaccess-middleware');
 const fs = require('fs');
 const sslPort = 443;
 const port = 80;
-
-const RewriteOptions = {
-  file: path.resolve('.htaccess'),
-  verbose: (process.env.ENV_NODE == 'development'),
-  watch: (process.env.ENV_NODE == 'development'),
-};
 
 const privateKey = fs.readFileSync( './sslFiles/*.tictacnode.de_private_key.key', 'utf8');
 const certificate = fs.readFileSync( './sslFiles/tictacnode.de_ssl_certificate.cer', 'utf8');
@@ -362,7 +354,14 @@ logger = new Logger();
 //App setup
 const app = express();
 
-app.use(RewriteMiddleware(RewriteOptions));
+app.use(function forceLiveDomain(req, res, next) {
+  // Don't allow user to hit Heroku now that we have a domain
+  var host = req.get('Host');
+  if (host === 'tictacnode.de') {
+    return res.redirect(301, 'https://www.tictacnode.de/');
+  }
+  return next();
+});
 
 http.createServer(function (req, res) {
   res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
