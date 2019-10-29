@@ -226,7 +226,6 @@ class MatchController {
 
   //turn would be the coordinates of the selected fields passed as array
   onTurn(playerIndex, buttonValue) {
-    console.log('TURN');
     if(this.gameRuns) {
       if(playerIndex == this.playerOnTurn) {
         let char;
@@ -492,7 +491,6 @@ io.on('connection', (socket) => {
   });
 
   socket.on('matchmaking', () => {
-    console.log(socket.id + ' startedc Matchmaking!');
     switchRoom(socket, 'matchmaking', ' -');
 
 
