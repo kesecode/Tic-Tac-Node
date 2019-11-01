@@ -127,6 +127,10 @@ document
   .addEventListener('submit', onFormSubmitted);
 
 document
+  .querySelector('#say')
+  .addEventListener('click', onFormSubmitted);
+
+document
   .querySelector('#login-form')
   .addEventListener('submit', onChoseName);
 
