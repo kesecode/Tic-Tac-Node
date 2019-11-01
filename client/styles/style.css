@@ -1,0 +1,530 @@
+.top {
+    margin-bottom: 12rem;
+}
+
+.regular-box-wrapper {
+    margin: 1rem auto;
+    width: 31rem;
+    height: 31rem;
+}
+
+.login-wrapper {
+    max-width: 31rem !important;
+    max-height: 31rem !important;
+    margin: 1.5rem auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+}
+
+#legalnotice-wrapper {
+    display: none;
+    width: 26rem;
+    height: 31rem;
+}
+
+.batches {
+    margin: 0 auto;
+    margin-bottom: 1rem;
+    margin-left: 1rem !important;
+}
+
+.center {
+    margin: 0 auto !important;
+}
+
+.jt-padding {
+    padding-top: 2rem !important;
+}
+
+#body {
+    background: rgb(247, 244, 244);
+}
+
+#game-col{
+    display: none;
+}
+
+#chat-col {
+    display: none;
+}
+  
+#onlineBatch {
+display: none;
+}
+
+#turnBatch {
+display: none;
+}
+
+#chatroomBatch {
+display: none;
+}
+
+#scoreBatch {
+display: none;
+}
+
+#quit {
+display: none;
+}
+
+#matchmaking {
+display: none;
+}
+
+#lobby {
+display: none;
+}
+
+#dropdown04 {
+    margin-right: 2rem;
+}
+
+
+
+/* 
+*
+*
+* LOGIN
+*
+*
+-------------------------------------------------- */
+
+  .form-signin {
+    width: 100%;
+    max-width: 30rem;
+    max-height: 30rem;
+    padding: 1rem;
+    margin: auto;
+  }
+  
+  .form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+  
+  .form-label-group > input,
+  .form-label-group > label {
+    height: 3.125rem;
+    padding: .75rem;
+  }
+  
+  .form-label-group > label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0; /* Override default `<label>` margin */
+    line-height: 1.5;
+    color: #495057;
+    pointer-events: none;
+    cursor: text; /* Match the input under the label */
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
+  }
+  
+  .form-label-group input::-webkit-input-placeholder {
+    color: transparent;
+  }
+  
+  .form-label-group input:-ms-input-placeholder {
+    color: transparent;
+  }
+  
+  .form-label-group input::-ms-input-placeholder {
+    color: transparent;
+  }
+  
+  .form-label-group input::-moz-placeholder {
+    color: transparent;
+  }
+  
+  .form-label-group input::placeholder {
+    color: transparent;
+  }
+  
+  .form-label-group input:not(:placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+  }
+  
+  .form-label-group input:not(:placeholder-shown) ~ label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 12px;
+    color: #777;
+  }
+  
+  /* Fallback for Edge
+  -------------------------------------------------- */
+  @supports (-ms-ime-align: auto) {
+    .form-label-group > label {
+      display: none;
+    }
+    .form-label-group input::-ms-input-placeholder {
+      color: #777;
+    }
+  }
+  
+  /* Fallback for IE
+  -------------------------------------------------- */
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .form-label-group > label {
+      display: none;
+    }
+    .form-label-group input:-ms-input-placeholder {
+      color: #777;
+    }
+  }
+
+
+
+/* 
+*
+*
+* CHAT
+*
+*
+-------------------------------------------------- */
+  .eventlist {
+    flex-grow: 1;
+    list-style: none;
+    margin: 0;
+    border-bottom: 0.05rem solid rgb(110, 110, 110);
+    overflow-y: auto;
+  }
+
+  .eventlist-height {
+    height: 19rem;
+  }
+  
+  .chatInput-wrapper {
+    padding: 1.5rem 0rem 0rem 0rem
+  }
+
+  #events {
+    padding-inline-start: 0rem !important;
+  }
+
+  #chat-input {
+    position: relative;
+    width: 19rem;
+  }
+
+  #say {
+      margin-left: 0;
+  }
+
+
+
+
+
+/* 
+*
+*
+* GAMEBOARD
+*
+*
+-------------------------------------------------- */
+
+  .game-board {
+    margin: 1rem auto;
+      display: grid;
+      position: relative;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  }
+
+  .board-padding {
+    padding: 0rem !important;
+    padding-top: 1.2rem !important;
+    padding-left: 1.2rem !important;
+  }
+
+  .board-padding-safari {
+    padding: 0rem !important;
+    padding-top: 0.7rem !important;
+    padding-left: 1.1rem !important;
+  }
+
+  .board-size {
+    width: 31rem;
+    height: 31rem;
+  }
+
+  .button {
+    margin: 0px;
+    position: relative;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #17a2b8;
+  }
+
+  .btn-font-size {
+      font-size: 4em;
+  }
+
+  .btn-size {
+    width: 90%;
+    height: 90%; 
+  }
+
+  .btn-size-safari {
+    width: 85%;
+    height: 85%; 
+  }
+
+  .button:hover {
+    background: #0f7b8b;
+    border: 12px;
+  }
+  
+  .button:active {
+    background: #07535f;
+  }
+
+  .result {
+    background: #ff4081;
+  }
+
+  .draw {
+      background: #ffc107;
+  }
+
+
+
+
+  /*
+  *
+  *
+  * RESPONSIVE SETTINGS
+  *
+  *
+  */
+
+  @media screen and (max-height: 1050px) {
+    .hide-ifm {display: none;}
+    .font-shrink {font-size: 12px;}
+    .regular-box-wrapper {
+        max-width: 26rem !important;
+        max-height: 26rem !important;
+    }
+    .board-size {
+        max-height: 26rem !important;
+        max-width: 26rem !important;
+    }
+    .eventlist-height {
+        height: 15rem !important;
+    }
+    #chat-input {
+        position: relative;
+        width: 16.5rem !important;
+    }
+    
+    #say {
+        margin-left: 0rem !important;
+    }
+    .top {
+        margin-bottom: 8rem !important;
+    }
+    
+}
+
+@media screen and (max-height: 700px) and (max-width: 400px) {
+    .hide-ifs {display: none;}
+    .font-shrink {font-size: 9px;}
+    .regular-box-wrapper {
+        max-width: 14rem !important;
+        max-height: 12rem !important;
+    }
+    .board-size {
+        max-height: 14rem !important;
+        max-width: 14rem !important;
+    }
+    .eventlist-height {
+        height: 4rem !important;
+    }
+    #chat-input {
+        position: relative;
+        width: 8.5rem !important;
+    }
+    
+    #dropdown04 {
+        margin-right: 2.5rem;
+    }
+
+    .top {
+        margin-bottom: 8rem !important;
+    }
+    
+    #say {
+        margin-left: 0rem !important;
+    }
+
+    .chatInput-wrapper {
+        padding: 0.8rem 0rem 0rem 0rem !important;
+    }
+
+    .board-padding {
+        padding: 0rem !important;
+        padding-top: 0.3rem !important;
+        padding-left: 0.7rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .btn-size {
+        width: 86%;
+        height: 86%; 
+    }
+
+    .jt-padding {
+        padding-top: 1rem !important;
+    }
+
+    .batches {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-height: 900px) and (max-width: 450px) {
+    .hide-ifs {display: none;}
+    .font-shrink {font-size: 9px;}
+    .regular-box-wrapper {
+        margin: 0.2rem auto !important;
+        max-width: 20.5rem !important;
+        max-height: 14rem !important;
+    }
+
+    #legalnotice-wrapper {
+        max-width: 19rem;
+        max-height: 30rem;
+    }
+
+    .btn-font-size {
+        font-size: 3em;
+    }
+
+    .board-size {
+        margin: 0.8rem auto !important;
+        max-height: 17rem !important;
+        max-width: 16.5rem !important;
+    }
+    .eventlist-height {
+        height: 6.5rem !important;
+    }
+    #chat-input {
+        position: relative;
+        width: 13.4rem !important;
+    }
+
+    #quit {
+        margin-left: 1rem;
+    }
+
+    #dropdown04 {
+        margin-right: 2.5rem;
+    }
+    
+    #say {
+        margin-left: 0.4rem !important;
+    }
+    
+    .top {
+        margin-bottom: 7rem !important;
+    }
+
+    .chatInput-wrapper {
+        padding: 0.8rem 0rem 0rem 0rem !important;
+    }
+
+    .board-padding {
+        padding: 0rem !important;
+        padding-top: 0.3rem !important;
+        padding-left: 0.7rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .btn-size {
+        width: 86%;
+        height: 86%; 
+    }
+
+    .jt-padding {
+        padding-top: 1rem !important;
+    }
+
+    .batches {
+        font-size: 10px;
+    }
+}
+
+@media screen and (max-height: 450px) and (max-width: 900px) {
+    .hide-ifs {display: none;}
+    .font-shrink {font-size: 9px;}
+    .regular-box-wrapper {
+        max-width: 16rem !important;
+        max-height: 16rem !important;
+    }
+    .board-size {
+        max-height: 16rem !important;
+        max-width: 16rem !important;
+    }
+    .eventlist-height {
+        height: 9rem !important;
+    }
+    #chat-input {
+        position: relative;
+        width: 6.5rem !important;
+    }
+
+    #dropdown04 {
+        margin-right: 2.5rem;
+    }
+    
+    #say {
+        margin-left: 0rem !important;
+    }
+    .top {
+        margin-bottom: 4rem !important;
+    }
+
+    .chatInput-wrapper {
+        padding: 0.8rem 0rem 0rem 0rem !important;
+    }
+
+    .board-padding {
+        padding: 0rem !important;
+        padding-top: 0.3rem !important;
+        padding-left: 0.7rem !important;
+        padding-bottom: 1rem !important;
+    }
+
+    .btn-size {
+        width: 86%;
+        height: 86%; 
+    }
+    .jt-padding {
+        padding-top: 1rem !important;
+    }
+
+    .batches {
+        font-size: 10px;
+    }
+}
+
+@media screen and (min-height: 1051px) {
+    .btn-size-safari {
+        width: 90%;
+        height: 90%;
+    }
+
+    .board-padding-safari {
+        padding: 0rem !important;
+        padding-top: 1.2rem !important;
+        padding-left: 1.2rem !important;
+    }
+}

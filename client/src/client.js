@@ -18,9 +18,6 @@ let matchParameters = {
 const onMatchmaking = (e) => {
   e.preventDefault();
   client.socket.emit('matchmaking');
-  document.getElementById('matchmaking').style.display = 'none';
-  document.getElementById('onlineBatch').style.display = 'none';
-  document.getElementById('quit').style.display = 'block';
 };
 
 const onLegalNotice = (e) => {
@@ -66,7 +63,7 @@ const onPlayAgainAccept = () => {
 const onFormSubmitted = (e) => {
   e.preventDefault();
 
-  const input = document.querySelector('#chat');
+  const input = document.querySelector('#chat-input');
   const text = input.value;
   input.value = '';
   if(client.roomId !== 'matchmaking') client.socket.emit('message', text, client.roomId, client.username);
@@ -80,11 +77,12 @@ const onChoseName = (e) => {
   input.value = '';
 
   client.socket.emit('userChoseName', client.username);
+  //document.getElementById('chatControl').style.display = 'block';
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('onlineBatch').style.display = 'inline';
   document.getElementById('chatroomBatch').style.display = 'inline';
-  document.getElementById('name-wrapper').style.display = 'none';
-  document.getElementById('chat-wrapper').style.display = 'flex';
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('chat-col').style.display = 'flex';
   writeEvent('Hello ' + client.username + '!', 'info')
 };
 

@@ -8,7 +8,12 @@ client.socket.on('turnBroadcast', (data) => {
   writeOnGameBoard(data.buttonValue, data.char);
 });
 
-client.socket.on('isWaiting', printWaitingCard);
+client.socket.on('isWaiting', () => {
+  printWaitingCard();
+  document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('onlineBatch').style.display = 'none';
+  document.getElementById('quit').style.display = 'block';
+});
 
 client.socket.on('idCommit', (socketId) => {
   client.socketId = socketId;
@@ -16,6 +21,9 @@ client.socket.on('idCommit', (socketId) => {
 
 client.socket.on('opponentFound', (opponentsName) => {
   clearNotifications();
+  document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('onlineBatch').style.display = 'none';
+  document.getElementById('quit').style.display = 'block';
   writeEvent('Opponent found! -  You\'re playing against ' + opponentsName, 'info');
 });
 
@@ -52,7 +60,7 @@ client.socket.on('gameover', () => {
   document.getElementById('scoreBatch').style.display = 'none';
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('quit').style.display = 'none';
-  document.getElementById('gameboard').style.display = 'none';
+  document.getElementById('game-col').style.display = 'none';
 });
 
 client.socket.on('roomSwitched', (data) => {
@@ -93,6 +101,11 @@ client.socket.on('winnerBroadcast', (data) => {
 
 client.socket.on('drawBroadcast', () => {
   printDrawCard();
+  for (var i = 0; i < 9; i ++) {
+    let box = document.getElementById('button' + i);
+    box.classList.add('draw')
+  }
+
 });
 
 client.socket.on('setOnTurn', (isOnTurn) => {
@@ -114,7 +127,7 @@ document
   .addEventListener('submit', onFormSubmitted);
 
 document
-  .querySelector('#name-form')
+  .querySelector('#login-form')
   .addEventListener('submit', onChoseName);
 
 document
@@ -122,7 +135,7 @@ document
   .addEventListener('click', onMatchmaking);
 
 document
-.querySelector('#legalnotice')
+.querySelector('#legal-notice')
 .addEventListener('click', onLegalNotice);
 
 document
@@ -133,14 +146,30 @@ document
   .querySelector('#quit')
   .addEventListener('click', onQuit);
 
+/*document
+.getElementById('chatClose')
+.addEventListener('click', () => {
+  document.querySelector('#chat-wrapper').style.display = 'none';
+  document.querySelector('#chatOpen').style.display = 'block';
+  document.querySelector('#chatClose').style.display = 'none';
+});
+
 document
-.querySelector('#darkTheme')
+.getElementById('chatOpen')
+.addEventListener('click', () => {
+  document.querySelector('#chat-wrapper').style.display = 'block';
+  document.querySelector('#chatOpen').style.display = 'none';
+  document.querySelector('#chatClose').style.display = 'block';
+});*/
+
+document
+.querySelector('#dark-theme')
 .addEventListener('click', onDark);
 
 document
-.querySelector('#lightTheme')
+.querySelector('#light-theme')
 .addEventListener('click', onLight);
 
 document
-.querySelector('#colorTheme')
+.querySelector('#color-theme')
 .addEventListener('click', onColor);

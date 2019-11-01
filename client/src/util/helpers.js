@@ -57,3 +57,14 @@ const onThemeChange = (theme) => {
   }
   document.getElementById('body').style.background = color;
 }
+
+
+const safariFix = () => {
+  for(i = 0; i<=8; i++) {
+    document.getElementById('button' + i).classList.add('btn-size-safari');
+    document.getElementById('button' + i).classList.remove('btn-size');
+
+  }
+  document.getElementById('gameboard').classList.add('board-padding-safari');
+  document.getElementById('gameboard').classList.remove('board-padding');
+}

@@ -491,6 +491,7 @@ io.on('connection', (socket) => {
   });
 
   socket.on('matchmaking', () => {
+    if (socket.isInGame || waitingUser==socket) return;    
     switchRoom(socket, 'matchmaking', ' -');
 
 
@@ -512,6 +513,7 @@ io.on('connection', (socket) => {
   })
 
   socket.on('endSession', () => {    
+    socket.isInGame = false;
     switchRoom(socket, 'lobby', 'Lobby');
     if(waitingUser !== null) {
       if(waitingUser.id === socket.id) waitingUser = null;
