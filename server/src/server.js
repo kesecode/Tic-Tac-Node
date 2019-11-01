@@ -471,15 +471,19 @@ io.on('connection', (socket) => {
 
   socket.on('userChoseName', (name) => {
     if (socket.hasChosenName === false) {
-      socket.name = name;
+      socket.name = name.substring(0,30);
       switchRoom(socket, 'lobby', 'Lobby');
       socket.hasChosenName = true;
     }
   })
 
   socket.on('message', (text, roomId, name) => {
-    socket.to(roomId).emit('message', {text: name + ' says: ' + text, type: 'secondary'});
-    io.to(socket.id).emit('message', {text: 'You' + ' said: ' + text, type: 'primary'});
+    modText = text;
+    if(text.length > 100) {
+        modText = text.substring(0,30) + '<br>' + text.substring(31,60) + '<br>' + text.substring(61,90) + '<br>' + text.substring(91,120); + '<br>' + text.substring(121,150); + '<br>' + text.substring(151,180); + '<br>' + text.substring(181,200);
+    }
+    socket.to(roomId).emit('message', {text: name + ' says: ' + modText, type: 'secondary'});
+    io.to(socket.id).emit('message', {text: 'You' + ' said: ' + modText, type: 'primary'});
   });
 
   socket.on('revancheRequest', (socketId) => {

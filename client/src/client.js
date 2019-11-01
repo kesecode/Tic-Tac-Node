@@ -65,8 +65,8 @@ const onFormSubmitted = (e) => {
 
   const input = document.querySelector('#chat-input');
   const text = input.value;
+  if(client.roomId !== 'matchmaking' && input.value != '') client.socket.emit('message', text, client.roomId, client.username);
   input.value = '';
-  if(client.roomId !== 'matchmaking') client.socket.emit('message', text, client.roomId, client.username);
 };
 
 const onChoseName = (e) => {
