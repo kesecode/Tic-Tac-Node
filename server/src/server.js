@@ -491,7 +491,8 @@ io.on('connection', (socket) => {
   });
 
   socket.on('matchmaking', () => {
-    if (socket.isInGame || waitingUser==socket) return;    
+    if (socket.isInGame || waitingUser==socket) return;
+    socket.to('lobby').emit('message', {text: socket.name + ' started looking for an opponent - join him!', type: 'info'})    
     switchRoom(socket, 'matchmaking', ' -');
 
 
