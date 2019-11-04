@@ -1,3 +1,67 @@
+
+/* Media Queries: Tablet Landscape */
+@media screen and (max-width: 1060px) {
+}
+
+/* Media Queries: Tabled Portrait */
+@media screen and (max-width: 768px) {
+  #techInfo {display:  none;}
+  #download {display: none;}
+  #themes {display: none;}
+  #mobileExclusive {display: block !important;}
+  #name {
+    width: 180px;
+  }
+  #playerName {
+    padding: 5px;
+    width: 80px;
+    height: 40px;
+  }
+  #name-wrapper {
+    max-width: 300px;
+    max-height: 400px;
+  }
+  #copyright {
+    font-size: 9px;
+  }
+  #chat-wrapper {
+    max-height: 400px;
+    max-width: 300px;
+  }
+  #chat-form {
+    max-width: 290px;
+  }
+  #chat-input {
+    max-width: 250px;
+  }
+  #batches {
+    margin-top: 50px !important;
+    margin-left: 50px !important;
+    margin-bottom: 10px !important;
+  }
+  #legalnotice-wrapper {
+    margin-top: 50px;
+    max-height: 400px;
+    max-width: 300px;
+  }
+}
+
+#chatControl {
+  display: none;
+}
+
+#chatOpen {
+  display: none;
+}
+
+#chatClose {
+  display: block;
+}
+
+#mobileExclusive {
+  display: none;
+}
+
 #revancheDeni {
   margin-left: 25px;
 }
@@ -30,6 +94,26 @@
   display: none;
 }
 
+#lobby {
+  display: none;
+}
+
+#left {
+  margin-right: 15rem;
+  display: none;
+}
+
+#right {
+  margin-left: 15rem;
+  display: none;
+}
+
+#legalnotice-wrapper {
+  display: none;
+  width: 31rem;
+  height: 31rem;
+}
+
 .chat-wrapper {
   float: right;
   display: none;
@@ -39,6 +123,7 @@
   flex-direction: column;
   border: 1px solid lightgrey;
 }
+
 
 .center {
   display: inline-block;
@@ -50,9 +135,6 @@ h1 {
 }
 
 .name-wrapper {
-  width: 400px;
-  height: 55px;
-  max-height: 300px;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
@@ -100,9 +182,7 @@ body {
   padding-bottom: 40px;
 }
 
-#body {
-  background: rgb(247, 244, 244);
-}
+
 
 .form-signin {
   width: 100%;

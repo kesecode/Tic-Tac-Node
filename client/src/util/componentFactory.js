@@ -4,7 +4,7 @@ const produceWaitingCard = () => {
     const divProg = document.createElement('div');
     const divBar = document.createElement('div');
   
-    div.className = "alert alert-primary";
+    div.className = "alert alert-info";
     div.innerHTML = "Waiting for an Opponent...";
     div.id = "waitingCard";
     divComp.className = "bs-component";
@@ -31,6 +31,10 @@ const produceResultCard = (result) => {
       div.className = "alert alert-dismissible alert-success";
       div.id = "winAlert";
       div.innerHTML = "Well done... You won the game!";
+      button.id = "playagain";
+      button.className = "close";
+      button.innerHTML = "Revanche";
+      div.appendChild(button);
     } else {
       div.className = "alert alert-dismissible alert-danger";
       div.id = "loseAlert";
@@ -62,7 +66,7 @@ const produceInvitationCard = (revanche) => {
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation";
+        divHead.innerHTML = "Revanche invitation";
 
         //divBod
         divBod.className = "card-body";
@@ -235,7 +239,7 @@ const produceAwaitAcceptanceCard = (revanche) => {
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Invitation send";
+        divHead.innerHTML = "Rematch invitation send";
 
         //divBod
         divBod.className = "card-body";
@@ -274,7 +278,7 @@ const produceAcceptedCard = (revanche) => {
     
     
         //divCon
-        cardElem.className = "card text-white bg-success mb-3";
+        cardElem.className = "card text-white bg-info mb-3";
     
         //divHead
         divHead.className = "card-header";
@@ -303,18 +307,18 @@ const produceAcceptedCard = (revanche) => {
 
 
         //divCon
-        cardElem.className = "card text-white bg-success mb-3";
+        cardElem.className = "card text-white bg-secondary mb-3";
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Revanche invitation accepted";
+        divHead.innerHTML = "Rematch invitation accepted";
 
         //divBod
         divBod.className = "card-body";
 
         //title
         title.className = "card-title";
-        title.innerHTML = matchParameters.opponentsName + " really really wants you!";
+        title.innerHTML = matchParameters.opponentsName + " wants to play again!";
 
         lBreak.innerHTML = ' ';
 
@@ -342,7 +346,7 @@ const produceAcceptedInvitationCard = (revanche) => {
 
         //divHead
         divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation";
+        divHead.innerHTML = "Revanche invitation";
 
         //divBod
         divBod.className = "card-body";

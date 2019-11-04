@@ -18,9 +18,22 @@ let matchParameters = {
 const onMatchmaking = (e) => {
   e.preventDefault();
   client.socket.emit('matchmaking');
-  document.getElementById('matchmaking').style.display = 'none';
-  document.getElementById('onlineBatch').style.display = 'none';
-  document.getElementById('quit').style.display = 'block';
+};
+
+const onLegalNotice = (e) => {
+  e.preventDefault();
+  document.getElementById('game-controls').style.display = 'none';
+  document.getElementById('main-container').style.display = 'none';
+  document.getElementById('legalnotice-wrapper').style.display = 'block';
+  document.getElementById('lobby').style.display = 'block';
+};
+
+const onLobby = (e) => {
+  e.preventDefault();
+  document.getElementById('lobby').style.display = 'none';
+  document.getElementById('main-container').style.display = 'block';
+  document.getElementById('legalnotice-wrapper').style.display = 'none';
+  document.getElementById('game-controls').style.display = 'block';
 };
 
 const onQuit = () => {
@@ -50,10 +63,10 @@ const onPlayAgainAccept = () => {
 const onFormSubmitted = (e) => {
   e.preventDefault();
 
-  const input = document.querySelector('#chat');
+  const input = document.querySelector('#chat-input');
   const text = input.value;
+  if(client.roomId !== 'matchmaking' && input.value != '') client.socket.emit('message', text, client.roomId, client.username);
   input.value = '';
-  if(client.roomId !== 'matchmaking') client.socket.emit('message', text, client.roomId, client.username);
 };
 
 const onChoseName = (e) => {
@@ -64,11 +77,12 @@ const onChoseName = (e) => {
   input.value = '';
 
   client.socket.emit('userChoseName', client.username);
+  //document.getElementById('chatControl').style.display = 'block';
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('onlineBatch').style.display = 'inline';
   document.getElementById('chatroomBatch').style.display = 'inline';
-  document.getElementById('name-wrapper').style.display = 'none';
-  document.getElementById('chat-wrapper').style.display = 'flex';
+  document.getElementById('loginView').style.display = 'none';
+  document.getElementById('chat-col').style.display = 'flex';
   writeEvent('Hello ' + client.username + '!', 'info')
 };
 

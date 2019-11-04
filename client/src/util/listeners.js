@@ -1,10 +1,19 @@
-client.socket.on('message', writeEvent);
-
-client.socket.on('turnBroadcast', (buttonValue, char) => {
-  writeOnGameBoard(buttonValue, char);
+client.socket.on('message', (data) => {
+  let text = data.text;
+  let type = data.type;
+  writeEvent(text, type);
 });
 
-client.socket.on('isWaiting', printWaitingCard);
+client.socket.on('turnBroadcast', (data) => {
+  writeOnGameBoard(data.buttonValue, data.char);
+});
+
+client.socket.on('isWaiting', () => {
+  printWaitingCard();
+  document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('onlineBatch').style.display = 'none';
+  document.getElementById('quit').style.display = 'block';
+});
 
 client.socket.on('idCommit', (socketId) => {
   client.socketId = socketId;
@@ -12,16 +21,19 @@ client.socket.on('idCommit', (socketId) => {
 
 client.socket.on('opponentFound', (opponentsName) => {
   clearNotifications();
+  document.getElementById('matchmaking').style.display = 'none';
+  document.getElementById('onlineBatch').style.display = 'none';
+  document.getElementById('quit').style.display = 'block';
   writeEvent('Opponent found! -  You\'re playing against ' + opponentsName, 'info');
 });
 
-client.socket.on('matchparameter', (opponentsName, opponentsId) => {
-  matchParameters.opponentsName = opponentsName;
-  matchParameters.opponentsId = opponentsId;
+client.socket.on('matchParameter', (data) => {
+  matchParameters.opponentsName = data.opponentsName;
+  matchParameters.opponentsId = data.opponentsId;
 });
 
-client.socket.on('scoreBroadcast', (clientScore, opponentScore) => {
-  updateScoreBatch(clientScore, opponentScore);
+client.socket.on('scoreBroadcast', (data) => {
+  updateScoreBatch(data.clientScore, data.opponentsScore);
 });
 
 client.socket.on('gameBegins', () => {
@@ -48,10 +60,12 @@ client.socket.on('gameover', () => {
   document.getElementById('scoreBatch').style.display = 'none';
   document.getElementById('matchmaking').style.display = 'block';
   document.getElementById('quit').style.display = 'none';
-  document.getElementById('gameboard').style.display = 'none';
+  document.getElementById('game-col').style.display = 'none';
 });
 
-client.socket.on('roomSwitched', (roomId, roomName) => {
+client.socket.on('roomSwitched', (data) => {
+  let roomName = data.roomName;
+  let roomId = data.roomId;
   document.getElementById('chatroomBatch').innerHTML = 'Chatroom: ' + roomName;
   client.roomId = roomId;
 });
@@ -80,13 +94,18 @@ client.socket.on('updateOnlineUsers', (online) => {
   updateOnlineBatch(online);
 });
 
-client.socket.on('winnerBroadcast', (result, animation) => {
-  printResultCard(result);
-  animate(animation);
+client.socket.on('winnerBroadcast', (data) => {
+  printResultCard(data.isWinner);
+  animate(data.animation);
 });
 
 client.socket.on('drawBroadcast', () => {
   printDrawCard();
+  for (var i = 0; i < 9; i ++) {
+    let box = document.getElementById('button' + i);
+    box.classList.add('draw')
+  }
+
 });
 
 client.socket.on('setOnTurn', (isOnTurn) => {
@@ -108,7 +127,11 @@ document
   .addEventListener('submit', onFormSubmitted);
 
 document
-  .querySelector('#name-form')
+  .querySelector('#say')
+  .addEventListener('click', onFormSubmitted);
+
+document
+  .querySelector('#login-form')
   .addEventListener('submit', onChoseName);
 
 document
@@ -116,17 +139,41 @@ document
   .addEventListener('click', onMatchmaking);
 
 document
+.querySelector('#legal-notice')
+.addEventListener('click', onLegalNotice);
+
+document
+.querySelector('#lobby')
+.addEventListener('click', onLobby);
+
+document
   .querySelector('#quit')
   .addEventListener('click', onQuit);
 
+/*document
+.getElementById('chatClose')
+.addEventListener('click', () => {
+  document.querySelector('#chat-wrapper').style.display = 'none';
+  document.querySelector('#chatOpen').style.display = 'block';
+  document.querySelector('#chatClose').style.display = 'none';
+});
+
 document
-.querySelector('#darkTheme')
+.getElementById('chatOpen')
+.addEventListener('click', () => {
+  document.querySelector('#chat-wrapper').style.display = 'block';
+  document.querySelector('#chatOpen').style.display = 'none';
+  document.querySelector('#chatClose').style.display = 'block';
+});*/
+
+document
+.querySelector('#dark-theme')
 .addEventListener('click', onDark);
 
 document
-.querySelector('#lightTheme')
+.querySelector('#light-theme')
 .addEventListener('click', onLight);
 
 document
-.querySelector('#colorTheme')
+.querySelector('#color-theme')
 .addEventListener('click', onColor);

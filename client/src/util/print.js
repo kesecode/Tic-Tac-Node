@@ -1,6 +1,9 @@
 const initializeGameUI = () => {
   document.getElementById('onlineBatch').style.display = 'none';
-  document.getElementById('gameboard').style.display = 'grid';
+  document.getElementById('game-col').style.display = 'block';
+  if ((function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || (typeof safari !== 'undefined' && safari.pushNotification))){
+    safariFix();
+  }
   if(document.getElementById('waitingCard') != null) {
     let elem = document.getElementById('waitingCard');
     elem.parentNode.removeChild(elem);
@@ -33,7 +36,7 @@ const printInvitation = (isRevanche) => {
       parent.appendChild(produceInvitationCard(false));
         document
           .querySelector('#revancheAcc')
-          .addEventListener('click', onRevancheAccept);
+          .addEventListener('click', onPlayAgainAccept);
         document
           .querySelector('#revancheDeni')
           .addEventListener('click', onDeclineInvitation);
@@ -79,6 +82,10 @@ const printResultCard = (result) => {
     document
       .querySelector('#revanche')
       .addEventListener('click', onRevancheRequest);
+  } else {
+    document
+      .querySelector('#playagain')
+      .addEventListener('click', onPlayAgainRequest);
   }
   scrollToBottom();
 };
@@ -117,10 +124,11 @@ const resetGameBoard = () => {
   for (var i = 0; i < 9; i ++) {
     let box = document.getElementById('button' + i);
     box.innerHTML = '';
-    box.style.background = '';
+    box.classList.remove('result');
+    box.classList.remove('draw')
   }
 };
 
 const updateOnlineBatch = (online) => {
-  document.getElementById('onlineBatch').innerHTML = 'Players online: ' + online;
+  document.getElementById('onlineBatch').innerHTML = 'Online: ' + online;
 };

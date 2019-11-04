@@ -1,125 +1,201 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>TicTacToe - Homm - 12ITO</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/bootstrap.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  </head>
-  <body id="body">
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-      <a class="navbar-brand" href="/">
-        <img src="imgs/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
-          Tic Tac Toe!
-      </a>
-      <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
-        <div class="btn-group mr-2" id="matchmaking" role="group" aria-label="Game Controls">
-          <button type="button" class="btn btn-primary">Matchmaking</button>
-        </div>
-        <div class="btn-group mr-2" id="quit" role="group" aria-label="Game Controls">
-          <button type="button" class="btn btn-primary">Quit Game</button>
-        </div>
-        <div class="btn-group mr-2" role="group" aria-label="Downloads">
-          <button id="download" class="btn btn-secondary">Download C-hashtag Application</button>
-        </div>
-        <div class="nav-item dropdown show">
-          <button id="dropdown03" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" class="btn btn-secondary">Themes</button>
-          <div class="dropdown-menu" aria-labelledby="dropdown03">
-            <button id="darkTheme" class="dropdown-item">Dark</button>
-            <button id="lightTheme" class="dropdown-item">Light</button>
-            <button id="colorTheme" class="dropdown-item">Color</button>
-          </div>
-        </div>
-      </div>
-    </nav>
+<!doctype html>
 
-    <main role="main" class="center">
+<html lang="en" style="text-align: center;">
+    <head>
+        <title>Tic Tac Node!</title>
 
-      <div class="bs-component" style="margin-bottom: 20px; margin-left: 15px;">
-        <span class="badge badge-info" id="chatroomBatch">Chatroom: Lobby</span>
-        <span class="badge badge-primary" id="scoreBatch">Score: </span>
-        <span class="badge badge-warning" id="turnBatch">Your Turn!</span>
-        <span class="badge badge-success" id="onlineBatch"></span>
-      </div>
+        <link rel="stylesheet" href="styles/bootstrap.css">
+        <link rel="stylesheet" href="styles/style.css">
 
-      <div class="jumbotron" id="name-wrapper">
-        <div class="row">
-          <div class="col-sm">
-            <form class="form-signin" id="name-form">
-            <div class="text-center mb-4">
-              <h1 class="h3 mb-3 font-weight-normal">Tic Tac Toe</h1>
-              <p>Tic Tac Toe Multiplayer Game build for School.</p>
-              <p>Based on Node.JS, Socket.IO, Express and Bootstrap. Written in JavaScript.</p>
-            </div>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="Tic Tac Toe multiplayer based on nodeJS and socketIO">
+        <meta name="author" content="David Weppler">
 
-            <div class="form-label-group">
-              <input type="name" id="name" class="form-control" placeholder="Name" maxlength="50" required autofocus>
-              <label for="name">Type in your name</label>
-            </div>
+        
+    </head>
 
-            <button class="btn btn-lg btn-primary btn-block" id="playerName">Let's Go!</button>
-            <p class="mt-5 mb-3 text-muted text-center">&#xA9; David Weppler, Jakub Langier, Kevin Beckenbach and Philipp Thieme 2019</p>
-            </form>
-          </div>
-        </div>
-      </div>
+    <body id="body">
+        <!--navigation bar-->
+        <div class="container-fluid top">
+            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
 
+                <div class="container-fluid">
+                    <!--title-->
+                    <a class="navbar-brand" href="/">
+                        <img src="imgs/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+                        Tic Tac Node!
+                    </a>
 
-      <div class="container">
-        <div class="row">
+                    <!--controls-->
+                    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                        <div id="game-controls">
+                            <div class="btn-group mr-2" id="matchmaking" role="group" aria-label="Game Controls">
+                                <button type="button" class="btn btn-primary">Matchmaking</button>
+                            </div>
+                            <div class="btn-group mr-2" id="quit" role="group" aria-label="Game Controls">
+                                <button type="button" class="btn btn-primary">Quit game</button>
+                            </div>
+                        </div>
 
-          <div class="col-sm">
-            <div id="chat-wrapper" class="chat-wrapper jumbotron">
-              <ul id="events">
-                <div class="container">
-                  <div class="row">
-                    <div id="output" class="col">
-                      <!-- NOTIFICATION ELEMENTS -->
+                        <button id="lobby" type="button" class="btn btn-primary">Close legal notice</button>
+
+                        <div id="themes" class="nav-item dropdown show">
+                            <button id="dropdown03" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" class="btn btn-secondary">Themes</button>
+                            <div class="dropdown-menu" aria-labelledby="dropdown03">
+                                <button id="dark-theme" class="dropdown-item">Dark</button>
+                                <button id="light-theme" class="dropdown-item">Light</button>
+                                <button id="color-theme" class="dropdown-item">Color</button>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+                    
+                    <!--further information and downloads-->
+                    <div class="nav-item dropdown show ml-auto">
+                        <button id="dropdown04" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false" class="btn btn-primary"><span class="navbar-toggler-icon"></span></button>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown04">
+                            <button id="download-client" class="dropdown-item" onclick="window.location.href='/windows-client/Tic Tac Node! Beta3.zip'">Download Windows-Client</button>
+                            <button class="dropdown-item" onclick="window.open('https://hackmd.io/@GL9qoaj_S3CnP-o77j2Qyw/SkMXWcVcB', '_blank')">Documentation</button>
+                            <button class="dropdown-item" onclick="window.open('https://github.com/kesecode/Tic-Tac-Node', '_blank')">GitHub Server Repo</button>
+                            <button class="dropdown-item" onclick="window.open('https://github.com/kesecode/Tic-Tac-Node---Windows-Client', '_blank')">GitHub Windows Repo</button>
+                            <button id="legal-notice" class="dropdown-item">Legal notice</button>
+                        </div>
+                    </div>
                 </div>
-              </ul>
-              <div class="controls">
-                <div class="chatInput-wrapper">
-                  <form id="chat-form" class="form-inline">
-                    <div class="form-group mx-sm-3 mb-2">
-                      <input type="text" style="width: 300px" class="form-control" id="chat" aria-describedby="chatInfo" placeholder="Chat with your opponents..." maxlength="300" required autofocus>
-                    </div>
-                    <div class="form-group mb-2">
-                      <button type="button" id="say" class="btn btn-secondary">Say!</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-sm">
-            <div class="game-board jumbotron" id="gameboard">
-              <button class="btn btn-outline-secondary box" id="button0" value="0"></button>
-              <button class="btn btn-outline-secondary box" id="button1" value="1"></button>
-              <button class="btn btn-outline-secondary box" id="button2" value="2"></button>
-              <button class="btn btn-outline-secondary box" id="button3" value="3"></button>
-              <button class="btn btn-outline-secondary box" id="button4" value="4"></button>
-              <button class="btn btn-outline-secondary box" id="button5" value="5"></button>
-              <button class="btn btn-outline-secondary box" id="button6" value="6"></button>
-              <button class="btn btn-outline-secondary box" id="button7" value="7"></button>
-              <button class="btn btn-outline-secondary box" id="button8" value="8"></button>
-            </div>
-          </div>
-
+                
+            </nav>
         </div>
-      </div>
-    </main>
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="src/client.js"></script>
-    <script src="src/util/print.js"></script>
-    <script src="src/util/listeners.js"></script>
-    <script src="src/util/animations.js"></script>
-    <script src="src/util/helpers.js"></script>
-    <script src="src/util/componentFactory.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  </body>
+
+
+        <main role="main" id="main-container" class="center">
+        <!--LOGIN AREA-->
+
+        <!--login-->
+        <div class="container-fluid regular-box-wrapper" id="loginView">
+            <div class="jumbotron" id="login-wrapper">
+                <div class="row">
+                    <div class="col-sm">
+                        <form class="form-signin" id="login-form">
+                            <div class="text-center mb-4">
+                                <h1 class="h3 mb-3 font-weight-normal">Tic Tac Node!</h1>
+                                <p class="hide-ifs">Tic Tac Toe multiplayer game build for a BSGG 12ITO schoolproject.</p>
+                                <p class="hide-ifm">Based on Node.JS, Socket.IO, Express and Bootstrap. Written in JavaScript.</p>
+                            </div>
+                
+                            <div class="form-label-group">
+                                <input type="name" id="name" class="form-control" placeholder="name" maxlength="30" required autofocus>
+                                <label for="name">Type in your name</label>
+                            </div>
+                
+                            <button class="btn btn-lg btn-primary btn-block" id="playerName">Let's Go!</button>
+                            <p class="mt-5 mb-3 text-muted text-center font-shrink">&#xA9; David Weppler, Jakub Langier, Kevin Beckenbach and Philipp Thieme 2019</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!--INGAME AREA-->
+        
+        <div class="container" id="ingameView"> 
+            <div class="row">
+
+                <!--chat-->
+                <div class="col-sm" id="chat-col">
+                
+                    <div class="container-fluid">
+                        
+                        <div id="chat-wrapper" class="chat-wrapper regular-box-wrapper jt-padding jumbotron">
+                                <div id="batches" class="bs-component mx-auto batches">
+                                        <span class="badge badge-info" id="chatroomBatch">Chat: Lobby</span>
+                                        <span class="badge badge-primary" id="scoreBatch">Score: </span>
+                                        <span class="badge badge-warning" id="turnBatch">Your Turn!</span>
+                                        <span class="badge badge-success" id="onlineBatch"></span>
+                                </div>
+                            <ul id="events" class="eventlist eventlist-height">
+                            <div class="container-fluid">
+                                <div class="row">
+                                <div id="output" class="col">
+                                    <!-- NOTIFICATION ELEMENTS -->
+                                </div>
+                                </div>
+                            </div>
+                            </ul>
+                            <div class="controls">
+                            <div class="chatInput-wrapper">
+                                <form id="chat-form" class="form-inline">
+                                <div class="form-group mx-sm-3 mb-2">
+                                    <input id="chat-input" type="text" class="form-control" id="chat" aria-describedby="chatInfo" placeholder="Chat with your opponents..." maxlength="200" required autofocus>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <button type="button" id="say" class="btn btn-secondary">Say!</button>
+                                </div>
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--gameboard-->
+                <div class="col-sm" id="game-col">
+                    <div class="container-fluid" >
+                        <div class="game-board board-size board-padding jumbotron" id="gameboard">
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button0" value="0"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button1" value="1"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button2" value="2"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button3" value="3"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button4" value="4"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button5" value="5"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button6" value="6"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button7" value="7"></button>
+                            <button class="btn btn-outline-secondary box btn-size btn-font-size button" id="button8" value="8"></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </main>
+
+        <!--LEGAL NOTICE-->
+        <div class="jumbotron center" id="legalnotice-wrapper">
+            <div class="row">
+                <div class="col-sm">
+                <form class="form-signin">
+                <div class="text-center mb-4">
+                    <h1 class="h3 mb-3 font-weight-normal">Tic Tac Node!<br>Legal notice</h1>
+                    <p>David Weppler<br><br>
+                    Klausenburger Str. 102<br>
+                    64295 Darmstadt<br>
+                    Germany<br><br>
+                    tictacnode@outlook.com</p>
+                    <p>Private project for school.<br>No cookies used!</p>
+                </div>
+
+                <p class="mt-5 mb-3 text-muted text-center">&#xA9; David Weppler 2019</p>
+                </form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!--scripts-->
+        <div>
+            <script src="/socket.io/socket.io.js"></script>
+            <script src="src/client.js"></script>
+            <script src="src/util/print.js"></script>
+            <script src="src/util/listeners.js"></script>
+            <script src="src/util/animations.js"></script>
+            <script src="src/util/helpers.js"></script>
+            <script src="src/util/componentFactory.js"></script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        </div>
+    </body>
 </html>
