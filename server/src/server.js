@@ -9,7 +9,7 @@ let waiting = null;
 //App setup
 var app = express();
 var server = app.listen(3000, () => {
-  console.log('******* SERVER: listening to requests on port 4000 *******');
+  console.log('******* SERVER: listening to requests on port 3000 *******');
 });
 
 const clientPath = `${__dirname}/../../client`;
