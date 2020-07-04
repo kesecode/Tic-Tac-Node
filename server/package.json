@@ -1,25 +1,32 @@
 {
-  "name": "server",
+  "name": "tictacnode",
   "version": "1.0.0",
-  "description": "",
-  "main": "src/server.js",
+  "description": "Tic Tac Toe - multiplayer browsergame based on nodeJS",
+  "main": "server.js",
   "scripts": {
     "appstart": "node src/server.js",
     "start": "nodemon src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kesecode/Tic-Tac-Node.git"
+  },
   "keywords": [
     "Multiplayer",
     "Game",
-    "Socket.IO"
+    "NodeJS"
   ],
-  "author": "David Weppler <david.weppler@outlook.com>",
-  "license": "ISC",
+  "author": "David Weppler",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kesecode/Tic-Tac-Node/issues"
+  },
+  "homepage": "https://tictacnode.de",
   "dependencies": {
     "express": "^4.17.1",
-    "express-htaccess-middleware": "^0.1.0",
-    "make-runnable": "^1.3.6",
-    "socket.io": "^2.2.0"
+    "greenlock-express": "^4.0.3",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

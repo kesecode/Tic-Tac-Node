@@ -1,405 +1,380 @@
 const produceWaitingCard = () => {
-    const div = document.createElement('div');
-    const divComp = document.createElement('div');
-    const divProg = document.createElement('div');
-    const divBar = document.createElement('div');
-  
-    div.className = "alert alert-info";
-    div.innerHTML = "Waiting for an Opponent...";
-    div.id = "waitingCard";
-    divComp.className = "bs-component";
-    divProg.className = "progress"
-    divBar.className = "progress-bar progress-bar-striped progress-bar-animated";
-    divBar.role = "progressbar";
-    divBar.setAttribute('aria-valuenow', "100");
-    divBar.setAttribute('aria-valuemin', "0");
-    divBar.setAttribute('aria-valuemax', "100");
-    divBar.style.width = "100%";
-  
-    divProg.appendChild(divBar);
-    divComp.appendChild(divProg);
-    div.appendChild(divComp);
+	const div = document.createElement('div');
+	const divComp = document.createElement('div');
+	const divProg = document.createElement('div');
+	const divBar = document.createElement('div');
 
-    return div;
-}
+	div.className = 'alert alert-info';
+	div.innerHTML = 'Waiting for an Opponent...';
+	div.id = 'waitingCard';
+	divComp.className = 'bs-component';
+	divProg.className = 'progress';
+	divBar.className = 'progress-bar progress-bar-striped progress-bar-animated';
+	divBar.role = 'progressbar';
+	divBar.setAttribute('aria-valuenow', '100');
+	divBar.setAttribute('aria-valuemin', '0');
+	divBar.setAttribute('aria-valuemax', '100');
+	divBar.style.width = '100%';
+
+	divProg.appendChild(divBar);
+	divComp.appendChild(divProg);
+	div.appendChild(divComp);
+
+	return div;
+};
 
 const produceResultCard = (result) => {
-    const div = document.createElement('div');
-    const button = document.createElement('button');
-  
-    if(result) {
-      div.className = "alert alert-dismissible alert-success";
-      div.id = "winAlert";
-      div.innerHTML = "Well done... You won the game!";
-      button.id = "playagain";
-      button.className = "close";
-      button.innerHTML = "Revanche";
-      div.appendChild(button);
-    } else {
-      div.className = "alert alert-dismissible alert-danger";
-      div.id = "loseAlert";
-      div.innerHTML = "Sad... You lost!";
-      button.id = "revanche";
-      button.className = "close";
-      button.innerHTML = "Revanche";
-      div.appendChild(button);
-    }
+	const div = document.createElement('div');
+	const button = document.createElement('button');
 
-    return div;
-}
+	if (result) {
+		div.className = 'alert alert-dismissible alert-success';
+		div.id = 'winAlert';
+		div.innerHTML = 'Well done... You won the game!';
+		button.id = 'playagain';
+		button.className = 'close';
+		button.innerHTML = 'Revanche';
+		div.appendChild(button);
+	} else {
+		div.className = 'alert alert-dismissible alert-danger';
+		div.id = 'loseAlert';
+		div.innerHTML = 'Sad... You lost!';
+		button.id = 'revanche';
+		button.className = 'close';
+		button.innerHTML = 'Revanche';
+		div.appendChild(button);
+	}
+
+	return div;
+};
 
 const produceInvitationCard = (revanche) => {
-    const cardElem = document.createElement('div');
-    if(revanche) {
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const title = document.createElement('h4');
-        const text = document.createElement('p');
-        const buttonAcc = document.createElement('button');
-        const buttonDeni = document.createElement('button');
+	const cardElem = document.createElement('div');
+	if (revanche) {
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const title = document.createElement('h4');
+		const text = document.createElement('p');
+		const buttonAcc = document.createElement('button');
+		const buttonDeni = document.createElement('button');
 
+		//divCon
+		cardElem.className = 'card text-white bg-info mb-3';
+		cardElem.id = 'invitationCard';
 
-        //divCon
-        cardElem.className = "card text-white bg-info mb-3";
-        cardElem.id = 'invitationCard';
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Revanche invitation';
 
+		//divBod
+		divBod.className = 'card-body';
 
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Revanche invitation";
+		//title
+		title.className = 'card-title';
+		title.innerHTML = 'Revanche?';
 
-        //divBod
-        divBod.className = "card-body";
+		//text
+		text.className = 'card-text';
+		text.innerHTML = matchParameters.opponentsName + ' wants a revanche... Take it or leave it.';
 
-        //title
-        title.className = "card-title";
-        title.innerHTML = "Revanche?";
+		//buttonAcc
+		buttonAcc.type = 'button';
+		buttonAcc.className = 'btn btn-success';
+		buttonAcc.innerHTML = 'I take it!';
+		buttonAcc.id = 'revancheAcc';
 
-        //text
-        text.className = "card-text";
-        text.innerHTML = matchParameters.opponentsName + " wants a revanche... Take it or leave it.";
+		//buttonDeni
+		buttonDeni.type = 'button';
+		buttonDeni.className = 'btn btn-warning';
+		buttonDeni.innerHTML = 'No thanks!';
+		buttonDeni.id = 'revancheDeni';
 
-        //buttonAcc
-        buttonAcc.type = "button";
-        buttonAcc.className = "btn btn-success";
-        buttonAcc.innerHTML = "I take it!";
-        buttonAcc.id = "revancheAcc"
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+		divBod.appendChild(text);
+		divBod.appendChild(buttonAcc);
+		divBod.appendChild(buttonDeni);
+	} else {
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const title = document.createElement('h4');
+		const text = document.createElement('p');
+		const buttonAcc = document.createElement('button');
+		const buttonDeni = document.createElement('button');
 
-        //buttonDeni
-        buttonDeni.type = "button";
-        buttonDeni.className = "btn btn-warning";
-        buttonDeni.innerHTML = "No thanks!";
-        buttonDeni.id = "revancheDeni"
+		//divCon
+		cardElem.className = 'card text-white bg-secondary mb-3';
+		cardElem.id = 'invitationCard';
 
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Rematch invitation';
 
+		//divBod
+		divBod.className = 'card-body';
 
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-        divBod.appendChild(text);
-        divBod.appendChild(buttonAcc);
-        divBod.appendChild(buttonDeni);
-    } else {
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const title = document.createElement('h4');
-        const text = document.createElement('p');
-        const buttonAcc = document.createElement('button');
-        const buttonDeni = document.createElement('button');
+		//title
+		title.className = 'card-title';
+		title.innerHTML = 'Play Again?';
 
+		//text
+		text.className = 'card-text';
+		text.innerHTML = matchParameters.opponentsName + ' wants to play again...';
 
-        //divCon
-        cardElem.className = "card text-white bg-secondary mb-3";
-        cardElem.id = 'invitationCard';
+		//buttonAcc
+		buttonAcc.type = 'button';
+		buttonAcc.className = 'btn btn-success';
+		buttonAcc.innerHTML = '#metoo';
+		buttonAcc.id = 'revancheAcc';
 
+		//buttonDeni
+		buttonDeni.type = 'button';
+		buttonDeni.className = 'btn btn-warning';
+		buttonDeni.innerHTML = 'Noooo!';
+		buttonDeni.id = 'revancheDeni';
 
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation";
-
-        //divBod
-        divBod.className = "card-body";
-
-        //title
-        title.className = "card-title";
-        title.innerHTML = "Play Again?";
-
-        //text
-        text.className = "card-text";
-        text.innerHTML = matchParameters.opponentsName + " wants to play again...";
-
-        //buttonAcc
-        buttonAcc.type = "button";
-        buttonAcc.className = "btn btn-success";
-        buttonAcc.innerHTML = "#metoo";
-        buttonAcc.id = "revancheAcc"
-
-        //buttonDeni
-        buttonDeni.type = "button";
-        buttonDeni.className = "btn btn-warning";
-        buttonDeni.innerHTML = "Noooo!";
-        buttonDeni.id = "revancheDeni"
-
-
-
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-        divBod.appendChild(text);
-        divBod.appendChild(buttonAcc);
-        divBod.appendChild(buttonDeni);
-    }
-    return cardElem;
-}
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+		divBod.appendChild(text);
+		divBod.appendChild(buttonAcc);
+		divBod.appendChild(buttonDeni);
+	}
+	return cardElem;
+};
 
 const produceAwaitAcceptanceCard = (revanche) => {
-    const cardElem = document.createElement('div');
-    if(revanche) { 
-        const progressbar = document.createElement('div');
-        const divProg = document.createElement('div');
-        const divBar = document.createElement('div');
+	const cardElem = document.createElement('div');
+	if (revanche) {
+		const progressbar = document.createElement('div');
+		const divProg = document.createElement('div');
+		const divBar = document.createElement('div');
 
-        progressbar.className = "bs-component"
-        divProg.className = "progress"
-        divBar.className = "progress-bar progress-bar-striped progress-bar-animated";
-        divBar.role = "progressbar";
-        divBar.setAttribute('aria-valuenow', "100");
-        divBar.setAttribute('aria-valuemin', "0");
-        divBar.setAttribute('aria-valuemax', "100");
-        divBar.style.width = "100%";
+		progressbar.className = 'bs-component';
+		divProg.className = 'progress';
+		divBar.className = 'progress-bar progress-bar-striped progress-bar-animated';
+		divBar.role = 'progressbar';
+		divBar.setAttribute('aria-valuenow', '100');
+		divBar.setAttribute('aria-valuemin', '0');
+		divBar.setAttribute('aria-valuemax', '100');
+		divBar.style.width = '100%';
 
-        divProg.appendChild(divBar);
-        progressbar.appendChild(divProg);
+		divProg.appendChild(divBar);
+		progressbar.appendChild(divProg);
 
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const lBreak = document.createElement('p')
-        const title = document.createElement('h4');
-        const buttonCancel = document.createElement('button');
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const lBreak = document.createElement('p');
+		const title = document.createElement('h4');
+		const buttonCancel = document.createElement('button');
 
+		//divCon
+		cardElem.className = 'card text-white bg-info mb-3';
+		cardElem.id = 'waitingCard';
 
-        //divCon
-        cardElem.className = "card text-white bg-info mb-3";
-        cardElem.id = "waitingCard"
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Revanche invitation send';
 
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Revanche invitation send";
+		//divBod
+		divBod.className = 'card-body';
 
-        //divBod
-        divBod.className = "card-body";
+		//title
+		title.className = 'card-title';
+		title.innerHTML = 'Waiting for ' + matchParameters.opponentsName + 's okay...';
 
-        //title
-        title.className = "card-title";
-        title.innerHTML = "Waiting for " + matchParameters.opponentsName +'s okay...';
+		//buttonDeni
+		buttonCancel.type = 'button';
+		buttonCancel.className = 'btn btn-warning';
+		buttonCancel.innerHTML = 'Cancel';
+		buttonCancel.id = 'revancheCancel';
 
-        //buttonDeni
-        buttonCancel.type = "button";
-        buttonCancel.className = "btn btn-warning";
-        buttonCancel.innerHTML = "Cancel";
-        buttonCancel.id = "revancheCancel"
+		lBreak.innerHTML = ' ';
 
-        lBreak.innerHTML = ' ';
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+		divBod.appendChild(progressbar);
+		divBod.appendChild(lBreak);
+		divBod.appendChild(buttonCancel);
+	} else {
+		const progressbar = document.createElement('div');
+		const divProg = document.createElement('div');
+		const divBar = document.createElement('div');
 
+		progressbar.className = 'bs-component';
+		divProg.className = 'progress';
+		divBar.className = 'progress-bar progress-bar-striped progress-bar-animated';
+		divBar.role = 'progressbar';
+		divBar.setAttribute('aria-valuenow', '100');
+		divBar.setAttribute('aria-valuemin', '0');
+		divBar.setAttribute('aria-valuemax', '100');
+		divBar.style.width = '100%';
 
+		divProg.appendChild(divBar);
+		progressbar.appendChild(divProg);
 
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-        divBod.appendChild(progressbar);
-        divBod.appendChild(lBreak);
-        divBod.appendChild(buttonCancel);
-    } else {
-        const progressbar = document.createElement('div');
-        const divProg = document.createElement('div');
-        const divBar = document.createElement('div');
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const lBreak = document.createElement('p');
+		const title = document.createElement('h4');
+		const buttonCancel = document.createElement('button');
 
-        progressbar.className = "bs-component"
-        divProg.className = "progress"
-        divBar.className = "progress-bar progress-bar-striped progress-bar-animated";
-        divBar.role = "progressbar";
-        divBar.setAttribute('aria-valuenow', "100");
-        divBar.setAttribute('aria-valuemin', "0");
-        divBar.setAttribute('aria-valuemax', "100");
-        divBar.style.width = "100%";
+		//divCon
+		cardElem.className = 'card text-white bg-secondary mb-3';
+		cardElem.id = 'waitingCard';
 
-        divProg.appendChild(divBar);
-        progressbar.appendChild(divProg);
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Rematch invitation send';
 
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const lBreak = document.createElement('p')
-        const title = document.createElement('h4');
-        const buttonCancel = document.createElement('button');
+		//divBod
+		divBod.className = 'card-body';
 
+		//title
+		title.className = 'card-title';
+		title.innerHTML = 'Waiting for ' + matchParameters.opponentsName + 's okay...';
 
-        //divCon
-        cardElem.className = "card text-white bg-secondary mb-3";
-        cardElem.id = "waitingCard"
+		//buttonDeni
+		buttonCancel.type = 'button';
+		buttonCancel.className = 'btn btn-warning';
+		buttonCancel.innerHTML = 'Cancel';
+		buttonCancel.id = 'playAgainCancel';
 
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation send";
+		lBreak.innerHTML = ' ';
 
-        //divBod
-        divBod.className = "card-body";
-
-        //title
-        title.className = "card-title";
-        title.innerHTML = "Waiting for " + matchParameters.opponentsName +'s okay...';
-
-        //buttonDeni
-        buttonCancel.type = "button";
-        buttonCancel.className = "btn btn-warning";
-        buttonCancel.innerHTML = "Cancel";
-        buttonCancel.id = "playAgainCancel"
-
-        lBreak.innerHTML = ' ';
-
-
-
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-        divBod.appendChild(progressbar);
-        divBod.appendChild(lBreak);
-        divBod.appendChild(buttonCancel);
-    }
-    return cardElem;
-}
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+		divBod.appendChild(progressbar);
+		divBod.appendChild(lBreak);
+		divBod.appendChild(buttonCancel);
+	}
+	return cardElem;
+};
 
 const produceAcceptedCard = (revanche) => {
-    const cardElem = document.createElement('div');
-    if(revanche) {
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const lBreak = document.createElement('p')
-        const title = document.createElement('h4');
-    
-    
-        //divCon
-        cardElem.className = "card text-white bg-info mb-3";
-    
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Revanche invitation accepted";
-    
-        //divBod
-        divBod.className = "card-body";
-    
-        //title
-        title.className = "card-title";
-        title.innerHTML = matchParameters.opponentsName + " wants to kick your ass again! You start off...";
-    
-        lBreak.innerHTML = ' ';
-    
-    
-    
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-        divBod.appendChild(lBreak);
-    } else {
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const lBreak = document.createElement('p')
-        const title = document.createElement('h4');
+	const cardElem = document.createElement('div');
+	if (revanche) {
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const lBreak = document.createElement('p');
+		const title = document.createElement('h4');
 
+		//divCon
+		cardElem.className = 'card text-white bg-info mb-3';
 
-        //divCon
-        cardElem.className = "card text-white bg-secondary mb-3";
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Revanche invitation accepted';
 
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation accepted";
+		//divBod
+		divBod.className = 'card-body';
 
-        //divBod
-        divBod.className = "card-body";
+		//title
+		title.className = 'card-title';
+		title.innerHTML = matchParameters.opponentsName + ' wants to kick your ass again! You start off...';
 
-        //title
-        title.className = "card-title";
-        title.innerHTML = matchParameters.opponentsName + " wants to play again!";
+		lBreak.innerHTML = ' ';
 
-        lBreak.innerHTML = ' ';
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+		divBod.appendChild(lBreak);
+	} else {
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const lBreak = document.createElement('p');
+		const title = document.createElement('h4');
 
+		//divCon
+		cardElem.className = 'card text-white bg-secondary mb-3';
 
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Rematch invitation accepted';
 
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-        divBod.appendChild(lBreak);
-    }
-    return cardElem;
-}
+		//divBod
+		divBod.className = 'card-body';
+
+		//title
+		title.className = 'card-title';
+		title.innerHTML = matchParameters.opponentsName + ' wants to play again!';
+
+		lBreak.innerHTML = ' ';
+
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+		divBod.appendChild(lBreak);
+	}
+	return cardElem;
+};
 
 const produceAcceptedInvitationCard = (revanche) => {
-    const cardElem = document.createElement('div');
-    if(revanche) {
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const title = document.createElement('h4');
+	const cardElem = document.createElement('div');
+	if (revanche) {
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const title = document.createElement('h4');
 
+		//divCon
+		cardElem.className = 'card text-white bg-info mb-3';
+		cardElem.id = 'revancheInvTrue';
 
-        //divCon
-        cardElem.className = "card text-white bg-info mb-3";
-        cardElem.id = 'revancheInvTrue';
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Revanche invitation';
 
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Revanche invitation";
+		//divBod
+		divBod.className = 'card-body';
 
-        //divBod
-        divBod.className = "card-body";
+		//title
+		title.className = 'card-title';
+		title.innerHTML = 'You accepted! ' + matchParameters.opponentsName + ' begins...';
 
-        //title
-        title.className = "card-title";
-        title.innerHTML = "You accepted! " + matchParameters.opponentsName + " begins...";
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+	} else {
+		const divHead = document.createElement('div');
+		const divBod = document.createElement('div');
+		const title = document.createElement('h4');
 
+		//divCon
+		cardElem.className = 'card text-white bg-secondary mb-3';
+		cardElem.id = 'revancheInvTrue';
 
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-    } else {
-        const divHead = document.createElement('div');
-        const divBod = document.createElement('div');
-        const title = document.createElement('h4');
+		//divHead
+		divHead.className = 'card-header';
+		divHead.innerHTML = 'Rematch invitation';
 
+		//divBod
+		divBod.className = 'card-body';
 
-        //divCon
-        cardElem.className = "card text-white bg-secondary mb-3";
-        cardElem.id = 'revancheInvTrue';
+		//title
+		title.className = 'card-title';
+		title.innerHTML = 'You accepted! ' + matchParameters.opponentsName + ' begins...';
 
-        //divHead
-        divHead.className = "card-header";
-        divHead.innerHTML = "Rematch invitation";
-
-        //divBod
-        divBod.className = "card-body";
-
-        //title
-        title.className = "card-title";
-        title.innerHTML = "You accepted! " + matchParameters.opponentsName + " begins...";
-
-
-        cardElem.appendChild(divHead);
-        cardElem.appendChild(divBod);
-        divBod.appendChild(title);
-    }
-    return cardElem;
-} 
+		cardElem.appendChild(divHead);
+		cardElem.appendChild(divBod);
+		divBod.appendChild(title);
+	}
+	return cardElem;
+};
 
 const produceDrawCard = () => {
-    const cardElem = document.createElement('div');
-    const button = document.createElement('button');
+	const cardElem = document.createElement('div');
+	const button = document.createElement('button');
 
+	cardElem.className = 'alert alert-dismissible alert-warning';
+	cardElem.id = 'drawAlert';
+	cardElem.innerHTML = 'You both are too dumb to win!';
+	button.id = 'playagain';
+	button.className = 'close';
+	button.innerHTML = 'Revanche';
+	cardElem.appendChild(button);
 
-    cardElem.className = "alert alert-dismissible alert-warning";
-    cardElem.id = "drawAlert";
-    cardElem.innerHTML = "You both are too dumb to win!";
-    button.id = "playagain";
-    button.className = "close";
-    button.innerHTML = "Revanche";
-    cardElem.appendChild(button);
-
-    return cardElem;
-}
+	return cardElem;
+};

@@ -1,49 +1,36 @@
+'use strict';
+
 //loading node.js modules
-const express = require('express')
-const socketio = require('socket.io')
-const https = require('https')
-const http = require('http')
-const Logger = require('./Util/Logger')
-const MatchController = require('./Util/MatchController')
-const fs = require('fs')
-const sslPort = 443
-const port = 80
+const express = require('express');
+const socketio = require('socket.io');
+const fs = require('fs');
+const Logger = require('./Util/Logger');
+const MatchController = require('./Util/MatchController');
+let httpsServer = null;
+let httpServer = null;
+const greenlock = require('greenlock-express').init({
+	packageRoot: __dirname,
 
-const privateKey = fs.readFileSync(`${__dirname}/../sslFiles/localhost.key`, 'utf8')
-const certificate = fs.readFileSync(`${__dirname}/../sslFiles/localhost.crt`, 'utf8')
-const credentials = { key: privateKey, cert: certificate }
+	// contact for security and critical bug notices
+	maintainerEmail: 'contact@david-weppler.de',
 
-let waitingUser = null
-let usersOnline = 0
-const logger = new Logger()
+	// where to look for configuration
+	configDir: './greenlock.d',
 
-//App setup
-const app = express()
+	// whether or not to run at cloudscale
+	cluster: false
+});
 
-/*app.use(function forceLiveDomain(req, res, next) {
-  // Don't allow user to hit Heroku now that we have a domain
-  var host = req.get('Host');
-  if (host === 'localhost') {
-    return res.redirect(301, 'https://localhost/');
-  }
-  return next();
-});*/
+let waitingUser = null;
+let usersOnline = 0;
+const logger = new Logger();
 
-http
-	.createServer(function(req, res) {
-		res.writeHead(301, { Location: 'https://' + req.headers['host'] + req.url });
-		res.end();
-	})
-	.listen(port);
-const server = https.createServer(credentials, app).listen(sslPort);
-
-const clientPath = `${__dirname}/../../client`;
-
-//Static files
+//Setup
+const app = express();
+greenlock.ready(httpsWorker);
+const clientPath = `${__dirname}/../client`;
 app.use(express.static(clientPath));
-
-//Socket setup
-const io = socketio(server, {
+const io = socketio(httpsServer, {
 	pingTimeout: 120000,
 	cookie: false
 });
@@ -158,9 +145,21 @@ function switchRoom(socket, roomId, roomName) {
 }
 
 //error logging
-server.on('error', (err) => {
+httpsServer.on('error', (err) => {
 	logger.serverError(err);
 });
+
+function httpsWorker(glx) {
+	httpsServer = glx.httpsServer(null, app);
+	httpServer = glx.httpServer();
+
+	httpsServer.listen(443, '127.0.0.1', function() {
+		console.info('Listening on ', httpsServer.address());
+	});
+	httpServer.listen(80, '127.0.0.1', function() {
+		console.info('Listening on ', httpServer.address());
+	});
+}
 
 /* 
 
@@ -171,3 +170,5 @@ server.on('error', (err) => {
   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 
 */
+
+module.exports = app;
