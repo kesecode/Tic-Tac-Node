@@ -8,7 +8,7 @@ const Logger = require('./util/Logger');
 const MatchController = require('./util/MatchController');
 
 const clientPath = `${__dirname}/client`;
-let port = process.env.PORT; //define a port for private hosting
+let port = 3000; //define a port for private hosting
 
 let waitingUser = null;
 let usersOnline = 0;
