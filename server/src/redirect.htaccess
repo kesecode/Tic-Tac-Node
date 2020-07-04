@@ -1,3 +1,3 @@
 RewriteEngine On
-RewriteCond %{HTTP_HOST} !^www.tictacnode.de$
-RewriteRule ^(.*)$ https://www.tictacnode.de/$1 [R=301,L]
+RewriteCond %{HTTP_HOST} !^localhost$
+RewriteRule ^(.*)$ https://localhost/$1 [R=301,L]
