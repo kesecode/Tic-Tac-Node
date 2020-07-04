@@ -1,41 +1,32 @@
 'use strict';
 
 //loading node.js modules
+const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
-const fs = require('fs');
-const Logger = require('./Util/Logger');
+const Logger = require('./util/Logger');
 const MatchController = require('./Util/MatchController');
-let httpsServer = null;
-let httpServer = null;
-const greenlock = require('greenlock-express').init({
-	packageRoot: __dirname,
 
-	// contact for security and critical bug notices
-	maintainerEmail: 'contact@david-weppler.de',
-
-	// where to look for configuration
-	configDir: './greenlock.d',
-
-	// whether or not to run at cloudscale
-	cluster: false
-});
+const clientPath = `${__dirname}/client`;
+let port = process.env.PORT; //define a port for private hosting
 
 let waitingUser = null;
 let usersOnline = 0;
 const logger = new Logger();
 
-//Setup
+//setup
 const app = express();
-greenlock.ready(httpsWorker);
-const clientPath = `${__dirname}./client`;
+const server = http.Server(app);
+
 app.use(express.static(clientPath));
-const io = socketio(httpsServer, {
+server.listen(port, () => {
+	console.log('Server listens on Port', port);
+});
+
+const io = socketio(server, {
 	pingTimeout: 120000,
 	cookie: false
 });
-
-//___________________________________________________________
 
 //connection
 io.on('connection', (socket) => {
@@ -135,8 +126,6 @@ io.on('connection', (socket) => {
 	});
 });
 
-//___________________________________________________________
-
 function switchRoom(socket, roomId, roomName) {
 	if (socket.roomId !== null) socket.leave(socket.roomId);
 	socket.join(roomId);
@@ -145,28 +134,6 @@ function switchRoom(socket, roomId, roomName) {
 }
 
 //error logging
-httpsServer.on('error', (err) => {
+server.on('error', (err) => {
 	logger.serverError(err);
 });
-
-function httpsWorker(glx) {
-	httpsServer = glx.httpsServer(null, app);
-	httpServer = glx.httpServer();
-
-	httpsServer.listen(443, '127.0.0.1', function() {
-		console.info('Listening on ', httpsServer.address());
-	});
-	httpServer.listen(80, '127.0.0.1', function() {
-		console.info('Listening on ', httpServer.address());
-	});
-}
-
-/* 
-
-  COMMAND TO GENERATE NEW LOCALHOST CERTIFICATE AND KEY
-  COPY IT TO THE - sslFiles - FOLDER
-
-  openssl req -x509 -out localhost.crt -keyout localhost.key   -newkey rsa:2048 -nodes -sha256   -subj '/CN=localhost' -extensions EXT -config <( \
-  printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
-
-*/
