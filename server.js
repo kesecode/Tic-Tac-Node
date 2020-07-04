@@ -4,8 +4,8 @@
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
-const Logger = require('./utilNEU/Logger');
-const MatchController = require('./utilNEU/MatchController');
+const Logger = require('./util/Logger');
+const MatchController = require('./util/MatchController');
 
 const clientPath = `${__dirname}/client`;
 let port = process.env.PORT; //define a port for private hosting
