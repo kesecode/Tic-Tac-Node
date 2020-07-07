@@ -19,7 +19,7 @@ const app = express();
 const server = http.Server(app);
 
 app.use(express.static(clientPath));
-server.listen(port, () => {
+server.listen(port, '127.0.0.1', () => {
 	console.log('Server listens on Port', port);
 });
 
