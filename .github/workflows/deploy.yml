@@ -13,7 +13,7 @@ jobs:
         with:
           host: tictacnode.kesecode.io
           username: ${{ secrets.DIGITAL_OCEAN_USER }}
-          key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          key: ${{ secrets.KEY }}
           passphrase: ${{ secrets.DIGITAL_OCEAN_SSH_KEY_PASSWORD }}
           script: |
             cd /opt/hosted-services/Tic-Tac-Node/
