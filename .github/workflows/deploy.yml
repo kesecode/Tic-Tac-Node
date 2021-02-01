@@ -1,0 +1,24 @@
+name: Deploy application
+ 
+on:
+  push:
+    branches: [ master ]
+ 
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy TicTacNode
+        uses: appleboy/ssh-action@v0.1.4
+        with:
+          host: ${{ secrets.DIGITAL_OCEAN_HOST_ADDRESS }}
+          username: ${{ secrets.DIGITAL_OCEAN_USER }}
+          key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          script: |
+            cd /opt/hosted-services/Tic-Tac-Node/
+            git checkout master
+            git pull
+            npm install
+            cd /etc/profile.d
+            ./nginx_gateway.sh
+            systemctl start tictacnode # start as a background service.
