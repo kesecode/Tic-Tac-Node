@@ -1,3 +1,5 @@
+![Deploy application](https://github.com/kesecode/Tic-Tac-Node/workflows/Deploy%20application/badge.svg)
+
 ## Wanna host it by yourself?
 
 1. Install nodeJS on your computer
