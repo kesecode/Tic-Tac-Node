@@ -11,7 +11,7 @@ jobs:
       - name: Deploy TicTacNode
         uses: appleboy/ssh-action@v0.1.4
         with:
-          host: ${{ secrets.DIGITAL_OCEAN_HOST_ADDRESS }}
+          host: tictacnode.kesecode.io
           username: ${{ secrets.DIGITAL_OCEAN_USER }}
           key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
           passphrase: ${{ secrets.DIGITAL_OCEAN_SSH_KEY_PASSWORD }}
