@@ -11,8 +11,9 @@ jobs:
       - name: Deploy TicTacNode
         uses: appleboy/ssh-action@v0.1.4
         with:
-          host: ${{secrets.SSH_HOST}}
-          key: ${{ secrets.SSH_PASSWORD }}
+          host: ${{ secrets.DIGITAL_OCEAN_HOST_ADDRESS }}
+          username: ${{ secrets.DIGITAL_OCEAN_USER }}
+          key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
           script: |
             cd /opt/hosted-services/Tic-Tac-Node/
             git checkout master
