@@ -14,6 +14,7 @@ jobs:
           host: ${{ secrets.DIGITAL_OCEAN_HOST_ADDRESS }}
           username: ${{ secrets.DIGITAL_OCEAN_USER }}
           key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          passphrase: ${{ secrets.DIGITAL_OCEAN_SSH_KEY_PASSWORD }}
           script: |
             cd /opt/hosted-services/Tic-Tac-Node/
             git checkout master
