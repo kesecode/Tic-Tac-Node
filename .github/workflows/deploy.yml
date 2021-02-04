@@ -17,9 +17,6 @@ jobs:
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             cd /opt/hosted-services/Tic-Tac-Node/
-            git checkout master
             git pull
             npm install
-            cd /etc/profile.d
-            ./nginx_gateway.sh
-            systemctl start tictacnode # start as a background service.
+            pm2 restart /opt/hosted-services/Tic-Tac-Node/server.js --name tictacnode
