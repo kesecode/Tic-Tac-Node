@@ -20,7 +20,7 @@ const server = http.Server(app);
 
 app.use(express.static(clientPath));
 //If you want to run the app on local host change process.env.NGINX_GATEWAY to -> "localhost"
-server.listen(port, process.env.NGINX_GATEWAY, () => {
+server.listen(port, 'localhost', () => {
 	console.log('Server listens on Port', port);
 });
 
