@@ -1,4 +1,4 @@
-![Deploy application](https://github.com/kesecode/Tic-Tac-Node/workflows/Deploy%20application/badge.svg)
+[![Deploy](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/deploy.yml/badge.svg)](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/deploy.yml)
 
 ## Wanna host it by yourself?
 
