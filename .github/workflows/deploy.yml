@@ -1,8 +1,9 @@
-name: Deploy application
+name: Deploy
  
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
  
 jobs:
   Deploy:
