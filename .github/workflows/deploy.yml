@@ -17,7 +17,7 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           passphrase: ${{ secrets.SSH_PASSPHRASE }}
           script: |
-            cd /opt/hosted-services/Tic-Tac-Node/
+            cd /opt/hosted-services/tic-tac-node/
             git pull
-            npm install
-            pm2 restart /opt/hosted-services/tic-tac-node/server.js --name tictacnode
+            npm clean-install
+            pm2 restart tictacnode
