@@ -30,7 +30,7 @@ const produceResultCard = (result) => {
 	if (result) {
 		div.className = 'alert alert-dismissible alert-success';
 		div.id = 'winAlert';
-		div.innerHTML = 'Well done... You won the game!';
+		div.innerHTML = 'Well done.. you won!';
 		button.id = 'playagain';
 		button.className = 'close';
 		button.innerHTML = 'Revanche';
@@ -125,7 +125,7 @@ const produceInvitationCard = (revanche) => {
 		//buttonAcc
 		buttonAcc.type = 'button';
 		buttonAcc.className = 'btn btn-success';
-		buttonAcc.innerHTML = '#metoo';
+		buttonAcc.innerHTML = 'me too';
 		buttonAcc.id = 'revancheAcc';
 
 		//buttonDeni
