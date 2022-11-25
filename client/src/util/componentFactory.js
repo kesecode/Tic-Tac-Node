@@ -30,7 +30,7 @@ const produceResultCard = (result) => {
 	if (result) {
 		div.className = 'alert alert-dismissible alert-success';
 		div.id = 'winAlert';
-		div.innerHTML = 'Well done.. you won!';
+		div.innerHTML = 'Well done... you won!';
 		button.id = 'playagain';
 		button.className = 'close';
 		button.innerHTML = 'Revanche';
