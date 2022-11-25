@@ -19,5 +19,5 @@ jobs:
           script: |
             cd /opt/hosted-services/tic-tac-node/
             git pull
-            npm clean-install
+            npm install
             pm2 restart tictacnode
