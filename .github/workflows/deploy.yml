@@ -20,4 +20,4 @@ jobs:
             cd /opt/hosted-services/Tic-Tac-Node/
             git pull
             npm install
-            pm2 restart /opt/hosted-services/Tic-Tac-Node/server.js --name tictacnode
+            pm2 restart /opt/hosted-services/tic-tac-node/server.js --name tictacnode
