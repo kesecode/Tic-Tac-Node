@@ -8,7 +8,8 @@ const Logger = require('./util/Logger');
 const MatchController = require('./util/MatchController');
 
 const clientPath = `${__dirname}/client`;
-let port = 3000; //define a port for private hosting
+let PORT = 3000; //define a port for private hosting
+let HOST = '0.0.0.0'
 
 let waitingUser = null;
 let usersOnline = 0;
@@ -20,8 +21,8 @@ const server = http.Server(app);
 
 app.use(express.static(clientPath));
 //If you want to run the app on local host change process.env.NGINX_GATEWAY to -> "localhost"
-server.listen(port, '127.0.0.1', () => {
-	console.log('Server listens on Port', port);
+server.listen(PORT, HOST, () => {
+	console.log(`Running on http://${HOST}:${PORT}`);
 });
 
 const io = socketio(server, {
