@@ -1,4 +1,4 @@
-[![Deploy](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/deploy.yml/badge.svg)](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/deploy.yml)
+[![CI](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/docker-image.yml/badge.svg)](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/docker-image.yml)
 
 ## Wanna host it by yourself?
 
