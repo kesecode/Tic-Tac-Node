@@ -1,4 +1,5 @@
 [![CI](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/docker-image.yml/badge.svg)](https://github.com/kesecode/Tic-Tac-Node/actions/workflows/docker-image.yml)
+[![Docker Pulls](https://badgen.net/docker/pulls/kesecode/tictacnode?icon=docker&label=pulls)](https://hub.docker.com/r/kesecode/tictacnode/)
 
 ## Wanna host it by yourself?
 
